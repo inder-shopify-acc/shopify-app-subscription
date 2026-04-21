@@ -2509,12 +2509,6 @@ function sendMail($sendMailArray, $testMode, $store_id, $db, $store)
 {
 
     $email_configuration = 'false';
-    // $email_host =  "smtp.sendgrid.net";
-    // $username = "apikey";
-    // $password = "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";
-    // $from_email = "umesh@phoenixcrm.io";
-    // $encryption = 'tls';
-    // $port_number = 587;
 
     $email_host =  "smtp.gmail.com";
     $username = "shopify@phoenixtechnologies.io";

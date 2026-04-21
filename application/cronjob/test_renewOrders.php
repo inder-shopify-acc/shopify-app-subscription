@@ -38,7 +38,7 @@ $currentDate = strtok(gmdate("Y-m-d H:i:s"), " ");
 
         'ShopUrl' => 'predictive-search.myshopify.com',
 
-        'AccessToken' => 'YOUR_ACCESS_TOKEN' //'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'
+        'AccessToken' => 'YOUR_ACCESS_TOKEN' 
 
     );
 

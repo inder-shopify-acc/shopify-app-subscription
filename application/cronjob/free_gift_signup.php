@@ -893,13 +893,7 @@ function emailSend($data)
             $emailPortNumber = $emailConfiguration->port_number;
             $senderName = $emailConfiguration->from_email;
         } else {
-            // $username = 'apikey';
-            // $emailHost = 'smtp.sendgrid.net';
-            // $emailUsername ='umesh@phoenixcrm.io';
-            // $emailPassword = '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';
-            // $senderName = 'umesh@phoenixcrm.io';
-            // $emailEncriptionType ='tls';
-            // $emailPortNumber = 587;
+            
 
             $emailHost =  "smtp.gmail.com";
             $emailUsername = "shopify@phoenixtechnologies.io";

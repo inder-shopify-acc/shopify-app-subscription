@@ -2621,19 +2621,19 @@ $(document).ready(function() {
 
     });
 
-    jQuery('body').on('input','#send_test_email', function(){ //new code updated on 16 march
+    jQuery('body').on('input', '#send_test_email', function () { //new code updated on 16 march
 
-        var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+        var mailformat = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-        var check_email = jQuery(this).val();
+        var check_email = jQuery(this).val().trim();
 
-        if(check_email.match(mailformat)){
+        if (mailformat.test(check_email)) {
 
             jQuery('#test_email_error').text('');
 
             jQuery('.sd_confirm_button').removeClass('btn-disable-loader');
 
-        }else{
+        } else {
 
             jQuery('#test_email_error').text('Enter Valid email');
 
@@ -6346,7 +6346,7 @@ $(document).ready(function() {
 
             displayMessage('Fill All the Fields', 'error');
 
-        } else if (!(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(sd_customerEmail))) {
+        } else if (!(/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(sd_customerEmail.trim()))) {
 
             displayMessage('Enter Valid Email', 'error');
 

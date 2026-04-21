@@ -6429,10 +6429,12 @@ jQuery('body').on('click', '.close_email_template_modal', function () {
     jQuery('#sd_test_email_modal_membership').addClass('display-hide-label');
 });
 
+
 jQuery('body').on('input', '#send_test_email_membership', function () {
-    let mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-    let check_email = jQuery(this).val();
-    if (check_email.match(mailformat)) {
+    let check_email = jQuery(this).val().trim();
+    let isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(check_email);
+
+    if (isValidEmail) {
         jQuery('#test_email_error').text('');
         jQuery('.sd_confirm_button').removeClass('btn-disable-loader');
     } else {
@@ -6631,7 +6633,8 @@ jQuery('body').on('input', '.sd_default_template_text_fields', function () {
                 }
             }
         } else {
-            jQuery('.' + content_div).html(content_value);
+            // jQuery('.' + content_div).html(content_value);
+            jQuery('.' + content_div).text(content_value);
         }
     }
 });
