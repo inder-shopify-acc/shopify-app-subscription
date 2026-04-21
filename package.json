@@ -1,0 +1,24 @@
+{
+  "name": "subscriptions",
+  "version": "1.0.0",
+  "type": "module",
+  "license": "UNLICENSED",
+  "scripts": {
+    "shopify": "shopify",
+    "build": "shopify app build",
+    "dev": "shopify app dev",
+    "info": "shopify app info",
+    "generate": "shopify app generate",
+    "deploy": "shopify app deploy"
+  },
+  "dependencies": {
+    "@shopify/admin-ui-extensions": "latest",
+    "@shopify/cli": "^3.74.0",
+    "@shopify/shopify_function": "~1.0.0",
+    "@shopify/ui-extensions": "2025.1.0",
+    "@shopify/ui-extensions-react": "2025.1.0",
+    "react": "^18.3.1",
+    "react-reconciler": "0.29.0"
+  },
+  "author": "Shine Dezign Infonet"
+}
