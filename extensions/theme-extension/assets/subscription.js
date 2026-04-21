@@ -1271,19 +1271,14 @@ if (!window.location.pathname.includes("/your-subscriptions")) {
       }
   
       function escapeHtmlToCode(text) {
-        if (text != "" && typeof text !== "undefined" && text != null) {
+          if (!text) return text;
+
           return text
-            .replace(/&amp;/g, "&")
-            .replace(/amp;/g, "&")
-            .replace(/lt;/g, "<")
-            .replace(/gt;/g, ">")
-            .replace(/&quot;/g, '"')
-            .replace(/quot;/g, '"')
-            .replace(/&#039;/g, "'")
-            .replace(/#039;/g, "'");
-        } else {
-          return text;
-        }
+              .replace(/&amp;/g, "&")
+              .replace(/&lt;/g, "<")
+              .replace(/&gt;/g, ">")
+              .replace(/&quot;/g, '"')
+              .replace(/&#039;/g, "'");
       }
   
       function create_subscription_widget(CurrentVariant) {

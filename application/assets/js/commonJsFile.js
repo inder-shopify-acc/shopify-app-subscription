@@ -5934,34 +5934,15 @@ let add_shipping_address = 'No';
 /* -------------------------- Only backend JS Functions Start ---------------------------*/
 
 	function escapeHtmlToCode(text) {
+    if (!text) return text;
 
-		if(text){
-
-		return text
-
-			.replace(/&amp;/g, "&")
-
-			.replace(/amp;/g, "&")
-
-			.replace(/lt;/g, "<")
-
-			.replace(/gt;/g, ">")
-
-			.replace(/&quot;/g, '"')
-
-			.replace(/quot;/g, '"')
-
-			.replace(/&#039;/g,"'")
-
-			.replace(/#039;/g, "'");
-
-		}else{
-
-			return text;
-
-		}
-
-	}
+    return text
+        .replace(/&amp;/g, "&")
+        .replace(/&lt;/g, "<")
+        .replace(/&gt;/g, ">")
+        .replace(/&quot;/g, '"')
+        .replace(/&#039;/g, "'");
+}
 
 
 

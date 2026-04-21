@@ -1462,48 +1462,6 @@ jQuery('body').on('click', '.edit-membership-plan', async function () {
 
 
 
-
-// async function ajaxCall(ajaxUrl, ajaxData) {
-//     // Get the session token using the created App Bridge instance
-//     sessionToken = await shopify.idToken()
-//         .then(function(sessionToken) {
-//             sessionToken = sessionToken;
-//             return sessionToken;
-//         })
-//         .catch(function(error) {});
-
-//     return new Promise(function(Resolve, Reject) {
-//         var shop_domain = jQuery('#shop_name').val();
-//         jQuery.ajaxSetup({
-//             headers: {
-//                 'X-CSRF-TOKEN': "{{ csrf_token() }}",
-//                 'Authorization': `${sessionToken}`
-//             }
-//         });
-//         jQuery.ajax({
-//             type: 'POST',
-//             url: `{{ url('`+ajaxUrl+`?shop=`+shop_domain+`') }}`,
-//             data: ajaxData,
-//             dataType: "json",
-//             processData: true,
-//             contentType: false,
-//             processData: false,
-//             success: function(data) {
-//                 Resolve(data);
-//                 if (data.isError == false && data.name == 'update-membership') {
-//                     $('#sd_global_modal_container').hide();
-//                     show_toast(data.message);
-
-//                 }
-//             },
-//             error: function(response) {
-//                 return response;
-//             }
-//         });
-//     });
-// }
-
-
 function remove_error_messages() {
     jQuery('.error_messages').text('');
 }
@@ -1910,62 +1868,6 @@ jQuery("body").on("click", ".sd_edit_membership", async function () {
 
 
 
-//edit membership ends here
-
-//deactivate member plans
-// var okButton_deactivate_membership = Button.create(app, {
-//     label: 'Ok'
-// });
-// var cancelButton_deactivate_membership = Button.create(app, {
-//     label: 'Cancel'
-// })
-
-// var deactivate_membership_plan = {
-//     title: 'Warning',
-//     message: 'Are you sure you want to deactivate the plan? ',
-//     footer: {
-//         buttons: {
-//             primary: okButton_deactivate_membership,
-//             secondary: [cancelButton_deactivate_membership],
-//         },
-//     },
-// };
-// var deactivate_membership_modal = Modal.create(app, deactivate_membership_plan);
-
-// okButton_deactivate_membership.subscribe(Button.Action.CLICK, async () => {
-//     var ajaxUrl = 'membership-status-change';
-//     membership_plan_array = {};
-//     membership_plan_array['membership_contract_id'] = membership_contract_id;
-//     membership_plan_array['status_change_to'] = status_change_to;
-//     var membership_data = new FormData();
-//     membership_data.append('ajaxData', JSON.stringify(membership_plan_array));
-//     
-//     shopify.loading(true);
-//     var ajaxResult = await ajaxCall(ajaxUrl, membership_data);
-//     shopify.loading(false);
-//     show_toast(ajaxResult.message, ajaxResult.isError);
-//     if (ajaxResult.isError == false) {
-//         if (status_change_to == 'CANCELLED') {
-//             selected_button.removeClass('Polaris-Button--destructive');
-//             selected_button.find('.plan_status_change_text').text('Activate');
-//             selected_button.attr("data-status_changeto", "ACTIVE");
-//         } else {
-//             selected_button.addClass('Polaris-Button--destructive');
-//             selected_button.find('.plan_status_change_text').text('Deactivate');
-//             selected_button.attr("data-status_changeto", "CANCELLED");
-//         }
-//         deactivate_membership_modal.dispatch(Modal.Action.CLOSE);
-//     }
-// });
-
-// cancelButton_deactivate_membership.subscribe(Button.Action.CLICK, () => {
-//     deactivate_membership_modal.dispatch(Modal.Action.CLOSE);
-// });
-
-// jQuery("body").on("click", ".sd_edit_contract", function(){
-//     membership_contract_id = jQuery(this).attr('data-contract_id');
-
-// });
 
 jQuery("body").on("click", ".sd_deactivate_membership", function () {
     selected_button = jQuery(this);
@@ -1990,65 +1892,6 @@ jQuery("body").on("click", ".delete_member_card", function (e) {
         callShopifyModal(modalType);
     }
 });
-
-
-// var delete_member_plan_okButton = Button.create(app, {
-//     label: 'Ok'
-// });
-
-// delete_member_plan_okButton.subscribe(Button.Action.CLICK, async () => {
-//     // Do something with the click action
-//     if(parent_element == 'create_memberPlan_wrapper'){
-//         all_member_plans_array.splice(member_plan_delete_index, 1);
-//         delete_member_card(member_plan_delete_index, '');
-//         delete_member_plan_modal.dispatch(Modal.Action.CLOSE);
-//         reset_form('sd-subscription-group-form');
-//         all_member_plans_array.splice(member_plan_delete_index, 1);
-//     }else{
-//         var ajaxUrl = 'delete-member-group';
-//         // alert('hlw');
-//         delete_member_group_data = {};
-//         delete_member_group_data['member_group_id'] = delete_member_group_id;
-//         delete_member_group_data['delete_variant_id'] = delete_variant_id;
-//         var delete_member_group_formData = new FormData();
-//         delete_member_group_formData.append('ajaxData', JSON.stringify(delete_member_group_data));
-
-//         shopify.loading(true);
-//         delete_created_member_plan.dispatch(Modal.Action.CLOSE);
-//         var ajaxResult = await ajaxCall(ajaxUrl, delete_member_group_formData);
-//         console.log('ajaxresult', ajaxResult);
-//         shopify.loading(false);
-//         show_toast(ajaxResult.message, ajaxResult.isError);
-//         if (ajaxResult.isError == false) {
-//             delete_member_card(member_plan_delete_index, '');
-//             reset_form('sd-subscription-group-form');
-//             // location.reload();
-//         }
-//     }
-//     // delete_member_plan_modal.dispatch(Modal.Action.CLOSE);
-// });
-
-// var delete_member_plan_cancelButton = Button.create(app, {
-//     label: 'Cancel'
-// });
-// delete_member_plan_cancelButton.subscribe(Button.Action.CLICK, () => {
-//     // Do something with the click action
-//     delete_member_plan_modal.dispatch(Modal.Action.CLOSE);
-// });
-
-
-
-// var member_plan_delete_modalOptions = {
-//     title: 'Warning',
-//     message: 'Are you sure you want to delete this member plan?',
-//     footer: {
-//         buttons: {
-//             primary: delete_member_plan_okButton,
-//             secondary: [delete_member_plan_cancelButton],
-//         },
-//     },
-// };
-// var delete_member_plan_modal = Modal.create(app, member_plan_delete_modalOptions);
 
 
 
@@ -2093,14 +1936,7 @@ jQuery("body").on('click', '.edit_group_card', function () {
     jQuery('#' + parent_element + ' #group_description').val(card_detail.group_description);
 
   
-    
 
-    // if (card_detail.renew_on_original_date == 'true') {
-    //     jQuery('body #' + parent_element + ' #renew_original_date').prop('checked', true);
-    //     jQuery('#' + parent_element + ' #renew_original_date').val(card_detail.renew_on_original_date);
-    // } else {
-    //     jQuery('body #' + parent_element + ' #renew_original_date').prop('checked', false);
-    // }
 
     if (card_detail.offer_trial_status == 'on' || card_detail.offer_trial_status == '1') {
         jQuery('#' + parent_element + '#member_offer_trial_period_status').prop("checked");
@@ -2383,24 +2219,6 @@ $(document).ready(function () {
     });
 
 
-    // jQuery("body").on("change", "#membership_subscription_discount_after_status", function () {
-    //     if (jQuery(this).prop("checked") == true) {
-    //         console.log('membership_subscription_discount_after_status:', jQuery(this).prop("checked"));
-
-    //         jQuery(this).val('on');
-    //         jQuery('.membership_sd_subscription_discount_offer_after_wrapper').removeClass('display-hide-label');
-
-    //         // scrollToBottom('.sd_selling_form');
-    //         jQuery('body .membership_sd_discount_change_div').show();
-    //     } else {
-    //         jQuery('#membership_subscription_discount_after_status').val('');  // overwrite status
-    //         jQuery('#membership_discount_value_after').val('');  // overwrite value
-    //         // jQuery('#membership_change_discount_after_cycle,#membership_discount_value_after').val('');
-    //         jQuery('.membership_sd_subscription_discount_offer_after_wrapper').addClass('display-hide-label');
-    //         jQuery('body .membership_sd_discount_change_div').hide();
-    //     }
-    // });
-   
 
     jQuery("body").on("change", "#membership_subscription_discount_after_status", function () {
         if (jQuery(this).prop("checked") == true) {
@@ -2430,10 +2248,7 @@ jQuery("body").on("click", ".CreateDiscountPlan", function () {
 
      jQuery('.list_discountPlan_wrapper,.top-banner-create-discountPlan').addClass("display-hide-label");
   
-    // sd_frequency_card_serialno = 0;
-    // var selling_plan_options = selling_plan_option_form();
 
-    // jQuery('#' + parent_element + ' .member_plan_option_form').html(selling_plan_options);
 });
 
 // add or update save button
