@@ -369,9 +369,12 @@ if (!window.location.pathname.includes("/your-subscriptions")) {
                 var existingInputAtrr = element.querySelector('input[name="properties[_plan_type]"]');
                 if (existingInput) {
                     existingInput.value = selected_selling_plan;
-
                 } else {
-                    element.insertAdjacentHTML('afterbegin', `<input type="hidden" name="selling_plan" value="${selected_selling_plan}">`);
+                    const hiddenInput = document.createElement('input');
+                    hiddenInput.type = 'hidden';
+                    hiddenInput.name = 'selling_plan';
+                    hiddenInput.value = selected_selling_plan;
+                    element.insertBefore(hiddenInput, element.firstChild);
                 }
                 if (existingInputAtrr) {
                     existingInputAtrr.value = 'membership'

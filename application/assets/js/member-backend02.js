@@ -3000,6 +3000,8 @@ jQuery('body').on('click', '#edit-RemoveSelected_productDiscountField', function
                     </div>
                 `);
 });
+
+
 /**
     * For edit the
     * Selected the discount applies to
@@ -4025,6 +4027,16 @@ $('.birthdayFormAllTextBox').on('input', function () {
     let typeAttr = $(this).attr("type-attr");
     let previewClass = '.' + dataId;
 
+    const sanitizeUrl = function (value) {
+        const url = String(value || '').trim();
+        if (!url) return '';
+
+        if (/^(https?:|data:image\/|\/|#)/i.test(url)) {
+            return url;
+        }
+        return '';
+    };
+
     switch (typeAttr) {
         case 'text':
             $(previewClass).text(textValue);
@@ -4035,6 +4047,7 @@ $('.birthdayFormAllTextBox').on('input', function () {
                 'color': textValue,
             });
             break;
+
         case 'bg-color':
             $(previewClass).css({
                 'background': textValue,
@@ -4073,16 +4086,19 @@ $('.birthdayFormAllTextBox').on('input', function () {
 
         case 'image':
             $(previewClass).attr({
-                'src': textValue,
+                'src': sanitizeUrl(textValue),
             });
             break;
 
         case 'gradient-color':
-            var gradientCode = $(this).attr("gradient-code");
+            let gradientCode = $(this).attr("gradient-code");
+
+            let color1 = '';
+            let color2 = '';
 
             if (gradientCode == 'cardBgColor') {
-                var color1 = $('#card_bg_color1').val();
-                var color2 = $('#card_bg_color2').val();
+                color1 = $('#card_bg_color1').val();
+                color2 = $('#card_bg_color2').val();
             }
 
             let gradient = 'linear-gradient(to right, ' + color1 + ', ' + color2 + ')';
@@ -4090,7 +4106,6 @@ $('.birthdayFormAllTextBox').on('input', function () {
             break;
     }
 });
-
 
 
 jQuery("body").on("click", ".sd_save_birthday_widget", async function () {
@@ -4568,10 +4583,35 @@ $('.birthday-email-setting').on('input', function () {
         textValue = $(this).is(":checked") ? 1 : 0;
     }
 
-    console.log(textValue, 'value')
-    console.log(dataId, 'dataId')
-    console.log(typeAttr, 'typeAttr')
+    console.log(textValue, 'value');
+    console.log(dataId, 'dataId');
+    console.log(typeAttr, 'typeAttr');
+
     let previewClass = '.' + dataId;
+
+    const escapeHtmlWithLineBreaks = function (value) {
+        return String(value || '')
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#39;')
+            .replace(/\n/g, '<br>');
+    };
+
+    const sanitizeUrl = function (value) {
+        const url = String(value || '').trim();
+
+        if (!url) {
+            return '';
+        }
+
+        if (/^(https?:|mailto:|tel:|\/|#)/i.test(url)) {
+            return url;
+        }
+
+        return '';
+    };
 
     switch (typeAttr) {
         case 'text':
@@ -4581,7 +4621,7 @@ $('.birthday-email-setting').on('input', function () {
         case 'href':
             console.log(previewClass, 'previewClass');
             console.log(textValue, 'textValue');
-            $(previewClass).attr("href", textValue);
+            $(previewClass).attr("href", sanitizeUrl(textValue));
             break;
 
         case 'checkbox':
@@ -4597,6 +4637,7 @@ $('.birthday-email-setting').on('input', function () {
                 'color': textValue,
             });
             break;
+
         case 'bg-color':
             $(previewClass).css({
                 'background': textValue,
@@ -4638,11 +4679,13 @@ $('.birthday-email-setting').on('input', function () {
             let rgbaComponents = bgColor.match(/\d+/g);
 
             if (rgbaComponents.length === 3) {
-                rgbaComponents.push('1'); // Default alpha value if not present
+                rgbaComponents.push('1');
             }
+
             let alphaValue = parseFloat(textValue) / 100;
             $(previewClass).css(
-                'background-color', 'rgba(' + rgbaComponents[0] + ', ' + rgbaComponents[1] + ', ' + rgbaComponents[2] + ', ' + alphaValue + ')'
+                'background-color',
+                'rgba(' + rgbaComponents[0] + ', ' + rgbaComponents[1] + ', ' + rgbaComponents[2] + ', ' + alphaValue + ')'
             );
             break;
 
@@ -4650,7 +4693,9 @@ $('.birthday-email-setting').on('input', function () {
             $(previewClass).css({
                 'background-color': textValue,
             });
+            break;
         }
+
         case 'height':
             $(previewClass).css({
                 'height': textValue + 'px',
@@ -4659,7 +4704,7 @@ $('.birthday-email-setting').on('input', function () {
 
         case 'image':
             $(previewClass).attr({
-                'src': textValue,
+                'src': sanitizeUrl(textValue),
             });
             break;
 
@@ -4670,14 +4715,13 @@ $('.birthday-email-setting').on('input', function () {
             break;
 
         case 'text-area':
-            textValue = textValue.replace(/\n/g, '<br>');
-            $(previewClass).html(textValue);
+            $(previewClass).html(escapeHtmlWithLineBreaks(textValue));
             $('.sd_help_msg').text('Use <br> tags to break line');
             break;
 
         case 'bg_image':
             let path = $(this).attr("path-id");
-            console.log('hhhh')
+            console.log('hhhh');
             changeBackground(textValue, previewClass, path);
             break;
 
@@ -4717,7 +4761,11 @@ function changeBackground(textValue, previewClass, path) {
         'background12': 'background12.jpg',
         'background13': 'background13.jpg'
     };
-    const imageUrl = path + 'public/assets/images/Background/' + backgrounds[textValue];
+    if (!Object.prototype.hasOwnProperty.call(backgrounds, textValue)) {
+        return;
+    }
+    const safePath = String(path || '').replace(/[^a-zA-Z0-9/_:.-]/g, '').replace(/\/+$/, '');
+    const imageUrl = safePath + '/public/assets/images/Background/' + backgrounds[textValue];
     $(previewClass).attr('src', imageUrl);
 }
 
@@ -5255,7 +5303,7 @@ jQuery("body").on('change', '.sd_select_option', function (e) {
 
 jQuery("body").on("change", ".Polaris-Select__Input", function () {
     let selected_option_value = jQuery(this).val();
-    jQuery(this).parent().find(".Polaris-Select__SelectedOption").html(selected_option_value);
+    jQuery(this).parent().find(".Polaris-Select__SelectedOption").text(selected_option_value);
 });
 
 jQuery("body").on("change", ".sd_set_anchor_date", function () {
@@ -5421,14 +5469,17 @@ jQuery('body').on('input', '.membershipAllTextBox', function () {
                 'text-align': textValue,
             });
             break;
-        case 'headingTag-change':
+       case 'headingTag-change':
             console.log('preview class = ', previewClass);
             console.log('text value = ', textValue);
+            const allowedHeadingTags = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'];
+            const safeTag = allowedHeadingTags.includes(String(textValue).toLowerCase())
+                ? String(textValue).toLowerCase()
+                : 'h2';
             $(previewClass).replaceWith(function () {
-                return $('<' + textValue + '>', {
-                    html: $(this).html(),
-                    class: $(this).attr('class'),
-                    style: $(this).attr('style')
+                return $('<' + safeTag + '>').text($(this).text()).attr({
+                    'class': $(this).attr('class'),
+                    'style': $(this).attr('style')
                 });
             });
             break;
@@ -6398,22 +6449,21 @@ jQuery('body').on('input', '.Editor-editor', function () {
     console.log(textarea_id, 'textarea_id');
     console.log(content_div, 'content_div');
 
-    if (content_html.includes('<pre contenteditable="true">')) {
-        // console.log(content_html,'content_html');
-        content_html = (content_html.replace(/^<pre contenteditable="true">|<\/pre>$/g, ""));
+   if (content_html.includes('<pre contenteditable="true">')) {
+        content_html = content_html.replace(/^<pre contenteditable="true">|<\/pre>$/g, "");
         const tempDiv = document.createElement('div');
-        tempDiv.innerHTML = "<div>" + content_html + "</div>";
-        const divElement = tempDiv.firstChild;
+        tempDiv.textContent = content_html; // safe parsing
+        const divElement = tempDiv;
         const h2Element = divElement.firstChild;
         if (h2Element) {
-            jQuery('.' + content_div + ', #' + textarea_id).html(h2Element.textContent);
+            jQuery('.' + content_div + ', #' + textarea_id).text(h2Element.textContent);
         } else {
-            jQuery('.' + content_div + ', #' + textarea_id).html('');
+            jQuery('.' + content_div + ', #' + textarea_id).text('');
         }
     } else {
         console.log('elsePartRunning');
         console.log('.' + content_div + ', #' + textarea_id);
-        jQuery('.' + content_div + ', #' + textarea_id).html(content_html);
+        jQuery('.' + content_div + ', #' + textarea_id).text(content_html);
     }
 });
 
