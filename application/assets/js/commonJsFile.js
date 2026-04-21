@@ -5933,17 +5933,17 @@ let add_shipping_address = 'No';
 
 /* -------------------------- Only backend JS Functions Start ---------------------------*/
 
+
 	function escapeHtmlToCode(text) {
-    if (!text) return text;
+			if (!text) return text;
 
-    return text
-        .replace(/&amp;/g, "&")
-        .replace(/&lt;/g, "<")
-        .replace(/&gt;/g, ">")
-        .replace(/&quot;/g, '"')
-        .replace(/&#039;/g, "'");
-}
-
+			return text
+					.replace(/&lt;/g, "<")
+					.replace(/&gt;/g, ">")
+					.replace(/&quot;/g, '"')
+					.replace(/&#039;/g, "'")
+					.replace(/&amp;/g, "&");
+	}
 
 
 	function escapeCodeToHtml(text) {

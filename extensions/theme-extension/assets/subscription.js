@@ -1274,11 +1274,11 @@ if (!window.location.pathname.includes("/your-subscriptions")) {
           if (!text) return text;
 
           return text
-              .replace(/&amp;/g, "&")
               .replace(/&lt;/g, "<")
               .replace(/&gt;/g, ">")
               .replace(/&quot;/g, '"')
-              .replace(/&#039;/g, "'");
+              .replace(/&#039;/g, "'")
+              .replace(/&amp;/g, "&");
       }
   
       function create_subscription_widget(CurrentVariant) {
