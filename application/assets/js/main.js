@@ -19,20 +19,6 @@ document.addEventListener("DOMContentLoaded", async function () {
       const token = await getSessionToken(app);
       console.log("Session Token:", token);
 
-      // Send AJAX request with token
-      // $.ajax({
-      //   url: "/api/protected-route",
-      //   method: "GET",
-      //   headers: {
-      //     Authorization: `Bearer ${token}`
-      //   },
-      //   success: function (response) {
-      //     console.log("Authenticated Response:", response);
-      //   },
-      //   error: function (error) {
-      //     console.error("Error:", error);
-      //   }
-      // });
     } catch (error) {
       console.error("Failed to get session token", error);
     }
@@ -73,7 +59,6 @@ var delete_button_disable = '';
 
 var show_enteries = true;
 
-// var restrict_format = /[!@#$%^*()+\=\[\]{};:"\\|,.<>\/?]+/;
 
 var restrict_format = /[`~!@#$%^&*_|+\-=?;:",<>{}\[\]\\\/]/gi;
 
@@ -83,7 +68,6 @@ SHOPIFY_DOMAIN_URL = CONFIG.APP_URL;
 
 form_type='',hidden_selling_plan_name = 'No';
 
-// const SHOPIFY_SECRET = document.getElementById("SHOPIFY_SECRET").value;
 
 const store_id = document.getElementById("store_id").value;
 
@@ -105,7 +89,6 @@ if(AjaxCallFrom == 'backendAjaxCall'){
 
     SHOPIFY_PAYMENT_REQUIREMENT = document.getElementById('SHOPIFY_PAYMENT_REQUIREMENT').value;
 
-    // limit_amount_exceed = document.getElementById('sd_amount_exceed').value;
 
     limit_amount_exceed = Number(document.getElementById('sd_amount_exceed').value) || 0;
 
@@ -129,31 +112,6 @@ if(AjaxCallFrom == 'backendAjaxCall'){
 
         });
 
-
-
-        // if(total_contract_sale >= limit_amount_exceed){ //old code condition
-
-        // if(total_contract_sale > limit_amount_exceed){
-
-        //     var totl_contract_sale = 'You have reached your subscription sale limit';
-
-        //     var add_progress_class = 'progress2';
-
-        //     var progress_value = '100';
-
-        // }else{
-
-        //     console.log('else')
-
-
-
-        //     var totl_contract_sale = `Subscription Sale : <span class="sd_progress_amount"><span class="sd_total_sales">`+total_contract_sale+`</span>/`+limit_amount_exceed+'';
-
-        //     var add_progress_class = 'progress1';
-
-        //     var progress_value = total_contract_sale/limit_amount_exceed * 100;
-
-        // }
 
         var percentage_value = 300 * progress_value/100;
 
@@ -180,8 +138,6 @@ if(AjaxCallFrom == 'backendAjaxCall'){
         </div>
 
         </div>`;
-
-        // jQuery('.upgrade_plan_topbar').html(sd_top_sidebar);
 
         jQuery('.sd_total_sales').html(currency_code+''+total_contract_sale.toFixed(2));
 
@@ -647,8 +603,6 @@ function AjaxCall(data) {
 var datatableType = $('#subscriptionTable').data('attr');
 $(window).on('load', function() {
 
-    //    jQuery("#sd_subscriptionLoader").html('<img src="'+SHOPIFY_DOMAIN_URL+'/application/assets/images/subscription_loader.gif">');
-
     /**======================================================= query string Start ==========================================================**/
 
     if (params.has('search_subscription_group_name') && params.get('search_subscription_group_name') != '') {
@@ -762,13 +716,7 @@ $(document).ready(function() {
 
     });
 
-    // const subscription_order_table = jQuery('#subscription_order_table').dataTable({
-
-    //     "bSort": false,
-
-    //     "bLengthChange": show_enteries,
-
-    // });
+    
 
     const subscription_order_table = jQuery('#subscription_order_table').DataTable({
         "processing": false,
@@ -790,69 +738,6 @@ $(document).ready(function() {
             { data: 'action', orderable: false, searchable: false }
         ]
     });
-
-    // const subscriptionTable = jQuery('#subscriptionTable').DataTable({
-    //     "processing": false,
-    //     "serverSide": true,
-    //     "ajax": {
-    //         url: SHOPIFY_DOMAIN_URL + '/admin/subscription/newFileSubscriptions.php',
-    //         type: "POST",
-    //         data: function (d) {
-    //             d.store_id = store_id;
-    //             d.store = store; 
-
-    //         }
-    //     },
-    //     "bSort": false,
-    //     "bLengthChange": show_enteries,
-    //     "columns": [
-    //         { data: "customer" },
-    //         { data: "contract_id" },
-    //         { data: "order_type" },
-    //         { data: "order_no" },
-    //         { data: "plan_type" },
-    //         { data: "created_at" },
-    //         { data: "next_billing_date" },
-    //         { data: "status" },
-    //         { data: "view" }    
-    //     ]
-    // });
-
-    // const subscriptionTable = jQuery('#subscriptionTable').DataTable({
-    //     processing: false,
-    //     serverSide: true,
-    //     ajax: {
-    //         url: SHOPIFY_DOMAIN_URL + '/admin/subscription/newFileSubscriptions.php',
-    //         type: "POST",
-    //         data: function(d) {
-    //             d.store_id = store_id;
-    //             d.store = store;
-    //         },
-    //         error: function(xhr, status, error) {
-    //             alert("Server returned an error: " + error);
-    //         }
-    //     },
-    //     bSort: false,
-    //     bLengthChange: show_enteries,
-    //     columns: [
-    //         { data: "customer" },
-    //         { data: "contract_id" },
-    //         { data: "order_type" },
-    //         { data: "order_no" },
-    //         { data: "plan_type" },
-    //         { data: "created_at" },
-    //         { data: "next_billing_date" },
-    //         { data: "status" },
-    //         { data: "view" }    
-    //     ],
-    //     drawCallback: function(settings) {
-    //         let json = settings.json;
-    //         if(json && json.error){
-    //             alert("DataTables error: " + json.error);
-    //         }
-    //     }
-    // });
-
 
 
     const customerContractDetailTable = jQuery('#customerContractDetailTable').dataTable({
@@ -1011,53 +896,6 @@ $(document).ready(function() {
 
     }
 
-
-
-
-
-    // function check_subscription_whole_form_change() {
-
-    //     if (form_type == 'edit') {
-
-    //         delete picker_selection_checkboxes.product_handle;
-
-    //         delete picker_selection_checkboxes.price;
-
-    //         delete picker_selection_checkboxes.quantity;
-
-    //         let checkproductupdate = JSON.stringify(sd_subscription_edit_case_already_selected_products) == JSON.stringify(picker_selection_checkboxes);
-
-    //         let check_existing_plan_change = JSON.stringify(sd_subscription_edit_case_already_existing_plans_array) == JSON.stringify(sd_subscription_edit_case_already_existing_plans_array_validation_check);
-
-    //         group_name = document.querySelectorAll('#edit_subscription_wrapper .subscription_plan_name')[0].value; //check if group name changed
-
-    //         if (Object.keys(sd_subscription_edit_case_to_be_deleted_plans_array).length != 0 ||
-
-    //             Object.keys(sd_subscription_edit_case_to_be_added_new_plans_array).length != 0 || checkproductupdate == false || check_existing_plan_change == false || (initial_group_name != group_name && group_name != '')) {
-
-    //             return true;
-
-    //         } else {
-
-    //             return false;
-
-    //         }
-
-    //     }else if(form_type == 'create'){
-
-    //         if (Object.keys(picker_selection_checkboxes).length != 0 || Object.keys(sd_frequency_plans_array).length != 0 || plan_group_name != ''){
-
-    //             return true;
-
-    //         } else {
-
-    //             return false;
-
-    //         }
-
-    //     }
-
-    // }
 
 
 
@@ -1564,29 +1402,14 @@ $(document).ready(function() {
             }
 
         }
-        // Free trail validation
-        // validateFreeTrial();
+        
         console.log(error_values, 'error_valueserror_values')
-        // let freeTrialChecked = $('#offer_trial_period_status').is(':checked');
-        // let freeTrialValue = $('#offer_trial_period_value').val();
-        // jQuery('.free_trial_frequency_value_error').addClass('display-hide-label');
-
-        // if (freeTrialChecked) {
-        //     if (!freeTrialValue || freeTrialValue.trim().length == 0) {
-        //         jQuery('.free_trial_frequency_value_error').removeClass('display-hide-label');
-        //     }
-        // } else {
-        //     jQuery('.free_trial_frequency_value_error').removeClass('display-hide-label');
-        // }
-
-
-        // return false;
+      
 
         let subscription_plan_form_data = form_serializeObject(form_id); //pass only id in parameter
 
-        //new selling plan name
-
-        //selling plan name on cart page
+ 
+        
 
         prepaid_delivery = '';
 
@@ -1639,15 +1462,7 @@ $(document).ready(function() {
         let trialStatus = false
         let freeTrialChecked = jQuery('#offer_trial_period_status').is(':checked');
         for (const [key, value] of Object.entries(subscription_plan_form_data)) {
-            // if(key == 'offer_trial_period_status' && value == 'on') {
-            //     trialStatus = true;
-            // }
-            // if(trialStatus == false && key == 'offer_trial_period_value') {
-            //     console.log('ujshxduwebgdc hvbvh')
-            // }else if(trialStatus == true && key == 'offer_trial_period_value' && value.trim().length <= 0) {
-            //     jQuery('.free_trial_frequency_value_error').removeClass('display-hide-label');
-            //     error_values["discount_value_greater"] = "Free trial period value is required.";
-            // }
+           
             if (key == "subscription_plan_name" || key == "sellingplanid") {
 
                 continue;
@@ -2621,19 +2436,19 @@ $(document).ready(function() {
 
     });
 
-    jQuery('body').on('input', '#send_test_email', function () { //new code updated on 16 march
+    jQuery('body').on('input','#send_test_email', function(){ //new code updated on 16 march
 
-        var mailformat = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 
-        var check_email = jQuery(this).val().trim();
+        var check_email = jQuery(this).val();
 
-        if (mailformat.test(check_email)) {
+        if(check_email.match(mailformat)){
 
             jQuery('#test_email_error').text('');
 
             jQuery('.sd_confirm_button').removeClass('btn-disable-loader');
 
-        } else {
+        }else{
 
             jQuery('#test_email_error').text('Enter Valid email');
 
@@ -6346,7 +6161,7 @@ $(document).ready(function() {
 
             displayMessage('Fill All the Fields', 'error');
 
-        } else if (!(/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(sd_customerEmail.trim()))) {
+        } else if (!(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(sd_customerEmail))) {
 
             displayMessage('Enter Valid Email', 'error');
 

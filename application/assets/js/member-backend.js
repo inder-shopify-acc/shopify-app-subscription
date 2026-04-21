@@ -505,18 +505,6 @@ if(membershipStoreCurrency){
 
 
 
-
-
-// jQuery('.sd_handle_navigation_redirect').on('click', function() {
-//     const templatesLink = document.querySelector('ui-nav-menu a[href="/contact-us"]');
-//     if (templatesLink) {
-//         templatesLink.click();
-//     } else {
-//         console.error('Templates link not found');
-//     }
-// });
-
-
 $('body .sd_handle_navigation_redirect').on('click', function(e) {
     e.preventDefault();
     let fullUrl = window.location.href

@@ -588,477 +588,6 @@ if (sd_selectedtierGroupIdArray.length == 1) {
     savePerkTierButton.show();
 }
 
-// create perk save btn code 
-// jQuery('body').on('click', '#save_DiscountButton', async function () {
-//     let checkboxFreeship = $('.freeShipCheckbox-' + sd_selectedtierGroupId).is(':checked');
-//     let checkboxDiscount = $('.discountCheckbox-' + sd_selectedtierGroupId).is(':checked');
-//     let checkboxFreeProduct = $('.freeProductCheckbox-' + sd_selectedtierGroupId).is(':checked');
-//     let earlyAccessCheckbox = $('.earlyAccessCheckbox-' + sd_selectedtierGroupId).is(':checked');
-//     let checkboxBirthday = $('.birthdayBox-' + sd_selectedtierGroupId).is(':checked');
-//     let checkboxCustum = $('.customCheckbox-' + sd_selectedtierGroupId).is(':checked');
-//     $('.minPurchaseAmount_TextFieldError_' + sd_selectedtierGroupId).hide();
-//     let freeshipInputCode;
-//     let discountInputCode;
-//     let freeshipCodeExists = false;
-//     let discountCodeExists = false;
-//     let perkFormValidations = true;
-//     let checkboxValidation = false;
-
-//     jQuery('.sd_perkViewErrors').css("display", "none");
-//     shopify.loading(true);
-
-//     if (checkboxBirthday) {
-//         checkboxValidation = true;
-//     }
-
-//     // freeshipping validation check....................................... 
-
-//     if (checkboxFreeship) {
-//         checkboxValidation = true;
-//         amtQtyCheck = $('.minimumDiscountCode-' + sd_selectedtierGroupId).val();
-
-//         let amountQty = '';
-//         if (amtQtyCheck == 'none') {
-//             perkFormValidations = true;
-//         }
-//         else {
-//             if (amtQtyCheck == 'minPurchase_Amount' || amtQtyCheck == 'minQuantity_items') {
-//                 amountQty = $('.minPurchaseAmount' + sd_selectedtierGroupId).val();
-//             }
-//             if (amountQty == '' || amountQty <= 0) {
-//                 $('.minPurchaseAmount_TextFieldError_' + sd_selectedtierGroupId).show();
-//                 perkFormValidations = false;
-//             }
-//         }
-//         if ($('.freeShipValue-' + sd_selectedtierGroupId).val() != '') {
-//             freeshipInputCode = $('.freeShipValue-' + sd_selectedtierGroupId).val().trim();
-//             freeshipCodeExists = allCoupanCodes.includes(freeshipInputCode);
-//             //  console.log(freeshipCodeExists,freeshipInputCode )
-
-
-
-//         } else {
-//             jQuery('.free_shipingCode_Error_' + sd_selectedtierGroupId).css("display", "block");
-//             perkFormValidations = false;
-//         }
-//     }
-
-//     // Discount validation check....................................... 
-
-//     if (checkboxDiscount) {
-//         checkboxValidation = true;
-
-//         if ($('.discountInputBox-' + sd_selectedtierGroupId).val() != '') {
-//             discountInputCode = $('.discountInputBox-' + sd_selectedtierGroupId).val().trim();
-//             discountCodeExists = allCoupanCodes.includes(discountInputCode);
-//             //  console.log(discountCodeExists,discountInputCode )
-
-//         } else {
-//             jQuery('.Existing_DiscountCode-Error-' + sd_selectedtierGroupId).css("display", "block").text('Discount code is required!');
-//             perkFormValidations = false;
-//         }
-
-//         let discountPercentageinput = $('#DiscountCodePercentage-' + sd_selectedtierGroupId).val();
-//         if (discountPercentageinput == 0 || discountPercentageinput == '') {
-//             jQuery('.DiscountPercentage-Error-' + sd_selectedtierGroupId).css("display", "block").text('Enter percentage value & should be greater than 0');
-//             perkFormValidations = false;
-//         } else {
-
-//             // console.log('free percentage code value is not empty');
-//         }
-
-//         let freeDiscountProductSelect = $('#PolarisSelect-' + sd_selectedtierGroupId).val();
-//         if (freeDiscountProductSelect == 'collection') {
-//             let freeProductId = $('.collectionTitleName-' + sd_selectedtierGroupId);
-//             if (freeProductId.length === 0) {
-//                 jQuery('.sd_selected_existing_collection-Error-' + sd_selectedtierGroupId).css("display", "block").text('Add collection');
-//                 perkFormValidations = false;
-//             }
-//         }
-
-//         if (freeDiscountProductSelect == 'product') {
-//             let freeProductId = $('.productTitleName-' + sd_selectedtierGroupId);
-//             if (freeProductId.length === 0) {
-//                 jQuery('.sd_selected_existing_product-Error-' + sd_selectedtierGroupId).css("display", "block").text('Add product');
-//                 perkFormValidations = false;
-//             }
-//         }
-//     }
-
-
-//     // signup Product validation check....................................... 
-
-//     if (checkboxFreeProduct) {
-//         checkboxValidation = true;
-
-//         let freeProductId = $('#free_gift-upon-signUp-' + sd_selectedtierGroupId);
-//         // console.log(freeProductId);
-//         // console.log(freeProductId.length);
-//         if (freeProductId.length === 0) {
-//         } else {
-//             jQuery('.free_gift-upon-signUp-Error-' + sd_selectedtierGroupId).css("display", "block");
-//             perkFormValidations = false;
-//         }
-//     }
-
-//     // early sale access check....................................... 
-
-
-//     if (earlyAccessCheckbox) {
-//         checkboxValidation = true;
-//         let noOfSaleDays = $('#EarlySaleAccessDays-' + sd_selectedtierGroupId).val();
-//         if (noOfSaleDays.trim() === '' || isNaN(noOfSaleDays) || parseInt(noOfSaleDays) < 0 || parseInt(noOfSaleDays) > 9) {
-//             jQuery('.EarlySaleAccess-Error-' + sd_selectedtierGroupId).css("display", "block");
-//             perkFormValidations = false;
-//         }
-//     }
-
-//     if (freeshipInputCode != undefined || discountInputCode != undefined) {
-//         if (freeshipInputCode == discountInputCode) {
-//             shopify.toast.show("Freeship code and discount code can't be same.", { isError: true });
-//             return false;
-//         }
-
-//         if (freeshipCodeExists || discountCodeExists) {
-//             shopify.toast.show("Codes are used in last step", { isError: true });
-//             perkFormValidations = false;
-//         }
-//     }
-
-//     if (!perkFormValidations) {
-//         shopify.loading(false);
-//         return false;
-//     }
-
-
-//     if (perkFormValidations) {
-//         jQuery.ajaxSetup({
-//             headers: {
-//                 'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
-//             }
-//         });
-
-//         let ErrroPerksCheckbox = false;
-//         let ErrorBeforeSubmit = false;
-//         var obj = {};
-//         let membership_group_ID;
-
-//         for (let t_id = 0; t_id < sd_selectedtierGroupIdArray.length; t_id++) {
-//             let sd_selectedtierGroupId = sd_selectedtierGroupIdArray[t_id];
-//             let getTier_Value = sd_selectedtierGroupId;
-//             let Free_shippingCheckbox = jQuery('#PolarisCheckbox2-' + getTier_Value).is(':checked');
-//             let DiscountProductCollectionCheckbox = jQuery('#PolarisCheckbox3-' + getTier_Value).is(':checked');
-//             let freeGiftUponsignUpcheckbox = jQuery('#PolarisCheckbox4-' + getTier_Value).is(':checked');
-//             let customperk = jQuery('#PolarisCheckbox7-' + getTier_Value).is(':checked');
-//             let birthday_rewards = jQuery('#PolarisCheckbox9-' + getTier_Value).is(':checked');
-//             let earlyAccessCheck = jQuery('#PolarisCheckbox5-' + getTier_Value).is(':checked');
-//             let membership_group_ID = jQuery(".TierSelected-" + getTier_Value).attr("membership-group-id");
-//             let membership_plan_id = jQuery(".TierSelected-" + getTier_Value).attr("membership_plan_id");
-//             let perks_type_value = jQuery(".TierSelected-" + getTier_Value).attr("perks-type");
-
-
-//             obj[membership_group_ID] = {};
-//             obj[membership_group_ID]["perks_type_value"] = perks_type_value;
-//             obj[membership_group_ID]["membership_group_id"] = membership_group_ID;
-//             obj[membership_group_ID]["membership_plan_id"] = membership_plan_id;
-//             obj[membership_group_ID]["store"] = shop;
-
-
-//             if (Free_shippingCheckbox == true) {
-//                 if (jQuery('#free_shipingCode-' + getTier_Value).val() == "") {
-//                     jQuery('.Polaris-Layout__AnnotationContent').hide();
-//                     jQuery('.TierSelected-' + getTier_Value).show();
-//                     jQuery('.free_shipingCode_Error_' + getTier_Value).show();
-//                     jQuery(".Polaris-Select__SelectedOptionData").text(getTier_Value);
-//                     jQuery("#PolarisSelect1").val(getTier_Value).attr("selected", "selected");
-//                     ErrorBeforeSubmit = true;
-
-//                 } else {
-//                     jQuery('.free_shipingCode_Error_' + getTier_Value).hide();
-//                     obj[membership_group_ID]["free_shipping_checked_value"] = '1';
-//                     obj[membership_group_ID]["free_shipping_code"] = jQuery('#free_shipingCode-' +
-//                         getTier_Value).val().trim();
-//                 }
-
-//                 if (jQuery('.minimumDiscountCode-' + getTier_Value).children("option:selected").val() ==
-//                     "minPurchase_Amount") {
-//                     var minPurchaseAmount_TextField_Value = jQuery('#minPurchaseAmount_TextField_' +
-//                         getTier_Value).val();
-//                     if (minPurchaseAmount_TextField_Value == "") {
-
-//                         jQuery('.Polaris-Layout__AnnotationContent').hide();
-//                         jQuery('.TierSelected-' + getTier_Value).show();
-//                         jQuery('.minPurchaseAmount_TextFieldError_' + getTier_Value).show();
-//                         jQuery(".Polaris-Select__SelectedOptionData").text(getTier_Value);
-//                         jQuery("#PolarisSelect1").val(getTier_Value).attr("selected", "selected");
-//                         ErrorBeforeSubmit = true;
-//                     } else {
-//                         jQuery('.minPurchaseAmount_TextFieldError_' + getTier_Value).hide();
-//                         obj[membership_group_ID]['freeshipping_selected_value'] = 'min_purchase_amount';
-//                         obj[membership_group_ID]['min_purchase_amount_value'] =
-//                             minPurchaseAmount_TextField_Value;
-//                     }
-//                 } else if (jQuery('.minimumDiscountCode-' + getTier_Value).children("option:selected")
-//                     .val() == "minQuantity_items") {
-//                     var maxPurchaseAmount_TextField = jQuery('#maxPurchaseAmount_TextField_' +
-//                         getTier_Value).val();
-
-//                     if (maxPurchaseAmount_TextField == "") {
-
-//                         jQuery('.Polaris-Layout__AnnotationContent').hide();
-//                         jQuery('.TierSelected-' + getTier_Value).show();
-//                         jQuery('.maxPurchaseAmount_TextFieldError_' + getTier_Value).show();
-//                         jQuery(".Polaris-Select__SelectedOptionData").text(getTier_Value);
-//                         jQuery("#PolarisSelect1").val(getTier_Value).attr("selected", "selected");
-//                         ErrorBeforeSubmit = true;
-//                     } else {
-//                         jQuery('.maxPurchaseAmount_TextFieldError_' + getTier_Value).hide();
-//                         obj[membership_group_ID]['freeshipping_selected_value'] = 'min_quantity_items';
-//                         obj[membership_group_ID]['min_quantity_items'] = maxPurchaseAmount_TextField;
-//                     }
-//                 } else {
-//                     obj[membership_group_ID]['freeshipping_selected_value'] = 'none';
-//                 }
-//                 ErrroPerksCheckbox = true;
-//             }
-
-
-//             if (DiscountProductCollectionCheckbox == true) {
-//                 if (jQuery('#DiscountProductCode_Field-' + getTier_Value).val() == "") {
-//                     jQuery('.Polaris-Layout__AnnotationContent').hide();
-//                     jQuery('.TierSelected-' + getTier_Value).show();
-//                     jQuery('.DiscountCode-Error-' + getTier_Value).show();
-//                     jQuery(".Polaris-Select__SelectedOptionData").text(getTier_Value);
-//                     jQuery("#PolarisSelect1").val(getTier_Value).attr("selected", "selected");
-//                     ErrorBeforeSubmit = true;
-//                 } else {
-//                     obj[membership_group_ID]["discounted_product_collection_checked_value"] = '1';
-//                     obj[membership_group_ID]['discounted_product_collection_code'] = jQuery(
-//                         '#DiscountProductCode_Field-' + getTier_Value).val().trim();
-//                     jQuery('.DiscountCode-Error-' + getTier_Value).hide();
-//                 }
-
-//                 if (jQuery('#DiscountCodePercentage-' + getTier_Value).val() == "") {
-//                     jQuery('.Polaris-Layout__AnnotationContent').hide();
-//                     jQuery('.TierSelected-' + getTier_Value).show();
-//                     jQuery('.DiscountPercentage-Error-' + getTier_Value).show();
-//                     jQuery(".Polaris-Select__SelectedOptionData").text(getTier_Value);
-//                     jQuery("#PolarisSelect1").val(getTier_Value).attr("selected", "selected");
-//                     ErrorBeforeSubmit = true;
-//                 } else {
-
-//                     obj[membership_group_ID]['discounted_product_collection_percentageoff'] = jQuery(
-//                         '#DiscountCodePercentage-' + getTier_Value).val();
-//                     jQuery('.DiscountPercentage-Error-' + getTier_Value).hide();
-//                 }
-
-
-//                 if (jQuery('#PolarisSelect-' + getTier_Value).find(":selected").val() == "all") {
-
-//                     obj[membership_group_ID]['discounted_product_collection_type'] = 'N';
-//                 } else if (jQuery('#PolarisSelect-' + getTier_Value).find(":selected").val() ==
-//                     "collection") {
-
-//                     if (jQuery('#collectionDiscountApplied-' + getTier_Value).length) {
-//                         if (jQuery('.collectionTitleName-' + getTier_Value).length) {
-
-//                             let collectionTitleName = jQuery('.collectionTitleName-' + getTier_Value).val();
-//                             let collectionTitle_id = jQuery('.collectionTitleName-' + getTier_Value).attr('id');
-//                             obj[membership_group_ID]['discounted_product_collection_type'] = 'C';
-//                             obj[membership_group_ID]['discounted__collection_title'] = collectionTitleName;
-//                             obj[membership_group_ID]['discounted__collection_id'] = collectionTitle_id;
-//                             jQuery('.sd_selected_existing_collection-Error-' + getTier_Value).hide();
-//                         } else {
-//                             jQuery('.Polaris-Layout__AnnotationContent').hide();
-//                             jQuery('.TierSelected-' + getTier_Value).show();
-//                             jQuery('.sd_selected_existing_collection-Error-' + getTier_Value).show();
-//                             jQuery(".Polaris-Select__SelectedOptionData").text(getTier_Value);
-//                             jQuery("#PolarisSelect1").val(getTier_Value).attr("selected", "selected");
-//                             ErrorBeforeSubmit = true;
-//                         }
-//                     }
-//                 } else {
-
-//                     if (jQuery('#specificProduct_DiscountApplied-' + getTier_Value).length) {
-//                         if (jQuery('.productTitleName-' + getTier_Value).length) {
-//                             let productTitleName = jQuery('.productTitleName-' + getTier_Value).val();
-//                             let productTitle_id = jQuery('.productTitleName-' + getTier_Value).attr(
-//                                 'id');
-//                             obj[membership_group_ID]['discounted_product_collection_type'] = 'P';
-//                             obj[membership_group_ID]['discounted__product_title'] = productTitleName;
-//                             obj[membership_group_ID]['discounted__product_id'] = productTitle_id;
-//                             jQuery('.sd_selected_existing_product-Error-' + getTier_Value).hide();
-//                         } else {
-//                             jQuery('.Polaris-Layout__AnnotationContent').hide();
-//                             jQuery('.TierSelected-' + getTier_Value).show();
-//                             jQuery('.sd_selected_existing_product-Error-' + getTier_Value).show();
-//                             jQuery(".Polaris-Select__SelectedOptionData").text(getTier_Value);
-//                             jQuery("#PolarisSelect1").val(getTier_Value).attr("selected", "selected");
-//                             ErrorBeforeSubmit = true;
-//                         }
-//                     }
-//                 }
-//                 ErrroPerksCheckbox = true;
-//             } else {
-//                 obj[membership_group_ID]['discounted_product_collection_type'] = 'N';
-//             }
-
-
-
-//             if (freeGiftUponsignUpcheckbox == true) {
-//                 if (jQuery('#free_gift-upon-signUp-' + getTier_Value).length) {
-//                     jQuery('.Polaris-Layout__AnnotationContent').hide();
-//                     jQuery('.TierSelected-' + getTier_Value).show();
-//                     jQuery('.free_gift-upon-signUp-Error-' + getTier_Value).show();
-//                     jQuery(".Polaris-Select__SelectedOptionData").text(getTier_Value);
-//                     jQuery("#PolarisSelect1").val(getTier_Value).attr("selected", "selected");
-//                     ErrorBeforeSubmit = true;
-
-//                 } else {
-//                     jQuery('.free_gift-upon-signUp-Error-' + getTier_Value).hide();
-//                     let Free_gift_uponsignup_productName = jQuery('#Free-gift_uponsignup_productName-' + getTier_Value).val();
-//                     let gift_uponsignup_variantName = jQuery('#Free-gift_uponsignup_variantName-' + getTier_Value).val();
-//                     let free_gift_uponsignupSelectedDays = jQuery('#free_gift_uponsignupSelectedDays-' + getTier_Value).find(":selected").val();
-//                     if (free_gift_uponsignupSelectedDays == 'Immediately after signup') {
-//                         free_gift_uponsignupSelectedDays = 'Immediately_after_signup'
-//                     }
-//                     let perk_free_gift_product_id = jQuery('#perk-free_gift-product_id-' + getTier_Value).val();
-//                     let perk_free_gift_variant_id = $('input[free-gift_selected_variantid]').attr('free-gift_selected_variantid');
-//                     let free_gift_uponsignupSelected_Value = jQuery('#free_gift_uponsignupSelectedDays-' + getTier_Value).find(":selected").attr('free_gift_uponsignupselected_value');
-//                     obj[membership_group_ID]['Free_gift_uponsignup_checkbox'] = '1';
-//                     obj[membership_group_ID]['Free_gift_uponsignup_productName'] = Free_gift_uponsignup_productName;
-//                     obj[membership_group_ID]['gift_uponsignup_variantName'] = gift_uponsignup_variantName;
-//                     obj[membership_group_ID]['free_gift_uponsignupSelectedDays'] = free_gift_uponsignupSelectedDays;
-//                     obj[membership_group_ID]['free_gift_uponsignupSelected_Value'] = free_gift_uponsignupSelected_Value;
-//                     obj[membership_group_ID]['perk_free_gift_product_id'] = perk_free_gift_product_id;
-//                     obj[membership_group_ID]['perk_free_gift_variant_id'] = perk_free_gift_variant_id;
-//                 }
-//                 ErrroPerksCheckbox = true;
-//             }
-
-
-
-
-//             if (earlyAccessCheck == true) {
-//                 obj[membership_group_ID]['early_access_checked_value'] = '1';
-//                 obj[membership_group_ID]['no_of_sale_days'] = jQuery('#EarlySaleAccessDays-' + getTier_Value).val().trim();
-//                 ErrroPerksCheckbox = true;
-//             }
-
-//             if (customperk == true) {
-//                 obj[membership_group_ID]['custom_perk_checkbox'] = '1';
-//                 ErrroPerksCheckbox = true;
-//             }
-
-//             if (birthday_rewards == true) {
-//                 obj[membership_group_ID]['birthday_rewards'] = '1';
-//                 ErrroPerksCheckbox = true;
-//             }
-
-
-//         }
-
-
-//         if (ErrroPerksCheckbox == false) {
-//             // console.log('select atleast one checkbox!');
-//         } else {
-//             if (ErrorBeforeSubmit == true) {
-//                 // console.log('error');
-//             } else {
-
-//                 shopify.loading(true);
-//                 jQuery("#save_DiscountButton").attr("disabled", true);
-//                 let data = { obj: obj, store: shop, shop: shop }
-//                 // console.log(obj,'object');
-//                 // jQuery.ajax({
-//                 //     type: 'POST',
-//                 //     dataType: "json",
-//                 //     url: 'perks-save',
-//                 //     data: {
-//                 //         obj: obj,
-//                 //         store: shop,
-//                 //         shop: shop
-//                 //     },
-//                 // success: function(data) {
-//                 let ajaxParameters = {
-
-//                     method: "POST",
-
-//                     dataValues: {
-//                         data,
-//                         action: "membershipPerksSave"
-
-//                     }
-//                 };
-
-//                 let result = await AjaxCall(ajaxParameters);
-//                 var beforeChecked = result.beforeChecked;
-//                 let message = result.message;
-//                 var status = result.status;
-//                 if (status == false) {
-//                     jQuery("#save_DiscountButton").attr("disabled", false);
-//                     shopify.loading(false);
-//                     shopify.toast.show("Data saved successfully", { isError: false });
-//                     let app_redirect_link = `${SHOPIFY_DOMAIN_URL}/admin/memberships/memberships.php?shop=${shop}&host=${host}`;
-//                     open(app_redirect_link, '_self');
-//                 } else if (status == true) {
-//                     jQuery("#save_DiscountButton").attr("disabled", false);
-//                     shopify.loading(false);
-//                     shopify.toast.show("Data saved successfully", { isError: false });
-//                     return false;
-//                 } else if (status == 'exists') {
-//                     // console.log("exists");
-//                     shopify.loading(false);
-//                     jQuery("#save_DiscountButton").attr("disabled", false);
-//                     if (beforeChecked == 'free_shipping_code') {
-//                         jQuery('.Polaris-Layout__AnnotationContent').hide();
-//                         jQuery('.Polaris-Layout__AnnotationContent[membership-group-id="' +
-//                             message + '"]').show();
-//                         var perks_type = jQuery(
-//                             '.Polaris-Layout__AnnotationContent[membership-group-id="' +
-//                             message + '"]').attr("perks-type");
-//                         jQuery(".Polaris-Select__SelectedOptionData").text(perks_type);
-//                         jQuery("#PolarisSelect1").val(perks_type).attr("selected",
-//                             "selected");
-//                         jQuery("#save_DiscountButton").attr("disabled", false);
-//                         jQuery('.ExistingFree_shipingCode_Error').hide();
-//                         jQuery('.ExistingFree_shipingCode_Error_' + perks_type).fadeOut(500)
-//                             .fadeIn(500);
-//                     }
-//                     if (beforeChecked == 'discountCode') {
-//                         shopify.loading(false);
-
-//                         jQuery('.Polaris-Layout__AnnotationContent').hide();
-//                         jQuery('.Polaris-Layout__AnnotationContent[membership-group-id="' +
-//                             message + '"]').show();
-//                         var perks_type = jQuery(
-//                             '.Polaris-Layout__AnnotationContent[membership-group-id="' +
-//                             message + '"]').attr("perks-type");
-//                         jQuery(".Polaris-Select__SelectedOptionData").text(perks_type);
-//                         jQuery("#PolarisSelect1").val(perks_type).attr("selected",
-//                             "selected");
-//                         jQuery("#save_DiscountButton").attr("disabled", false);
-//                         jQuery('.Existing_DiscountCode-Error-' + perks_type).fadeOut(500)
-//                             .fadeIn(500);
-//                     }
-//                 }
-//                 // },
-//                 // error: function(response) {
-//                 //     shopify.loading(false);
-//                 //     jQuery("#save_DiscountButton").attr("disabled", false);
-//                 //     shopify.toast.show("Something went wrong", {isError : true });
-
-//                 // }
-//                 // });
-//             }
-//         }
-//     }
-//     else {
-//         // console.log('code 1');
-//         shopify.toast.show("Please check atleast one checkbox from first 5 checkbox", { isError: true });
-//         nextEditButtonCondition = false;
-//     }
-// });
 
 jQuery('body').on('click', '#save_DiscountButton', async function () {
     let checkboxFreeship = $('.freeShipCheckbox-' + sd_selectedtierGroupId).is(':checked');
@@ -1184,18 +713,7 @@ jQuery('body').on('click', '#save_DiscountButton', async function () {
     }
 
 
-    // if (freeshipInputCode != undefined || discountInputCode != undefined) {
-    //     if (freeshipInputCode == discountInputCode) {
-    //         shopify.toast.show("Freeship code and discount code can't be same.", { isError: true });
-    //         return false;
-    //     }
-        
-    //     if (freeshipCodeExists || discountCodeExists) {
-    //         console.log('used in last step 2');
-    //         shopify.toast.show("Codes are used in last step", { isError: true });
-    //         perkFormValidations = false;
-    //     }
-    // }
+    
 
 
     if ((freeshipInputCode && freeshipInputCode.trim() !== '') || 
@@ -1222,12 +740,8 @@ jQuery('body').on('click', '#save_DiscountButton', async function () {
             shopify.toast.show("Freeship code and discount code can't be same.", { isError: true });
             return false;
         }
+
         
-        // console.log("checkboxFreeship:", checkboxFreeship);
-        // console.log("allCoupanCodes on first create:", allCoupanCodes);
-        // console.log("Entered codes:", freeshipInputCode, discountInputCode);
-        // console.log("freeshipCodeExists:", freeshipCodeExists);
-        // console.log("discountCodeExists:", discountCodeExists);
 
         if (freeshipCodeExists || discountCodeExists) {
             console.log('used in last step 2');
@@ -1481,17 +995,8 @@ jQuery('body').on('click', '#save_DiscountButton', async function () {
                 shopify.loading(true);
                 jQuery("#save_DiscountButton").attr("disabled", true);
                 let data = { obj: obj, store: shop, shop: shop }
-                // console.log(obj,'object');
-                // jQuery.ajax({
-                //     type: 'POST',
-                //     dataType: "json",
-                //     url: 'perks-save',
-                //     data: {
-                //         obj: obj,
-                //         store: shop,
-                //         shop: shop
-                //     },
-                // success: function(data) {
+              
+                
                 let ajaxParameters = {
 
                     method: "POST",
@@ -1554,14 +1059,8 @@ jQuery('body').on('click', '#save_DiscountButton', async function () {
                             .fadeIn(500);
                     }
                 }
-                // },
-                // error: function(response) {
-                //     shopify.loading(false);
-                //     jQuery("#save_DiscountButton").attr("disabled", false);
-                //     shopify.toast.show("Something went wrong", {isError : true });
-
-                // }
-                // });
+                
+                
             }
         }
     }
@@ -1919,12 +1418,6 @@ jQuery('body').on('click', '#edit_DiscountButton', async function () {
         }
     }
 
-    // if(freeshipInputCode != undefined || discountInputCode != undefined ){
-    //     if(freeshipInputCode == discountInputCode ){
-    //         shopify.toast.show("Freeship code and discount code can't be same.", {isError : true });
-    //         perkFormValidations = false;
-    //     }
-    // }
 
     if (freeshipInputCode != undefined || discountInputCode != undefined) {
         if (freeshipInputCode == discountInputCode) {
@@ -3000,8 +2493,6 @@ jQuery('body').on('click', '#edit-RemoveSelected_productDiscountField', function
                     </div>
                 `);
 });
-
-
 /**
     * For edit the
     * Selected the discount applies to
@@ -4027,16 +3518,6 @@ $('.birthdayFormAllTextBox').on('input', function () {
     let typeAttr = $(this).attr("type-attr");
     let previewClass = '.' + dataId;
 
-    const sanitizeUrl = function (value) {
-        const url = String(value || '').trim();
-        if (!url) return '';
-
-        if (/^(https?:|data:image\/|\/|#)/i.test(url)) {
-            return url;
-        }
-        return '';
-    };
-
     switch (typeAttr) {
         case 'text':
             $(previewClass).text(textValue);
@@ -4047,7 +3528,6 @@ $('.birthdayFormAllTextBox').on('input', function () {
                 'color': textValue,
             });
             break;
-
         case 'bg-color':
             $(previewClass).css({
                 'background': textValue,
@@ -4086,19 +3566,16 @@ $('.birthdayFormAllTextBox').on('input', function () {
 
         case 'image':
             $(previewClass).attr({
-                'src': sanitizeUrl(textValue),
+                'src': textValue,
             });
             break;
 
         case 'gradient-color':
-            let gradientCode = $(this).attr("gradient-code");
-
-            let color1 = '';
-            let color2 = '';
+            var gradientCode = $(this).attr("gradient-code");
 
             if (gradientCode == 'cardBgColor') {
-                color1 = $('#card_bg_color1').val();
-                color2 = $('#card_bg_color2').val();
+                var color1 = $('#card_bg_color1').val();
+                var color2 = $('#card_bg_color2').val();
             }
 
             let gradient = 'linear-gradient(to right, ' + color1 + ', ' + color2 + ')';
@@ -4106,6 +3583,7 @@ $('.birthdayFormAllTextBox').on('input', function () {
             break;
     }
 });
+
 
 
 jQuery("body").on("click", ".sd_save_birthday_widget", async function () {
@@ -4583,35 +4061,10 @@ $('.birthday-email-setting').on('input', function () {
         textValue = $(this).is(":checked") ? 1 : 0;
     }
 
-    console.log(textValue, 'value');
-    console.log(dataId, 'dataId');
-    console.log(typeAttr, 'typeAttr');
-
+    console.log(textValue, 'value')
+    console.log(dataId, 'dataId')
+    console.log(typeAttr, 'typeAttr')
     let previewClass = '.' + dataId;
-
-    const escapeHtmlWithLineBreaks = function (value) {
-        return String(value || '')
-            .replace(/&/g, '&amp;')
-            .replace(/</g, '&lt;')
-            .replace(/>/g, '&gt;')
-            .replace(/"/g, '&quot;')
-            .replace(/'/g, '&#39;')
-            .replace(/\n/g, '<br>');
-    };
-
-    const sanitizeUrl = function (value) {
-        const url = String(value || '').trim();
-
-        if (!url) {
-            return '';
-        }
-
-        if (/^(https?:|mailto:|tel:|\/|#)/i.test(url)) {
-            return url;
-        }
-
-        return '';
-    };
 
     switch (typeAttr) {
         case 'text':
@@ -4621,7 +4074,7 @@ $('.birthday-email-setting').on('input', function () {
         case 'href':
             console.log(previewClass, 'previewClass');
             console.log(textValue, 'textValue');
-            $(previewClass).attr("href", sanitizeUrl(textValue));
+            $(previewClass).attr("href", textValue);
             break;
 
         case 'checkbox':
@@ -4637,7 +4090,6 @@ $('.birthday-email-setting').on('input', function () {
                 'color': textValue,
             });
             break;
-
         case 'bg-color':
             $(previewClass).css({
                 'background': textValue,
@@ -4679,13 +4131,11 @@ $('.birthday-email-setting').on('input', function () {
             let rgbaComponents = bgColor.match(/\d+/g);
 
             if (rgbaComponents.length === 3) {
-                rgbaComponents.push('1');
+                rgbaComponents.push('1'); // Default alpha value if not present
             }
-
             let alphaValue = parseFloat(textValue) / 100;
             $(previewClass).css(
-                'background-color',
-                'rgba(' + rgbaComponents[0] + ', ' + rgbaComponents[1] + ', ' + rgbaComponents[2] + ', ' + alphaValue + ')'
+                'background-color', 'rgba(' + rgbaComponents[0] + ', ' + rgbaComponents[1] + ', ' + rgbaComponents[2] + ', ' + alphaValue + ')'
             );
             break;
 
@@ -4693,9 +4143,7 @@ $('.birthday-email-setting').on('input', function () {
             $(previewClass).css({
                 'background-color': textValue,
             });
-            break;
         }
-
         case 'height':
             $(previewClass).css({
                 'height': textValue + 'px',
@@ -4704,7 +4152,7 @@ $('.birthday-email-setting').on('input', function () {
 
         case 'image':
             $(previewClass).attr({
-                'src': sanitizeUrl(textValue),
+                'src': textValue,
             });
             break;
 
@@ -4715,13 +4163,14 @@ $('.birthday-email-setting').on('input', function () {
             break;
 
         case 'text-area':
-            $(previewClass).html(escapeHtmlWithLineBreaks(textValue));
+            textValue = textValue.replace(/\n/g, '<br>');
+            $(previewClass).html(textValue);
             $('.sd_help_msg').text('Use <br> tags to break line');
             break;
 
         case 'bg_image':
             let path = $(this).attr("path-id");
-            console.log('hhhh');
+            console.log('hhhh')
             changeBackground(textValue, previewClass, path);
             break;
 
@@ -4761,11 +4210,7 @@ function changeBackground(textValue, previewClass, path) {
         'background12': 'background12.jpg',
         'background13': 'background13.jpg'
     };
-    if (!Object.prototype.hasOwnProperty.call(backgrounds, textValue)) {
-        return;
-    }
-    const safePath = String(path || '').replace(/[^a-zA-Z0-9/_:.-]/g, '').replace(/\/+$/, '');
-    const imageUrl = safePath + '/public/assets/images/Background/' + backgrounds[textValue];
+    const imageUrl = path + 'public/assets/images/Background/' + backgrounds[textValue];
     $(previewClass).attr('src', imageUrl);
 }
 
@@ -5303,7 +4748,7 @@ jQuery("body").on('change', '.sd_select_option', function (e) {
 
 jQuery("body").on("change", ".Polaris-Select__Input", function () {
     let selected_option_value = jQuery(this).val();
-    jQuery(this).parent().find(".Polaris-Select__SelectedOption").text(selected_option_value);
+    jQuery(this).parent().find(".Polaris-Select__SelectedOption").html(selected_option_value);
 });
 
 jQuery("body").on("change", ".sd_set_anchor_date", function () {
@@ -5469,17 +4914,14 @@ jQuery('body').on('input', '.membershipAllTextBox', function () {
                 'text-align': textValue,
             });
             break;
-       case 'headingTag-change':
+        case 'headingTag-change':
             console.log('preview class = ', previewClass);
             console.log('text value = ', textValue);
-            const allowedHeadingTags = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'];
-            const safeTag = allowedHeadingTags.includes(String(textValue).toLowerCase())
-                ? String(textValue).toLowerCase()
-                : 'h2';
             $(previewClass).replaceWith(function () {
-                return $('<' + safeTag + '>').text($(this).text()).attr({
-                    'class': $(this).attr('class'),
-                    'style': $(this).attr('style')
+                return $('<' + textValue + '>', {
+                    html: $(this).html(),
+                    class: $(this).attr('class'),
+                    style: $(this).attr('style')
                 });
             });
             break;
@@ -6449,21 +5891,22 @@ jQuery('body').on('input', '.Editor-editor', function () {
     console.log(textarea_id, 'textarea_id');
     console.log(content_div, 'content_div');
 
-   if (content_html.includes('<pre contenteditable="true">')) {
-        content_html = content_html.replace(/^<pre contenteditable="true">|<\/pre>$/g, "");
+    if (content_html.includes('<pre contenteditable="true">')) {
+        // console.log(content_html,'content_html');
+        content_html = (content_html.replace(/^<pre contenteditable="true">|<\/pre>$/g, ""));
         const tempDiv = document.createElement('div');
-        tempDiv.textContent = content_html; // safe parsing
-        const divElement = tempDiv;
+        tempDiv.innerHTML = "<div>" + content_html + "</div>";
+        const divElement = tempDiv.firstChild;
         const h2Element = divElement.firstChild;
         if (h2Element) {
-            jQuery('.' + content_div + ', #' + textarea_id).text(h2Element.textContent);
+            jQuery('.' + content_div + ', #' + textarea_id).html(h2Element.textContent);
         } else {
-            jQuery('.' + content_div + ', #' + textarea_id).text('');
+            jQuery('.' + content_div + ', #' + textarea_id).html('');
         }
     } else {
         console.log('elsePartRunning');
         console.log('.' + content_div + ', #' + textarea_id);
-        jQuery('.' + content_div + ', #' + textarea_id).text(content_html);
+        jQuery('.' + content_div + ', #' + textarea_id).html(content_html);
     }
 });
 
@@ -6479,12 +5922,10 @@ jQuery('body').on('click', '.close_email_template_modal', function () {
     jQuery('#sd_test_email_modal_membership').addClass('display-hide-label');
 });
 
-
 jQuery('body').on('input', '#send_test_email_membership', function () {
-    let check_email = jQuery(this).val().trim();
-    let isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(check_email);
-
-    if (isValidEmail) {
+    let mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    let check_email = jQuery(this).val();
+    if (check_email.match(mailformat)) {
         jQuery('#test_email_error').text('');
         jQuery('.sd_confirm_button').removeClass('btn-disable-loader');
     } else {
@@ -6683,8 +6124,7 @@ jQuery('body').on('input', '.sd_default_template_text_fields', function () {
                 }
             }
         } else {
-            // jQuery('.' + content_div).html(content_value);
-            jQuery('.' + content_div).text(content_value);
+            jQuery('.' + content_div).html(content_value);
         }
     }
 });
