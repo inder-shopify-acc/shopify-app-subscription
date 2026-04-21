@@ -1,0 +1,84 @@
+{% assign metaObjectData = shop.metaobjects['sd-memberships-json-definition-phoenix']['advanced-memberships-handle'] | json %}
+{% assign customerMetaData = shop.metaobjects['sd-customers-json-definition']['membership-customers-handle'] | json %}
+<script id="get-product-collection-id">
+    let metaObjectDataJson = {{metaObjectData}};
+    let customerMetaDataJson = {{customerMetaData}};
+    let sdMembershipCollectionId = [];
+    {% for collection in product.collections %}
+    sdMembershipCollectionId.push({{ collection.id }});
+    {% endfor %}  
+</script>
+<script id="sd-subscription-helper">
+ var  pageType = `{{ request.page_type }}`;
+ var onload_variant_id =  `{{ product.selected_or_first_available_variant.id }}`;
+  var customer_id = `{{ customer.id }}`;
+  let SDMembershipConfig =   {};
+ let MembershipCollIds = [];
+    let MembershipPageType = '{{ request.page_type }}';
+    let MembershipProductVariant =  {{ product.variants | json }}
+   let MembershipProductJson = {{ product | json }}
+  {% for collection in product.collections %}
+   MembershipCollIds.push({{ collection.id }});
+  {% endfor %} let MembershipProductId = {% if request.page_type == 'product' %}
+  {{ product.id }}
+   {% else %} null
+  {% endif %}
+{% if product %}
+SDMembershipConfig.selling_plans = {};
+SDMembershipConfig.selling_plans.list ={};
+   SDMembershipConfig.variant  = {};
+{% assign filterGroupIds = '' %}
+{% assign filtered_selling_plan_group = product.selling_plan_groups | where: "app_id", "4trw27bTrit21member7KePw22asg445r78arewphoenix-membership" %}
+      '{{ filtered_selling_plan_group }}'
+{% for selling_plan_group  in filtered_selling_plan_group %}
+          '{{ selling_plan_group.id }}'
+{% assign sd_selling_plan_group = selling_plan_group.id %}
+       SDMembershipConfig.sellingPlanGroups_{{ sd_selling_plan_group }} = "{{ sd_selling_plan_group }}"
+{% assign filterGroupIds = filterGroupIds | append: selling_plan_group.id %}
+        {% unless forloop.last %}
+            {% assign filterGroupIds = filterGroupIds | append: ',' %}
+        {% endunless %}
+ {% for selling_plan in selling_plan_group.selling_plans %}
+   {% for option in selling_plan.options %}
+  {% assign option_name =  option.name  %}
+     {% assign option_position =  option.position %}
+   {% assign option_value =  option.value %}
+{% endfor %}
+  SDMembershipConfig.selling_plans.list.ID_{{selling_plan.id}} = {
+  "options": {
+    "name":"{{option_name}}",
+    "position":"{{ option_position }}",
+    "value":"{{ option_value }}",
+  },
+ };
+{% endfor %} <!-- selling_plan_group -->
+{% endfor %} <!-- filtered_selling_plan_group -->
+{% for variant in product.variants %}
+SDMembershipConfig.variant.VID_{{variant.id}} = {
+ "variant_available" : {{ variant.available }},
+};
+   SDMembershipConfig.variant.VID_{{variant.id}}.allocations = {};
+ SDMembershipConfig.variant.VID_{{variant.id}}.allocations.selling_plans = {};
+ SDMembershipConfig.variant.VID_{{variant.id}}.allocations.selling_plans.list = {};
+{% for selling_plan_allocation in variant.selling_plan_allocations %}
+   {% if filterGroupIds contains selling_plan_allocation.selling_plan_group_id  %}
+   {% assign selling_plan_id = selling_plan_allocation.selling_plan.id %}
+     {% assign selling_plan_allocation_price = selling_plan_allocation.price | money_with_currency | json %}
+      {% assign selling_plan_allocation_compare_at_price = selling_plan_allocation.compare_at_price | money_with_currency | json %}
+      {% assign per_delivery_price_formatted = selling_plan_allocation.per_delivery_price | money_with_currency | json %}
+      SDMembershipConfig.variant.VID_{{variant.id}}.allocations.selling_plans.list.ID_{{selling_plan_id}}={
+                          "selling_plan_id" : {{ selling_plan_id }},
+       "price":{{ variant.price | money_with_currency | json }},
+       "pa_selling_plan_allocation_price" : {{ selling_plan_allocation_price }},
+       "plan_description" : {{ selling_plan_allocation.selling_plan.description | json }},
+     }
+  {% endif %}
+{% endfor %}
+{% endfor %}
+{% endif %}
+var loaded_variant = '{{ product.selected_or_first_available_variant.id }}';
+var theme_block_supported = '{{ app.metafields.theme_support.support_theme_block }}';
+console.log(loaded_variant,'loaded_variant');
+console.log(theme_block_supported,'theme_block_supported');
+
+</script>

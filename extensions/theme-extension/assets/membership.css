@@ -1,0 +1,1381 @@
+
+/* subscription details pop up */
+div.sd_membershipPrc {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.sd_recurringMsg, .sd_membershipPrc {
+    position: relative;
+}
+
+.sd_membershipPrc.sd_description_tooltip .Polaris-PositionedOverlay {
+    padding: 20px;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    box-shadow: 0 2px 4px rgb(0 0 0 / 15%);
+    background-color: #3a3a3a;
+    border-radius: 5px;
+    left: 0;
+    color: #fff;
+    transition: transform .2s cubic-bezier(.215,.61,.355,1);
+    -ms-transform: translateY(0);
+    transform: translateY(100%) scaleY(0);
+    transform-origin: center top;
+    opacity: 0;
+    position: absolute;
+    bottom: 1px;
+    min-width: 300px;
+    max-width: 300px;
+    font-size: 12px;
+}
+.sd_recurringMsg img {
+    max-width: 21px;
+    vertical-align: middle;
+}
+.sd_membershipPrc.sd_description_tooltip .Polaris-PositionedOverlay::before {
+    content: "";
+    border-bottom: 9px solid #3a3a3a;
+    border-left: 9px solid transparent;
+    border-right: 9px solid transparent;
+    z-index: 99999;
+    position: absolute;
+    top: -8px;
+    left: 8px;
+}
+.sd_membershipPrc.sd_description_tooltip .sd_recurringMsg:hover ~ .Polaris-PositionedOverlay {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(100%) scaleY(1);
+    bottom: -8px;
+    z-index: 99999999;
+}
+
+/* subscription pop up end */
+
+.membership-plan-card .sd_fieldlist {
+    text-align: left;
+    position: absolute;
+    inset: -5px 0px 0px;
+    margin: 0px;
+    pointer-events: none;
+    border-radius: inherit;
+    border-style: solid;
+    border-width: 2px;
+    overflow: hidden;
+    min-width: 0%;
+    border-color: #4DFF9E;
+    transition: border-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+    /* z-index: -1; */
+}
+
+.sd_skip_button.sd_skip_btn_disable {
+    cursor: not-allowed;
+    background: #0000006e;
+}
+
+.customer_portal_spinner.active{
+    z-index: 999;
+}
+
+.membership-plan-card .sd_legend {
+    overflow: hidden;
+    display: block;
+    padding: 0 0;
+    height: 11px;
+    visibility: hidden;
+    max-width: 100%;
+    transition: max-width 100ms cubic-bezier(0, 0, 0.2, 1) 50ms;
+}
+
+.membership-plan-card .sd_legend span {
+    padding-left: 0;
+    padding-right: 0;
+    display: inline-block;
+    opacity: 0;
+    visibility: visible;
+    width: 100%;
+}
+.sd_skip_button {
+    background: #000000a6;
+    border: none;
+    border-radius: 3px;
+    color: #fff;
+    padding: 9px 16px;
+    cursor: pointer;
+}
+.membership_queued_text {
+    background: orange;
+    display: inline-block;
+    color: #fff;
+    padding: 5px 8px;
+    border-radius: 3px;
+    font-size: 14px;
+    /* cursor: pointer; */
+    cursor: default;
+}
+/* product page template css */
+
+#sd_applied_code_error p {
+    padding-left: 10px;
+}
+
+#copied_code_value svg {
+    width: 20px;
+    height: 20px;
+}
+
+.main-card {
+    border-radius: 8px 8px 0px 0px;
+    box-shadow: rgb(0 0 0 / 6%) 0px 2px 4px 0px;
+    background: #fff;
+    width: 70%;
+    display: grid;
+    margin: 3rem auto;
+}
+
+.sd_sidebar_drawer .close-button {
+    right: 20px;
+    font-size: 24px;
+    cursor: pointer;
+    position: fixed;
+    top: 11px;
+    display: none;
+}
+
+.widgetSellingPlanWrapper {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.5rem;
+    grid-auto-rows: 1fr;
+    margin-bottom: 6px;
+}
+
+.widgetSellingPlanWrapper label {
+    border-radius: 10px;
+    border: 1px solid #ff609d;
+    padding: 0.5rem;
+    font-size: 13px;
+    height: 100%;
+    width: 100%;
+    font-weight: bolder;
+}
+
+.widgetSellingPlanWrapper input:checked+label {
+    background-color: #fff4f8;
+}
+
+.sd_sellingPlan_optionText {
+    font-size: 8px;
+    background-color: #724cf9;
+    color: white;
+    border-radius: 3px;
+    padding: 1px 18px;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.sd_lowercase.sd_sellingPlan_price {
+    font-size: 10px;
+}
+
+
+/* product page template css end */
+
+.cart__checkout-button.button {
+    margin-top: 0 !important;
+}
+
+.sd_discount_coupon_code_main {
+    width: 60px;
+}
+
+
+/* common css start */
+
+.sd_cursor_pointer {
+    cursor: pointer;
+}
+
+.sd_white_space_nowrap {
+    white-space: nowrap;
+}
+
+.sd_display_block {
+    display: block;
+}
+
+.sd_display_none {
+    display: none;
+}
+
+.sd_display_grid {
+    display: grid;
+}
+
+.sd_display_flex {
+    display: flex;
+}
+
+.sd_lowercase {
+    text-transform: lowercase;
+}
+
+.sd_normal_font_weight {
+    font-weight: normal;
+}
+
+.sd_position_absolute {
+    position: absolute;
+}
+
+.sd_position_relative {
+    position: relative;
+}
+
+.sd_justify_content_center {
+    justify-content: center;
+}
+
+.sd_align_item_center {
+    align-items: center;
+}
+
+.sd_text_align_center {
+    text-align: center;
+}
+
+
+/* common css end */
+
+
+/* member plans template start here */
+
+.membership-plan-section {
+    width: 100%;
+    max-width: calc(1600px - 5.625rem);
+    margin: auto;
+}
+
+.membership-plan-card,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+    margin: 0;
+}
+
+.membership-plan-card {
+    box-sizing: border-box;
+    border-radius: 1em;
+    margin-top: 1rem;
+    position: relative;
+    padding-bottom: 1.25rem;
+    width: 350px;
+}
+
+.popular-tag {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-image: linear-gradient(46.87deg, #B1F5FA 0%, #4DFF9E 96.94%);
+    padding: 8px 11px;
+    border-radius: 16px;
+}
+
+.popular-tag H3 {
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.card-inner-details {
+    padding-left: 2.5rem;
+    padding-right: 2.5rem;
+    padding-top: 2rem;
+}
+
+.card-inner-details h2 {
+    font-size: 20px;
+    line-height: 2.25rem;
+    margin-bottom: 16px;
+}
+
+.card-inner-details h4 {
+    font-size: .875rem;
+    line-height: 1.25rem;
+    padding-top: 10px;
+}
+
+.card-inner-details p {
+    font-size: 12px;
+    line-height: 1.25rem;
+    padding-bottom: 0.5rem;
+}
+
+.total-plan-price span {
+    font-size: 3.75rem;
+    line-height: 1;
+    font-weight: 700;
+}
+
+.total-plan-price {
+    display: flex;
+    align-items: center;
+}
+
+.total-plan-price .text-base span {
+    font-size: 1rem;
+}
+
+sub.text-base {
+    display: flex;
+    flex-direction: column;
+}
+
+.membership-plan-row {
+    display: flex;
+    column-gap: 1rem;
+    flex-wrap: wrap;
+    row-gap: 1rem;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+.best-plan-offer {
+    margin: 2rem 0 3rem;
+    background: linear-gradient(90deg, #68ebd166 0%, #95feb940 100%);
+    padding: 1rem;
+    border-top: 1px solid #68EBD1;
+    border-bottom: 1px solid #68EBD1;
+}
+
+.best-plan-offer h5 {
+    text-align: center;
+    font-size: 14px;
+}
+
+.plan-include-details {
+    padding: 0 2.25rem;
+    margin-bottom: 7rem;
+}
+
+.plan-include-details ul li {
+    font-size: 1.1rem;
+    line-height: 1.5;
+    list-style: none;
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.plan-include-details ul li svg {
+    position: absolute;
+    left: -30px;
+}
+
+.try-plan-btn a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+.try-plan-btn {
+    text-align: center;
+    padding: 4px 0;
+    background: #000;
+    border-radius: 30px;
+    cursor: pointer;
+    position: absolute;
+    bottom: 20px;
+    width: 90%;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.card-inner-details h6 {
+    font-size: 12px;
+}
+
+
+/* member plans template css end */
+
+
+/* Membership tile's tabs start here */
+
+body {
+    /* display: grid;
+    place-content: center; */
+    min-height: 100vh;
+    font-family: "Inter", sans-serif;
+}
+
+.tabs__buttons--container {
+    display: flex;
+    margin-bottom: 1rem;
+}
+
+.tabs__tab-btn {
+    background: none;
+    border: none;
+    padding: 1rem 2rem;
+    cursor: pointer;
+    border-bottom: solid 3px #81c784;
+}
+
+.tabs__tab-btn--not-selected {
+    border-bottom-color: #eeeeee;
+}
+
+.tabs__tab-btn:hover {
+    background-color: #eeeeee;
+    transition: 0.3s;
+}
+
+.tabs__tab--hide {
+    display: none;
+}
+
+.tabs__tab--show {
+    display: block;
+}
+
+.tabs__tab {
+    animation: tabApear 0.6s;
+}
+
+@keyframes tabApear {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+
+/* Membership tile's tabs end here */
+
+
+/* product widget css start */
+
+.sd_membership_widget_wrapper {
+    margin-bottom: 10px;
+}
+
+.sd_membership_widget_wrapper div.sd_plan_option {
+    padding-bottom: 10px;
+    padding-top: 11px;
+}
+
+.sd_membership_widget_wrapper .membership.purchase-label-price {
+    color: #000;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: -.28px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.sd_membership_widget_wrapper label {
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: -.24px;
+    display: flex;
+    column-gap: 10px;
+    cursor: pointer;
+}
+
+.sd_membership_widget_wrapper input[type=radio]:checked {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: 0;
+    font: inherit;
+    color: currentColor;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    transform: translateY(-0.075em);
+    display: grid;
+    place-content: center;
+    margin-top: 5px;
+}
+
+.sd_membership_widget_wrapper input[type=radio] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: 0;
+    font: inherit;
+    color: currentColor;
+    width: 18px;
+    height: 18px;
+    border: 4px solid #D9D9D9;
+    border-radius: 50%;
+    transform: translateY(-0.075em);
+    display: grid;
+    place-content: center;
+    margin-top: 5px;
+}
+
+.sd_membership_widget_wrapper .purchase-label-price {
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: -.28px;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 10px;
+    cursor: pointer;
+}
+
+
+/* product widget css end here */
+
+
+/* customer portal css */
+.accordion-content .past_orders_content {
+    overflow-y: auto;
+    max-height: 200px;
+}
+.accordion-content .past_orders_content table {
+    width: 100%;
+    overflow-y: auto;
+    min-width: 500px;
+}
+.accordion-content .past_orders_content table th {
+    text-align: left;
+    font-size: 1.6rem;
+    padding: 10px;
+}
+.accordion-content .past_orders_content table td {
+    font-size: 1.6rem;
+    padding: 10px;
+}
+.accordion-content .past_orders_content table:not([class]) td, table:not([class]) th {
+    border-bottom: 1px dashed #ddd !important;
+    border:none;
+}
+.accordion-content .past_orders_content table:not([class]) {
+    box-shadow: none;
+    border: none;
+}
+
+.membership_history_content .tab {
+    overflow: hidden;
+    border: 1px solid #ccc;
+    background-color: #f1f1f1;
+  }
+
+
+
+  .accordion-content .tab button {
+    background: none;
+    border: none;
+    position: relative;
+    cursor: pointer;
+    padding: 10px;
+    font-size: 16px;
+}
+.accordion-content .tab {
+    border-bottom: 1px dashed #ddd;
+}
+button.tablinks.active::after {
+    content: "";
+    position: absolute;
+    border-top: 2px solid #248000;
+    height: 2px;
+    width: 100%;
+    left: 0;
+    bottom: -2px;
+}
+#sd_memberPortal_back::after {
+    box-shadow: none;
+}
+.sd_customAccordion .tab button {
+    /* background: #2c332f; */
+    margin-top: 5px;
+    padding: 7px;
+    min-height: 40px;
+    font-size: 14px;
+}
+.sd_customAccordion .tablinks.active::after {
+    display: none;
+}
+.sd_customAccordion .tab {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+  /* Style the buttons inside the tab */
+  /* .membership_history_content .tab button {
+    background-color: inherit;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    transition: 0.3s;
+    font-size: 17px;
+  }
+
+  /* Change background color of buttons on hover */
+  /* .membership_history_content .tab button:hover {
+    background-color: #ddd;
+  } */
+
+  /* Create an active/current tablink class */
+  /* .membership_history_content .tab button.active {
+    background-color: #ccc;
+  } */
+
+  /* Style the tab content */
+  /* .membership_history_content .tabcontent {
+    display: none;
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    border-top: none;
+  }  */
+
+.main-card {
+    border-radius: 8px 8px 0px 0px;
+    background: #fff;
+    width: 70%;
+    margin: auto;
+    display: grid;
+    margin-top: 3rem;
+    box-shadow: rgba(145, 158, 171, 0.2) 0px 0px 2px 0px, rgba(145, 158, 171, 0.12) 0px 12px 24px -4px !important;
+    position: relative;
+}
+
+.inner-card {
+    padding: 20px 5px !important;
+    border: 1px dashed #ddd;
+}
+
+.main-card h2 {
+    background: #f1f1f1;
+    color: rgb(6 6 6);
+    padding: 10px 0px;
+    border-radius: 8px 8px 0px 0px;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    column-gap: 10px;
+    font-size: 24px;
+    font-weight: 600;
+    letter-spacing: .1em;
+}
+
+.main-card h2 svg {
+    width: 25px;
+    height: 25px;
+}
+
+.inner-card h4,
+h3 {
+    margin: 0;
+}
+
+.inner-card h4 {
+    font-size: 18px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    text-align: center;
+    margin-bottom: 10px;
+    line-height: 1.5;
+}
+
+.inner-card h3 {
+    text-align: center;
+    color: #495661;
+    font-size: 13px;
+}
+
+.sd_cancel_membership {
+    background: red;
+    padding: 4px 7px;
+    border-radius: 3px;
+    color: #fff;
+}
+
+.sd_see_more_btn,
+.sd_hide_content_btn {
+    background: rgb(73 73 73);
+    text-decoration: none;
+    color: #fff;
+    padding: 10px 17px;
+    font-size: 15px;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+}
+
+.see-more-btn,
+.sd_hide_content {
+    text-align: right;
+}
+
+.sd_hide_content {
+    width: 100%;
+    margin: auto;
+    padding-top: 2rem;
+    padding-right: 5px;
+}
+.sd_hide_content_btn {
+    margin: 0 !important;
+}
+.accordion-header {
+    background-color: #f1f1f1;
+    padding: 10px;
+    cursor: pointer;
+    border-bottom: 1px dashed #ddd;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.accordion-content {
+    display: none;
+    padding: 10px 20px;
+}
+
+.accordion-content.membership_periods {
+    padding: 0 20px;
+}
+
+.sd_all_upcoming_renewals_content {
+    padding: 10px 0;
+}
+
+.sd-update-payment {
+    background: #006840;
+    border: none;
+    border-radius: 3px;
+    color: #fff;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.sd_membership_accordian {
+    margin: auto;
+    width: 70%;
+    overflow: hidden;
+    box-shadow: rgba(145, 158, 171, 0.2) 0px 0px 2px 0px, rgba(145, 158, 171, 0.12) 0px 12px 24px -4px;
+}
+
+.sd_membership_badges {
+    position: relative;
+    top: 4px;
+    color: #fff;
+    padding: 3px 9px;
+    font-size: 13px;
+    border-radius: 6px;
+    text-transform: capitalize;
+    letter-spacing: .1em;
+    font-weight: 700;
+}
+
+.sd_plan_active {
+    background: green;
+    color: #fff;
+    padding: 3px 9px;
+    font-size: 13px;
+    border-radius: 6px;
+    text-transform: capitalize;
+    letter-spacing: .1em;
+    font-weight: 700;
+}
+
+.sd_plan_cancel {
+    background: red;
+}
+
+.sd_plan_pause {
+    background: orange;
+}
+
+#sd_cancel_membership {
+    background: red;
+}
+
+.sd_manage_membership {
+    padding: 9px 15px;
+    border-radius: 3px;
+    color: #fff;
+}
+.sd_manage_membership_buttons a {
+    height: 40px;
+    display: flex;
+    align-items: center;
+    padding: 10px 2rem;
+    border-radius: 5px;
+}
+
+.not_eligible_btn{
+    cursor: not-allowed !important;
+    opacity: 0.5;
+}
+
+#sd_reactivate_membership {
+    background: green;
+}
+
+#sd_pause_membership {
+    background: orange;
+}
+
+.sd_manage_membership_buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    align-items: center;
+}
+.sd_manage_membership_buttons button {
+    min-height: 40px;
+    margin: 0;
+}
+.sd_manage_membership {
+    padding: 10px;
+    margin: 15px;
+    border: none;
+    cursor: pointer;
+}
+
+.sd_queued_membership {
+    background: #eba115;
+    padding: 4px 7px;
+    border-radius: 3px;
+    color: #fff;
+    height: 35px;
+    cursor: pointer;
+}
+
+.sd_all_upcoming_renewals:last-child {
+    border: none;
+}
+
+.sd_all_upcoming_renewals {
+    border-bottom: 1px dashed #ddd;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+/* .sd_customer_portal_more_content.active {
+
+  display:block;
+
+} */
+
+/* .container {
+    height: 150px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    z-index: 2;
+} */
+
+
+/* customer portal css end here */
+
+
+/* customer portal loader css */
+
+.customer_portal_spinner.active {
+    width: 4em;
+    height: 4em;
+    border: 0.5em solid rgba(0, 0, 0, 0.1);
+    border-left-color: #000000;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    display: block;
+    position: fixed;
+    left: 50%;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+
+/* side bar kawal css */
+
+.main-content {
+    padding: 20px;
+}
+
+.sd_sidebar_drawer {
+    position: fixed;
+    top: 0;
+    right: -500px;
+    width: 500px;
+    height: 100%;
+    background-color: #569191;
+    color: #fff;
+    padding: 20px;
+    transition: right 0.3s;
+    z-index: 99999;
+    overflow-y: auto;
+    margin-top: 0;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
+.sd_sidebar_drawer ul {
+    list-style: none;
+    padding: 0;
+}
+
+.sd_sidebar_drawer li {
+    padding-bottom: 10px;
+}
+
+.sd_sidebar_drawer li:last-child {
+    padding-bottom: 0;
+}
+
+.open-button {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    padding: 10px;
+    background-color: #007bff;
+    color: #fff;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+}
+
+.close-button {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 24px;
+    cursor: pointer;
+    position: fixed;
+    top: 15px;
+    display: none;
+}
+
+.sd_coupon_content_list {
+    display: contents;
+}
+
+.sd_coupon_copy_btn,
+.sd_copy_code_btn {
+    cursor: pointer;
+}
+
+
+/********** 13-10-23 **********/
+
+.account table td:first-of-type a {
+    font-weight: 700;
+}
+
+.customer.account tbody td {
+    font-size: 14px;
+}
+
+.sd_main_customer_portal .main-card tr:nth-child(odd) {
+    background: #F0F0F0;
+}
+
+.order-history tr:nth-child(even) {
+    background: #F0F0F0;
+}
+
+.order-history th {
+    background: #F0F0F0;
+}
+
+@media (min-width: 750px) {
+    .customer.account thead th,
+    .customer tbody td {
+        padding-top: 1em;
+        padding-bottom: 1em;
+    }
+}
+
+@media (max-width:640px) {
+    .sd_main_customer_portal .main-card,
+    .sd_membership_accordian {
+        width: 95%;
+    }
+    .sd_hide_content {
+        width: 95%;
+        padding-right: 0;
+    }
+}
+
+@media (max-width:576px) {
+    .main-card h2 {
+        font-size: 16px;
+    }
+    .sd_sidebar_drawer {
+        width: 100%;
+    }
+}
+
+@media (max-width:430px) {
+    .inner-card h4 {
+        font-size: 15px;
+    }
+    .sd_sidebar_drawer h2 {
+        font-size: 20px;
+    }
+}
+
+.see-more-btn {
+    margin-top: 1rem;
+}
+
+.order-history th {
+    font-size: 16px !important;
+    font-weight: 500;
+    color: #000;
+}
+
+.sd_main_customer_portal .main-card tr h3 {
+    font-weight: 500;
+    font-size: 16px;
+    text-transform: uppercase;
+}
+
+.sd_main_customer_portal .main-card tr td {
+    font-size: 14px;
+    color: #000;
+}
+
+.sd_view_membership {
+    background: #000;
+    border: none;
+    color: #fff;
+    padding: 7px 15px;
+    cursor: pointer;
+    font-size: 13px;
+    letter-spacing: .1em;
+    font-weight: 700;
+    text-transform: capitalize;
+    border-radius: 6px;
+}
+
+.sd_manage_membership_link {
+    background: #000 !important;
+    color: #fff !important;
+    padding: 7px 15px;
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: capitalize;
+    text-decoration: none !important;
+    margin-top: 2rem;
+}
+
+
+/************ apply coupon css *********/
+
+.sd_discount_card_main {
+    border: 2px solid #7ec7a2;
+    border-radius: 8px;
+    display: flex;
+    overflow: hidden;
+    justify-content: space-between;
+}
+
+.sd_discount_card_content {
+    padding: 10px;
+}
+
+.sd_discount_coupon_code.sd_inner_code_bar {
+    display: flex;
+    position: relative;
+    font-weight: bold;
+    background: #bee7d2;
+    height: 100%;
+    white-space: nowrap;
+    align-items: center;
+    justify-content: center;
+}
+
+.sd_discount_card_main h3 {
+    font-weight: 600;
+    font-size: 16px;
+    color: #fff;
+    position: relative;
+    top: -3px;
+}
+
+.sd_discount_card_main p {
+    font-size: 13px;
+    color: #fff;
+    position: relative;
+    top: -3px;
+}
+
+.scissors {
+    position: absolute;
+    top: 7px;
+    color: #3c9a5d;
+    left: -7px;
+    transform: rotate(90deg);
+}
+
+.code.sd_inner_code_bar {
+    background: transparent !important;
+    border: none !important;
+    transform: rotate(90deg);
+    padding: 5px 9px;
+    font-weight: 700;
+}
+
+#sd_memberPortal_back {
+    position: absolute;
+    left: 0;
+    top: 15px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+}
+
+.sd_main_customer_portal {
+    position: relative;
+}
+
+#sd_memberPortal_back svg {
+    height: 19px;
+    width: 19px;
+}
+
+#myModal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+    z-index: 9;
+  }
+
+  .modal-content {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    text-align: center;
+  }
+
+  #btnOpenModal {
+    cursor: pointer;
+  }
+  .sd_main_customer_portal .modal-content button {
+    margin-top: 1rem;
+    cursor: pointer;
+}
+.sd_main_customer_portal .modal-content #btnClose {
+    background: #a2a2a2;
+    border: none;
+    padding: 6px 15px;
+    color: #fff;
+    border-radius: 4px;
+}
+.sd_main_customer_portal .modal-content #btnOk {
+    background: #4c4c4c;
+    border: none;
+    padding: 6px 15px;
+    color: #fff;
+    border-radius: 4px;
+}
+/* countdown timer  */
+.sd_count-down-all-layouts .countdown_lauout_main {
+    margin-bottom: 1rem;
+}
+
+.sd_count-down-all-layouts .countdown_lauout_main:first-child {
+    margin-top: 1rem;
+}
+
+.sd_count-down-all-layouts .countdown_lauout_main:last-child {
+    margin-bottom: 0;
+}
+
+.sd_countdown{
+    margin-top: 8px;
+}
+
+.countdown_lauout_main {
+    border: 1px solid #c6bfe0;
+    fill: #faf9ff;
+    stroke-width: 1px;
+    background: #faf9ff;
+    width: 100%;
+    max-width: 500px;
+}
+
+.countdown_lauout_1 {
+    display: flex;
+    justify-content:space-between;
+    padding: 20px 15px;
+    align-items: center;
+}
+
+.countdown_heading h4 {
+    color: #c6bfe0;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 21px;
+    letter-spacing: -0.32px;
+    max-width: 100px;
+}
+
+.countdown_lauout_timing {
+    text-align: center;
+    position: relative;
+}
+
+.countdown_lauout_timing h3 {
+    color: #c6bfe0;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: normal;
+    border: 1px solid #c6bfe0;
+    background: #faf9ff;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    margin: auto;
+}
+
+.countdown_lauout_timing p,
+.singlebanner_lauout1_content p {
+    color: #c6bfe0;
+    font-weight: 500;
+    line-height: normal;
+    letter-spacing: -0.16px;
+    font-size: 12px;
+    padding-top: 3px;
+}
+
+.countdown_lauout_timing span {
+    position: absolute;
+    top: -3px;
+    right: -18px;
+    font-size: 25px;
+    color: #c5bfe0;
+}
+
+.countdown_lauout_2 h3 {
+    border: none;
+    font-size: 28px;
+}
+
+.countdown_lauout_2 .countdown_lauout_timing span,
+.countdown_lauout_3 .countdown_lauout_timing span {
+    right: -100%;
+    transform: translateX(-13px);
+}
+
+.countdown_lauout_1.countdown_lauout_2,
+.countdown_lauout_1.countdown_lauout_3 {
+    padding: 20px 30px;
+}
+
+.countdown_lauout_1.countdown_lauout_3 {
+    display: block;
+}
+
+.countdown_lauout_inner3 {
+    display: flex;
+    justify-content: space-between;
+}
+
+.countdown_lauout_3 .countdown_heading h4,
+.countdown_lauout_4 .countdown_heading h4 {
+    text-align: center;
+    max-width: 100%;
+    margin-bottom: 10px;
+}
+
+.countdown_lauout_4 {
+    padding: 12px 25px;
+}
+
+.countdown_lauout_dbl h3 {
+    border-radius: 2px;
+    width: 26px;
+    background: #c6bfe0;
+    color: #fff;
+}
+
+.countdown_lauout_dbl {
+    display: flex;
+    gap: 1px;
+}
+
+.countdown_lauout_4 .countdown_lauout_timing span {
+    right: -19px;
+}
+.Sd_saveButtonCountdownWidgets{
+    text-align: right;
+    margin-top: 1rem;
+}
+
+.sd-sale-banner{
+  font-family: 'Roboto', sans-serif;
+  margin-top: 10px;
+}
+
+.sd-sale-banner p {
+    padding: 5px 10px 5px 10px;
+    text-align: center;
+    /* font-size: 2em */
+}
+
+.sd_floating-button {
+    position: fixed;
+    top: 50%;
+    bottom: 0;
+    right: 20px;
+    /* z-index: 99; */
+} 
+.sd_floating-container {
+    position: relative;
+}
+.sd_element-container {
+    width: 350px;
+    position: fixed;
+    top: 50%;
+    right: 95px;
+    z-index: -1;
+    transform: translate(0, -50%);
+    opacity: 0;
+    transition: all 1s ease-in-out 0s;
+}
+
+.sd_element-container.sd-show-birthyCard{
+    opacity: 1;
+    transition: all 1s ease-in-out 0s;
+    z-index: 9;
+}
+
+.sd_custom-manage-btn {
+    margin: 0px;
+    margin-left: 200px;
+    border-radius: 10px;
+}

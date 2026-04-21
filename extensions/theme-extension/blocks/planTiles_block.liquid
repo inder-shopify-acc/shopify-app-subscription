@@ -1,0 +1,39 @@
+<div id="advanced-membership-list-wrapper">
+</div>
+<style>
+#shopify-block-{{ block.id }}{
+    padding-top: {{ block.settings.top_padding}}px;
+    padding-bottom: {{ block.settings.bottom_padding}}px;
+ }
+</style>
+{% schema %}
+  {
+    "name": "Phoenix Membership plans",
+    "target": "section",
+    "disabled_on": {
+      "groups": ["footer","header"]
+    },
+    "settings":  [
+      {
+        "type": "paragraph",
+        "content": "Display all the plans at one place. This block can be added to any page template for easy access to membership plans."
+      },
+      {
+        "type": "range",
+        "id": "top_padding",
+        "default": 5,
+        "min":1,
+        "max":30,
+        "label": "Top Padding"
+      },
+      {
+        "type": "range",
+        "id": "bottom_padding",
+        "default": 5,
+        "min":1,
+        "max":30,
+        "label": "Bottom Padding"
+      }
+    ]
+  }
+{% endschema %}

@@ -1,0 +1,9 @@
+[[extensions]]
+name = "subscription-link"
+
+uid = "6d03b9f2-a131-2fb2-477e-0f5c88a337b3256fe3e4"
+
+type = "subscription_link_extension"
+handle = "subscription-link"
+
+pattern = "https://yulanda-unpanelled-superzealously.ngrok-free.dev/admin/subscription/subscriptions.php?shop={shop}&contract_id={contract_id}"

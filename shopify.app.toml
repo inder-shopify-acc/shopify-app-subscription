@@ -1,0 +1,37 @@
+# Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
+
+client_id = "832863ce2094a36ab44fe76683ea3c5c"
+application_url = "https://yulanda-unpanelled-superzealously.ngrok-free.dev/admin/install.php"
+embedded = true
+name = "Phoenix-neha"
+handle = "phoenixneha"
+
+[webhooks]
+api_version = "2025-04"
+
+[webhooks.privacy_compliance]
+  customer_deletion_url = "https://yulanda-unpanelled-superzealously.ngrok-free.dev/application/webhooks/GDPR/customers_redact.php"
+  customer_data_request_url = "https://yulanda-unpanelled-superzealously.ngrok-free.dev/application/webhooks/GDPR/customers_request.php"
+  shop_deletion_url = "https://yulanda-unpanelled-superzealously.ngrok-free.dev/application/webhooks/GDPR/shop_redact.php"
+
+[app_proxy]
+url = "https://yulanda-unpanelled-superzealously.ngrok-free.dev/admin/subscription/subscriptions.php"
+subpath = "your-subscription"
+prefix = "apps"
+
+[auth]
+redirect_urls = [
+  "https://yulanda-unpanelled-superzealously.ngrok-free.dev/admin/memberPlans.php?billingStatus=unattempted",
+  "https://yulanda-unpanelled-superzealously.ngrok-free.dev/admin/dashboard.php"
+]
+[access_scopes]
+# Learn more at https://shopify.dev/docs/apps/tools/cli/configuration#access_scopes
+scopes = "read_translations, read_themes, write_products, write_customers, write_orders, write_discounts, write_draft_orders, write_own_subscription_contracts, read_customer_payment_methods, read_shopify_payments_accounts, write_merchant_managed_fulfillment_orders, write_third_party_fulfillment_orders, write_price_rules, write_content, write_metaobjects, write_metaobject_definitions, unauthenticated_read_metaobjects, read_all_orders, write_publications, write_locations, read_returns, read_products, read_customers, read_orders, read_discounts, read_draft_orders, read_own_subscription_contracts, read_merchant_managed_fulfillment_orders, read_third_party_fulfillment_orders, read_price_rules, read_content, read_metaobjects, read_metaobject_definitions, read_publications, read_locations"
+[pos]
+embedded = false
+
+[build]
+
+
+
+
