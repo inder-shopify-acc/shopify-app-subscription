@@ -2436,19 +2436,19 @@ $(document).ready(function() {
 
     });
 
-    jQuery('body').on('input','#send_test_email', function(){ //new code updated on 16 march
+    jQuery('body').on('input', '#send_test_email', function() {
 
-        var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-        var check_email = jQuery(this).val();
+        const check_email = jQuery(this).val().trim();
 
-        if(check_email.match(mailformat)){
+        if (emailRegex.test(check_email)) {
 
             jQuery('#test_email_error').text('');
 
             jQuery('.sd_confirm_button').removeClass('btn-disable-loader');
 
-        }else{
+        } else {
 
             jQuery('#test_email_error').text('Enter Valid email');
 
@@ -6157,11 +6157,13 @@ $(document).ready(function() {
 
         let sd_customerMsg = $.trim(jQuery("#sd_customerMsg").val());
 
-        if (sd_customerName == '' || sd_customerEmail == '' || sd_customerShop == '' || sd_customerMsg == '') {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+        if (sd_customerName === '' || sd_customerEmail === '' || sd_customerShop === '' || sd_customerMsg === '') {
 
             displayMessage('Fill All the Fields', 'error');
 
-        } else if (!(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(sd_customerEmail))) {
+        } else if (!emailRegex.test(sd_customerEmail)) {
 
             displayMessage('Enter Valid Email', 'error');
 
@@ -6184,7 +6186,6 @@ $(document).ready(function() {
                     sd_customerMsg: sd_customerMsg,
 
                     mailHeading: mailHeading,
-
 
                 }
 

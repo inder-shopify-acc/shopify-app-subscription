@@ -5923,7 +5923,7 @@ jQuery('body').on('click', '.close_email_template_modal', function () {
 });
 
 jQuery('body').on('input', '#send_test_email_membership', function () {
-    let mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    let mailformat = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     let check_email = jQuery(this).val();
     if (check_email.match(mailformat)) {
         jQuery('#test_email_error').text('');
