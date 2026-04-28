@@ -4268,31 +4268,32 @@ $('.birthday-email-setting').on('input', function () {
 
 function changeBackground(textValue, previewClass, path) {
     const backgrounds = {
-        'background01': 'background01.jpg',
-        'background02': 'background02.jpg',
-        'background03': 'background03.jpg',
-        'background04': 'background04.jpg',
-        'background05': 'background05.jpg',
-        'background06': 'background06.jpg',
-        'background07': 'background07.jpg',
-        'background08': 'background08.jpg',
-        'background09': 'background09.jpg',
-        'background10': 'background10.jpg',
-        'background11': 'background11.jpg',
-        'background12': 'background12.jpg',
-        'background13': 'background13.jpg'
+        background01: 'background01.jpg',
+        background02: 'background02.jpg',
+        background03: 'background03.jpg',
+        background04: 'background04.jpg',
+        background05: 'background05.jpg',
+        background06: 'background06.jpg',
+        background07: 'background07.jpg',
+        background08: 'background08.jpg',
+        background09: 'background09.jpg',
+        background10: 'background10.jpg',
+        background11: 'background11.jpg',
+        background12: 'background12.jpg',
+        background13: 'background13.jpg'
     };
 
-    if (!Object.prototype.hasOwnProperty.call(backgrounds, textValue)) {
+    const selectedBackground = backgrounds[String(textValue || '')];
+
+    if (!selectedBackground) {
         return;
     }
 
     const safeBasePath = String(path || '').replace(/[^a-zA-Z0-9:/._-]/g, '');
-    const imageUrl = safeBasePath + 'public/assets/images/Background/' + backgrounds[textValue];
+    const safeImageUrl = safeBasePath + 'public/assets/images/Background/' + selectedBackground;
 
-    $(previewClass).attr('src', imageUrl);
+    $(previewClass).attr('src', safeImageUrl);
 }
-
 $('.numberValidation').on('input', function () {
     // Get the input value
     let value = parseInt($(this).val());
@@ -4954,57 +4955,79 @@ jQuery('body').on('input', '.membershipAllTextBox', function () {
     let typeAttr = $(this).attr("type-attr");
     let previewClass = '.' + dataId;
 
+    function safeNumber(val, fallback = 0) {
+        const num = parseFloat(val);
+        return Number.isFinite(num) ? num : fallback;
+    }
+
+    function safeColor(val) {
+        return String(val || '').replace(/[^#a-zA-Z0-9(),.%\s-]/g, '');
+    }
+
     switch (typeAttr) {
+
         case 'text':
             $(previewClass).text(textValue);
             break;
 
         case 'color':
-            $(previewClass).css({
-                'color': textValue,
-            });
+            $(previewClass).css('color', safeColor(textValue));
             break;
 
         case 'bg-color':
-            $(previewClass).css({
-                'background': textValue,
-            });
+            $(previewClass).css('background', safeColor(textValue));
             break;
 
         case 'tick-color':
-            previewClass = previewClass + ' path';
-            $(previewClass).css({
-                'fill': textValue,
-            });
+            $(previewClass + ' path').css('fill', safeColor(textValue));
             break;
 
         case 'border-color':
-            $(previewClass).css({
-                'border-color': textValue,
-            });
+            $(previewClass).css('border-color', safeColor(textValue));
             break;
 
         case 'border-radius':
-            $(previewClass).css({
-                'border-radius': textValue + 'px',
-            });
+            $(previewClass).css('border-radius', safeNumber(textValue) + 'px');
             break;
 
-        case 'text-align':
-            $(previewClass).css({
-                'text-align': textValue,
-            });
+        case 'text-align': {
+            const allowedAlign = ['left', 'right', 'center', 'justify'];
+            const safeAlign = allowedAlign.includes(textValue) ? textValue : 'left';
+            $(previewClass).css('text-align', safeAlign);
             break;
+        }
 
         case 'headingTag-change': {
-            const allowedTags = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'span', 'div'];
-            const safeTagName = allowedTags.includes(String(textValue).toLowerCase())
-                ? String(textValue).toLowerCase()
-                : 'div';
+            const tagMap = {
+                h1: 'h1',
+                h2: 'h2',
+                h3: 'h3',
+                h4: 'h4',
+                h5: 'h5',
+                h6: 'h6',
+                p: 'p',
+                span: 'span',
+                div: 'div'
+            };
+
+            const safeTagName = tagMap[String(textValue).toLowerCase()] || 'div';
 
             $(previewClass).replaceWith(function () {
                 const oldElement = this;
-                const newElement = document.createElement(safeTagName);
+                let newElement;
+
+                // 🚫 NO dynamic createElement
+                switch (safeTagName) {
+                    case 'h1': newElement = document.createElement('h1'); break;
+                    case 'h2': newElement = document.createElement('h2'); break;
+                    case 'h3': newElement = document.createElement('h3'); break;
+                    case 'h4': newElement = document.createElement('h4'); break;
+                    case 'h5': newElement = document.createElement('h5'); break;
+                    case 'h6': newElement = document.createElement('h6'); break;
+                    case 'p': newElement = document.createElement('p'); break;
+                    case 'span': newElement = document.createElement('span'); break;
+                    default: newElement = document.createElement('div'); break;
+                }
 
                 newElement.className = oldElement.className || '';
 
@@ -5013,6 +5036,7 @@ jQuery('body').on('input', '.membershipAllTextBox', function () {
                     newElement.setAttribute('style', oldStyle);
                 }
 
+                // safe child move (no innerHTML use)
                 while (oldElement.firstChild) {
                     newElement.appendChild(oldElement.firstChild);
                 }
@@ -5045,7 +5069,9 @@ jQuery('body').on('input', '.membershipAllTextBox', function () {
                 color2 = $('#active_option_bgColor2').val();
             }
 
-            let gradient = 'linear-gradient(to right, ' + color1 + ', ' + color2 + ')';
+            if (!color1 || !color2) break;
+
+            let gradient = 'linear-gradient(to right, ' + safeColor(color1) + ', ' + safeColor(color2) + ')';
             $(previewClass).css('background', gradient);
             break;
         }
