@@ -2658,10 +2658,16 @@ $(document).ready(function() {
             }else{
 
                 function sanitizeHtml(str) {
-                    return String(str)
-                        .replace(/<script.*?>.*?<\/script>/gi, '')
-                        .replace(/on\w+="[^"]*"/g, '')
-                        .replace(/javascript:/gi, '');
+                    const input = String(str == null ? '' : str);
+
+                    if (window.DOMPurify && typeof window.DOMPurify.sanitize === 'function') {
+                        return window.DOMPurify.sanitize(input);
+                    }
+
+                    // fallback → escape everything (safe but no HTML rendering)
+                    const div = document.createElement('div');
+                    div.textContent = input;
+                    return div.innerHTML;
                 }
 
                 jQuery('.' + content_div).html(sanitizeHtml(content_value));
