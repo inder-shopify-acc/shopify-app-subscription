@@ -4128,6 +4128,10 @@ $('body').on('change', '.sd_birthdayWishMsg', function () {
 $('.birthday-email-setting').on('input', function () {
     let textValue = $(this).val();
     let dataId = $(this).attr("data-id");
+    const safeDataId = String(dataId || '').replace(/[^a-zA-Z0-9_-]/g, '');
+    if (!safeDataId) {
+        return;
+    }
     let typeAttr = $(this).attr("type-attr");
 
     function safeUrl(value) {
@@ -4158,7 +4162,7 @@ $('.birthday-email-setting').on('input', function () {
         textValue = $(this).is(":checked") ? 1 : 0;
     }
 
-    let previewClass = '.' + dataId;
+    let previewClass = '.' + safeDataId;
 
     switch (typeAttr) {
         case 'text':
