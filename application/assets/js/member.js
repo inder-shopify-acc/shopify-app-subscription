@@ -87,21 +87,41 @@ jQuery('body').on('focusout', '#memberPlan_name', function () {
 });
 
 jQuery('body').on('click', '.show_another_option', function () {
+
     var option_html = selling_plan_option_form();
     var member_plan_option_length = jQuery('#' + parent_element + ' .member_plan_option_form').length;
+
     if (member_plan_option_length >= 2) {
         jQuery('#' + parent_element + ' .show_another_option').addClass('display-hide-label');
     }
-    jQuery('#' + parent_element + ' .selling_plan_options').append(
-        '<div class="Polaris-Card__Section member_plan_option_form" data-id="' + (
-            member_plan_option_length + 1) +
-        '"><div class="delete_selected_option"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" height="30" width="30" class="delete_selected_option"><path d="M8 3.994C8 2.893 8.895 2 10 2s2 .893 2 1.994h4c.552 0 1 .446 1 .997 0 .55-.448.997-1 .997H4c-.552 0-1-.447-1-.997s.448-.997 1-.997h4zM5 14.508V8h2v6.508a.5.5 0 00.5.498H9V8h2v7.006h1.5a.5.5 0 00.5-.498V8h2v6.508A2.496 2.496 0 0112.5 17h-5C6.12 17 5 15.884 5 14.508z" fill="#5C5F62"></path></svg></div>' +
-        option_html + '</div>');
-    // var selected_product_type = jQuery('input[name="add_member_product"]:checked').val();
-    // if(selected_product_type == 'custom_product'){
+
+    // 🔐 sanitize dynamic html
+    const safeOptionHtml = DOMPurify.sanitize(option_html);
+
+    // 🔐 safe wrapper create
+    var nextId = member_plan_option_length + 1;
+
+    var $wrapper = jQuery('<div>', {
+        class: 'Polaris-Card__Section member_plan_option_form',
+        'data-id': nextId
+    });
+
+    var $deleteBtn = jQuery('<div>', {
+        class: 'delete_selected_option'
+    }).html(`
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" height="30" width="30" class="delete_selected_option">
+            <path d="M8 3.994C8 2.893 8.895 2 10 2s2 .893 2 1.994h4c.552 0 1 .446 1 .997 0 .55-.448.997-1 .997H4c-.552 0-1-.447-1-.997s.448-.997 1-.997h4zM5 14.508V8h2v6.508a.5.5 0 00.5.498H9V8h2v7.006h1.5a.5.5 0 00.5-.498V8h2v6.508A2.496 2.496 0 0112.5 17h-5C6.12 17 5 15.884 5 14.508z" fill="#5C5F62"></path>
+        </svg>
+    `);
+
+    var $content = jQuery('<div>').html(safeOptionHtml);
+
+    $wrapper.append($deleteBtn, $content);
+
+    jQuery('#' + parent_element + ' .selling_plan_options').append($wrapper);
+
     jQuery('#' + parent_element + ' .subscription_discount_status_wrapper').addClass('display-hide-label');
     jQuery('#' + parent_element + ' .set_member_price').removeClass('display-hide-label');
-    // }
 });
 
 jQuery('body').on('click', '.delete_selected_option', function () {
@@ -1452,9 +1472,11 @@ jQuery('body').on('click', '.edit-membership-plan', async function () {
         } else {
             jQuery('.add_new_member_plan').html('');
         }
-        // add first member plan options
+  
+       // add first member plan options
         var selling_plan_options = selling_plan_option_form();
-        jQuery('#' + parent_element + ' .member_plan_option_form').html(selling_plan_options);
+        jQuery('#' + parent_element + ' .member_plan_option_form')
+            .html(DOMPurify.sanitize(selling_plan_options));
     } else {
         show_toast(ajaxResult.message, ajaxResult.isError);
     }
@@ -1466,168 +1488,352 @@ function remove_error_messages() {
     jQuery('.error_messages').text('');
 }
 
+
 function create_member_plan_card(edit_frequency_card_serial_no, db_edit_subscriptionplan_id, membergroupid, group_variant_id, new_card_no, product_id) {
     jQuery('.add-least-frequency-error').addClass('display-hide-label');
-    let frequencyType, card_class, subscription_plan_form_data, card_serial_no, case_type, edit_case_new_card =
-        "attr-edit-case-new-plan-array-index='" + new_card_no + "'";
-    if (db_edit_subscriptionplan_id.length) { // edit  whole subscription plan case
-        // parent_element = 'edit_memberPlan_wrapper';
-        if (membergroupid.length) { //already existing edit frequency case
+
+    function safeAttr(value) {
+        return String(value || '').replace(/[^a-zA-Z0-9_-]/g, '');
+    }
+
+    function safeText(value) {
+        return String(value ?? '');
+    }
+
+    function makeIconButtonSvg(type) {
+        if (type === 'edit') {
+            return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" height="20px" width="20px"><path d="M14.846 1.403l3.752 3.753.625-.626A2.653 2.653 0 0015.471.778l-.625.625zm2.029 5.472l-3.752-3.753L1.218 15.028 0 19.998l4.97-1.217L16.875 6.875z" fill="#5C5F62"></path></svg>';
+        }
+
+        return '<svg width="20" viewBox="0 0 20 20" height="20px"><path fill-rule="evenodd" d="M14 4h3a1 1 0 011 1v1H2V5a1 1 0 011-1h3V1.5A1.5 1.5 0 017.5 0h5A1.5 1.5 0 0114 1.5V4zM8 2v2h4V2H8zM3 8h14v10.5a1.5 1.5 0 01-1.5 1.5h-11A1.5 1.5 0 013 18.5V8zm4 3H5v6h2v-6zm4 0H9v6h2v-6zm2 0h2v6h-2v-6z" fill="#5C5F62"></path></svg>';
+    }
+
+    let frequencyType;
+    let card_class;
+    let subscription_plan_form_data;
+    let card_serial_no;
+    let case_type;
+    let edit_case_new_card_value = safeAttr(new_card_no);
+
+    if (db_edit_subscriptionplan_id.length) {
+        if (membergroupid.length) {
             card_class = "edit-case-already-plan";
             case_type = "update";
             checkexistingplanschange = true;
         } else {
             card_class = "edit-case-new-plan";
-            if (edit_frequency_card_serial_no.length) { //new add edit frequency case
+
+            if (edit_frequency_card_serial_no.length) {
                 case_type = "update";
-            } else { //new add  frequency case
+            } else {
                 case_type = "add";
-                edit_case_new_card = "attr-edit-case-new-plan-array-index='" +
-                    sd_subscription_edit_case_to_be_added_new_plans_array.length + "'";
+                edit_case_new_card_value = safeAttr(sd_subscription_edit_case_to_be_added_new_plans_array.length);
             }
         }
-    } else { // add whole subscription plan case
+    } else {
         card_class = "create-case-plan";
-        // parent_element = 'create_memberPlan_wrapper';
-        if (edit_frequency_card_serial_no.length) { //edit frequency case
+
+        if (edit_frequency_card_serial_no.length) {
             case_type = "update";
-        } else { //new frequency case   
+        } else {
             case_type = "add";
         }
     }
 
     if (case_type == "add") {
-        card_serial_no = sd_frequency_card_serialno;
+        card_serial_no = safeAttr(sd_frequency_card_serialno);
     } else {
-        card_serial_no = edit_frequency_card_serial_no;
-        jQuery("#sd_group_card_serialno_" + card_serial_no)
-            .remove(); // to remove in case of update only so that at same place new data can be inserted
+        card_serial_no = safeAttr(edit_frequency_card_serial_no);
+        jQuery("#sd_group_card_serialno_" + card_serial_no).remove();
     }
-    var html_group_plan_card = `<div ` + edit_case_new_card + ` id="sd_group_card_serialno_` + card_serial_no +
-        `" class="Polaris-Layout__Section Polaris-Layout__Section--oneThird sd-group-plan-card ` + card_class + `">
-            <div class="Polaris-Card1">
-                <div class="Polaris-HorizontalStack" style="--pc-horizontal-stack-block-align:center;--pc-horizontal-stack-wrap:wrap">
-                    <div class="member_plan_actions">
-                        <button class="edit_group_card Polaris-Button" type="button"` + edit_case_new_card +
-        ` attr-card-serial-no="` + card_serial_no + `" attr-id="` + membergroupid + `" attr-variant_id = "` + group_variant_id + `"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" height="20px" width="20px"><path d="M14.846 1.403l3.752 3.753.625-.626A2.653 2.653 0 0015.471.778l-.625.625zm2.029 5.472l-3.752-3.753L1.218 15.028 0 19.998l4.97-1.217L16.875 6.875z" fill="#5C5F62"></path></svg></button>
-                        <button class="remove-btn Polaris-Button delete_member_card" attr-card-serial-no="` +
-        card_serial_no + `" attr-id="` + membergroupid + `" attr-variant_id = "` + group_variant_id + `" attr-product-id="`+product_id+`">
-                            <svg width="20" viewBox="0 0 20 20" height="20px">
-                                <path fill-rule="evenodd" d="M14 4h3a1 1 0 011 1v1H2V5a1 1 0 011-1h3V1.5A1.5 1.5 0 017.5 0h5A1.5 1.5 0 0114 1.5V4zM8 2v2h4V2H8zM3 8h14v10.5a1.5 1.5 0 01-1.5 1.5h-11A1.5 1.5 0 013 18.5V8zm4 3H5v6h2v-6zm4 0H9v6h2v-6zm2 0h2v6h-2v-6z" fill="#5C5F62"></path>
-                            </svg>
-                        </button>
-                    </div>
-                </div>
 
-                     <div class="Polaris-Card__Section sd_frequency_section">
-                        <div class="Polaris-Card__SectionHeader">
-                           <div class="Polaris-Stack Polaris-Stack--alignmentBaseline sd_frequency_stack">
-                                <div class="Polaris-Stack__Item Polaris-Stack__Item--fill sd_frequencyPlans">
-                                   <img src= ${SHOPIFY_DOMAIN_URL + '/application/assets/images/membership_active_user1.png'} className="sd_active_user_image" />
-                                </div>
-                            </div>
-                        <ul class="Polaris-List">
-                           <div class="plans_options_List">
-                           <li class="Polaris-List__Item"> ${new_member_plans_array['member_plan_tier_name']}</li>
-                           <li class="Polaris-List__Item"><b>Member plan tier options</b></li>
-                           </div>
-                            <ul class="Polaris-List option_list">
-                            <div class="Polaris-FormLayout">
-                               <div role="group" class="Polaris-FormLayout--grouped">
-                               <div class="Polaris-FormLayout__Items">`;
-    jQuery.each(new_member_plans_array['member_plan_options'], function (index, obj) {
-        html_group_plan_card += `
-                                        <div class="Polaris-FormLayout__Item">
-                                            <div class="">
-                                                <div class="Polaris-Labelled__LabelWrapper">
-                                                    <div class="Polaris-Label">
-                                                    <label id=":R1mq6:Label" for=":R1mq6:" class="Polaris-Label__Text">${obj.option_charge_value} ${obj.option_charge_type}</label>
-                                                    </div>
-                                                </div>
-                                                <div class="Polaris-Connected">
-                                                    <div class="Polaris-Connected__Item Polaris-Connected__Item--primary">
-                                                        <span class="">${currency_code} ${obj.option_price}</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>`;
+    let safeMemberGroupId = safeAttr(membergroupid);
+    let safeGroupVariantId = safeAttr(group_variant_id);
+    let safeProductId = safeAttr(product_id);
+    let random_number_generate = Math.floor(Math.random() * 100);
+
+    let $card = jQuery('<div>', {
+        id: 'sd_group_card_serialno_' + card_serial_no,
+        class: 'Polaris-Layout__Section Polaris-Layout__Section--oneThird sd-group-plan-card ' + card_class
+    }).attr('attr-edit-case-new-plan-array-index', edit_case_new_card_value);
+
+    let $cardInner = jQuery('<div>', {
+        class: 'Polaris-Card1'
     });
-    html_group_plan_card += `</ul>
-                            </div>
-                            </div>`;
 
-    // console.log('checked popular_plan = ', new_member_plans_array['popular_plan']);
-    if (new_member_plans_array['popular_plan'] == '1') {
-        var check_checkbox = 'checked="' + check_checkbox + '"';
-    } else {
-        var check_checkbox = "";
+    let $stack = jQuery('<div>', {
+        class: 'Polaris-HorizontalStack'
+    }).attr('style', '--pc-horizontal-stack-block-align:center;--pc-horizontal-stack-wrap:wrap');
+
+    let $actions = jQuery('<div>', {
+        class: 'member_plan_actions'
+    });
+
+    let $editButton = jQuery('<button>', {
+        class: 'edit_group_card Polaris-Button',
+        type: 'button'
+    })
+        .attr('attr-edit-case-new-plan-array-index', edit_case_new_card_value)
+        .attr('attr-card-serial-no', card_serial_no)
+        .attr('attr-id', safeMemberGroupId)
+        .attr('attr-variant_id', safeGroupVariantId)
+        .html(makeIconButtonSvg('edit'));
+
+    let $deleteButton = jQuery('<button>', {
+        class: 'remove-btn Polaris-Button delete_member_card',
+        type: 'button'
+    })
+        .attr('attr-card-serial-no', card_serial_no)
+        .attr('attr-id', safeMemberGroupId)
+        .attr('attr-variant_id', safeGroupVariantId)
+        .attr('attr-product-id', safeProductId)
+        .html(makeIconButtonSvg('delete'));
+
+    $actions.append($editButton, $deleteButton);
+    $stack.append($actions);
+
+    let $section = jQuery('<div>', {
+        class: 'Polaris-Card__Section sd_frequency_section'
+    });
+
+    let $sectionHeader = jQuery('<div>', {
+        class: 'Polaris-Card__SectionHeader'
+    });
+
+    let $frequencyStack = jQuery('<div>', {
+        class: 'Polaris-Stack Polaris-Stack--alignmentBaseline sd_frequency_stack'
+    });
+
+    let $frequencyPlans = jQuery('<div>', {
+        class: 'Polaris-Stack__Item Polaris-Stack__Item--fill sd_frequencyPlans'
+    });
+
+    let $activeImg = jQuery('<img>', {
+        src: SHOPIFY_DOMAIN_URL + '/application/assets/images/membership_active_user1.png',
+        class: 'sd_active_user_image'
+    });
+
+    $frequencyPlans.append($activeImg);
+    $frequencyStack.append($frequencyPlans);
+    $sectionHeader.append($frequencyStack);
+
+    let $mainList = jQuery('<ul>', {
+        class: 'Polaris-List'
+    });
+
+    let $plansOptionsList = jQuery('<div>', {
+        class: 'plans_options_List'
+    });
+
+    jQuery('<li>', {
+        class: 'Polaris-List__Item',
+        text: safeText(new_member_plans_array['member_plan_tier_name'])
+    }).appendTo($plansOptionsList);
+
+    jQuery('<li>', {
+        class: 'Polaris-List__Item'
+    }).append(jQuery('<b>', { text: 'Member plan tier options' })).appendTo($plansOptionsList);
+
+    let $optionList = jQuery('<ul>', {
+        class: 'Polaris-List option_list'
+    });
+
+    let $formLayout = jQuery('<div>', {
+        class: 'Polaris-FormLayout'
+    });
+
+    let $group = jQuery('<div>', {
+        role: 'group',
+        class: 'Polaris-FormLayout--grouped'
+    });
+
+    let $items = jQuery('<div>', {
+        class: 'Polaris-FormLayout__Items'
+    });
+
+    jQuery.each(new_member_plans_array['member_plan_options'], function (index, obj) {
+        let $item = jQuery('<div>', {
+            class: 'Polaris-FormLayout__Item'
+        });
+
+        let $wrapper = jQuery('<div>');
+
+        let $labelWrapper = jQuery('<div>', {
+            class: 'Polaris-Labelled__LabelWrapper'
+        });
+
+        let $labelDiv = jQuery('<div>', {
+            class: 'Polaris-Label'
+        });
+
+        let $label = jQuery('<label>', {
+            id: ':R1mq6:Label',
+            for: ':R1mq6:',
+            class: 'Polaris-Label__Text',
+            text: safeText(obj.option_charge_value) + ' ' + safeText(obj.option_charge_type)
+        });
+
+        $labelDiv.append($label);
+        $labelWrapper.append($labelDiv);
+
+        let $connected = jQuery('<div>', {
+            class: 'Polaris-Connected'
+        });
+
+        let $connectedItem = jQuery('<div>', {
+            class: 'Polaris-Connected__Item Polaris-Connected__Item--primary'
+        });
+
+        let $priceSpan = jQuery('<span>', {
+            class: '',
+            text: safeText(currency_code) + ' ' + safeText(obj.option_price)
+        });
+
+        $connectedItem.append($priceSpan);
+        $connected.append($connectedItem);
+        $wrapper.append($labelWrapper, $connected);
+        $item.append($wrapper);
+        $items.append($item);
+    });
+
+    $group.append($items);
+    $formLayout.append($group);
+    $optionList.append($formLayout);
+    $mainList.append($plansOptionsList, $optionList);
+
+    let check_checkbox = new_member_plans_array['popular_plan'] == '1';
+
+    let $popularPlan = jQuery('<div>', {
+        class: 'sd_popular_plan'
+    });
+
+    let $popularLabel = jQuery('<label>', {
+        class: 'Polaris-Choice Polaris-Checkbox__ChoiceLabel',
+        for: random_number_generate + '_popular_plan'
+    });
+
+    let $choiceControl = jQuery('<span>', {
+        class: 'Polaris-Choice__Control'
+    });
+
+    let $checkboxSpan = jQuery('<span>', {
+        class: 'Polaris-Checkbox'
+    });
+
+    let $popularInput = jQuery('<input>', {
+        id: random_number_generate + '_popular_plan',
+        value: safeText(new_member_plans_array['member_plan_tier_name']),
+        name: 'popular_plan',
+        type: 'checkbox',
+        class: 'Polaris-Checkbox__Input popular_plan_checkbox',
+        'aria-invalid': 'false',
+        role: 'checkbox',
+        'aria-checked': 'false'
+    }).attr('attr-id', safeMemberGroupId);
+
+    if (check_checkbox) {
+        $popularInput.prop('checked', true);
     }
-    random_number_generate = Math.floor(Math.random() * 100);
-    html_group_plan_card +=
-        `</ul></div>
-                        <div class="sd_popular_plan">
-                            <label class="Polaris-Choice Polaris-Checkbox__ChoiceLabel" for="` +
-        random_number_generate + `_popular_plan">
-                                <span class="Polaris-Choice__Control">
-                                    <span class="Polaris-Checkbox">
-                                    <input id="` + random_number_generate +
-        `_popular_plan"  value =  "` + new_member_plans_array['member_plan_tier_name'] +
-        `" name="popular_plan" attr-id="` + membergroupid + `" type="checkbox" class="Polaris-Checkbox__Input popular_plan_checkbox" aria-invalid="false" role="checkbox" aria-checked="false" ` +
-        check_checkbox + `>
-                                    <span class="Polaris-Checkbox__Backdrop">
-                                    </span>
-                                    <span class="Polaris-Checkbox__Icon">
-                                        <span class="Polaris-Icon">
-                                        <span class="Polaris-Text--root Polaris-Text--visuallyHidden">
-                                        </span>
-                                        <svg viewBox="0 0 20 20" class="Polaris-Icon__Svg" focusable="false" aria-hidden="true">
-                                            <path fill-rule="evenodd" d="M14.03 7.22a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06 0l-2.25-2.25a.75.75 0 1 1 1.06-1.06l1.72 1.72 3.97-3.97a.75.75 0 0 1 1.06 0Z">
-                                            </path>
-                                        </svg>
-                                        </span>
-                                    </span>
-                                    </span>
-                                </span>
-                                <span class="Polaris-Choice__Label">
-                                    <span>Make this plan popular</span>
-                                </span>
-                            </label>
-                        </div>
-                        </div>`;
-    if (case_type == "add") { //new add frequency case
-        jQuery('#' + parent_element).find('.sd-group-plan-card-wrapper .add_new_member_plan').before(
-            html_group_plan_card);
-        sd_frequency_card_serialno++; // increment the number of card for the next move once current is done
+
+    let $backdrop = jQuery('<span>', {
+        class: 'Polaris-Checkbox__Backdrop'
+    });
+
+    let $checkboxIcon = jQuery('<span>', {
+        class: 'Polaris-Checkbox__Icon'
+    }).html(
+        '<span class="Polaris-Icon">' +
+            '<span class="Polaris-Text--root Polaris-Text--visuallyHidden"></span>' +
+            '<svg viewBox="0 0 20 20" class="Polaris-Icon__Svg" focusable="false" aria-hidden="true">' +
+                '<path fill-rule="evenodd" d="M14.03 7.22a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06 0l-2.25-2.25a.75.75 0 1 1 1.06-1.06l1.72 1.72 3.97-3.97a.75.75 0 0 1 1.06 0Z"></path>' +
+            '</svg>' +
+        '</span>'
+    );
+
+    $checkboxSpan.append($popularInput, $backdrop, $checkboxIcon);
+    $choiceControl.append($checkboxSpan);
+
+    let $choiceLabel = jQuery('<span>', {
+        class: 'Polaris-Choice__Label'
+    }).append(jQuery('<span>', { text: 'Make this plan popular' }));
+
+    $popularLabel.append($choiceControl, $choiceLabel);
+    $popularPlan.append($popularLabel);
+
+    $section.append($sectionHeader, $mainList, $popularPlan);
+    $cardInner.append($stack, $section);
+    $card.append($cardInner);
+
+    if (case_type == "add") {
+        jQuery('#' + parent_element)
+            .find('.sd-group-plan-card-wrapper .add_new_member_plan')
+            .before($card);
+
+        sd_frequency_card_serialno++;
     } else {
-        //edit frequency case
-        jQuery('#' + parent_element).find('#sd_group_card_serialno_' + card_serial_no).remove();
+        jQuery('#' + parent_element)
+            .find('#sd_group_card_serialno_' + card_serial_no)
+            .remove();
+
         if (card_serial_no == 0) {
-            jQuery('#' + parent_element).find('.sd-group-plan-card-wrapper .add_new_member_plan').before(
-                html_group_plan_card);
+            jQuery('#' + parent_element)
+                .find('.sd-group-plan-card-wrapper .add_new_member_plan')
+                .before($card);
         } else {
-            let before_elements = parseInt(card_serial_no) - parseInt(1);
-            jQuery('#' + parent_element).find("#sd_group_card_serialno_" + before_elements).after(
-                html_group_plan_card);
+            let before_elements = parseInt(card_serial_no) - 1;
+
+            jQuery('#' + parent_element)
+                .find("#sd_group_card_serialno_" + before_elements)
+                .after($card);
         }
     }
+
     if (jQuery('.sd-group-plan-card').length <= 2) {
-        jQuery('.add_new_member_plan').html(
-            `<div class="Polaris-Layout__Section Polaris-Layout__Section--oneThird">
-                        <div class="Polaris-Card1">
-                            <div class="Polaris-Card__Section sd_frequency_section sd_add_new_plan go-to-step2" attr-form-type="new" attr-form-id="" style="height:330px;">
-                                <div class="MuiBox-root css-1mq8drp" role="presentation" tabindex="0"><div class="MuiBox-root css-1t5p1px"><div class="MuiStack-root upload-placeholder css-ims6kp"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width="32"><path d="M6.25 10a.75.75 0 0 1 .75-.75h2.25v-2.25a.75.75 0 0 1 1.5 0v2.25h2.25a.75.75 0 0 1 0 1.5h-2.25v2.25a.75.75 0 0 1-1.5 0v-2.25h-2.25a.75.75 0 0 1-.75-.75Z" fill="#5C5F62"></path><path fill-rule="evenodd" d="M10 17a7 7 0 1 0 0-14 7 7 0 0 0 0 14Zm0-1.5a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11Z" fill="#5C5F62"></path></svg><span class="MuiTypography-root MuiTypography-caption css-176slt">Add new tier</span></div></div></div>
-                            </div>
-                        </div>
-                    </div>`);
+        let $addPlanWrapper = jQuery('<div>', {
+            class: 'Polaris-Layout__Section Polaris-Layout__Section--oneThird'
+        });
+
+        let $addPlanCard = jQuery('<div>', {
+            class: 'Polaris-Card1'
+        });
+
+        let $addPlanSection = jQuery('<div>', {
+            class: 'Polaris-Card__Section sd_frequency_section sd_add_new_plan go-to-step2'
+        })
+            .attr('attr-form-type', 'new')
+            .attr('attr-form-id', '')
+            .css('height', '330px');
+
+        $addPlanSection.html(
+            '<div class="MuiBox-root css-1mq8drp" role="presentation" tabindex="0">' +
+                '<div class="MuiBox-root css-1t5p1px">' +
+                    '<div class="MuiStack-root upload-placeholder css-ims6kp">' +
+                        '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width="32">' +
+                            '<path d="M6.25 10a.75.75 0 0 1 .75-.75h2.25v-2.25a.75.75 0 0 1 1.5 0v2.25h2.25a.75.75 0 0 1 0 1.5h-2.25v2.25a.75.75 0 0 1-1.5 0v-2.25h-2.25a.75.75 0 0 1-.75-.75Z" fill="#5C5F62"></path>' +
+                            '<path fill-rule="evenodd" d="M10 17a7 7 0 1 0 0-14 7 7 0 0 0 0 14Zm0-1.5a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11Z" fill="#5C5F62"></path>' +
+                        '</svg>' +
+                        '<span class="MuiTypography-root MuiTypography-caption css-176slt">Add new tier</span>' +
+                    '</div>' +
+                '</div>' +
+            '</div>'
+        );
+
+        $addPlanCard.append($addPlanSection);
+        $addPlanWrapper.append($addPlanCard);
+
+        jQuery('.add_new_member_plan').empty().append($addPlanWrapper);
     } else {
-        jQuery('.add_new_member_plan').html('');
+        jQuery('.add_new_member_plan').empty();
     }
 
-    jQuery('#sd_add_frequency_span').html('Add Frequency');
+    jQuery('#sd_add_frequency_span').text('Add Frequency');
     jQuery('#sd_add_group').removeClass('update_member_plan');
     jQuery('.edit_frequency_button_group').addClass('display-hide-label');
-    reset_form("sd-subscription-group-form"); // reset form for new entry
+    reset_form("sd-subscription-group-form");
 }
+
+
+
 // const okButton_existing_product = Button.create(app, {
 //     label: 'Ok'
 // });

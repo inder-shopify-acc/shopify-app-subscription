@@ -2463,36 +2463,106 @@ jQuery("#selected-perks-data").change(function () {
 /********************************************************* END ************************************************/
 /************************************************************ End  **************************/
 
-// Remove colletion from product or collection perks
+// Remove collection from product or collection perks
 jQuery('body').on('click', '#edit-RemoveSelectedDiscountField', function () {
+    var getTierValue = String(jQuery(this).val() || '').replace(/[^a-zA-Z0-9_-]/g, '');
 
-    var getTierValue = jQuery(this).val();
-    jQuery(".edit-selected-collectionbox-" + getTierValue).empty();
-    jQuery('.edit-selected-collectionbox-' + getTierValue).html(`
-                    <div class="Polaris-FormLayout__Item">
-                        <button class="Polaris-Button edit-collectionDiscountApplied" id="edit-collectionDiscountApplied-${getTierValue}" type="button" edit-SelectedCollectionButton-attr="${getTierValue}"><span class="Polaris-Button__Content"><span class="Polaris-Button__Icon"><span class="Polaris-Icon"><svg viewBox="0 0 20 20" class="Polaris-Icon__Svg" focusable="false" aria-hidden="true"><path d="M8 12a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm9.707 4.293-4.82-4.82a5.968 5.968 0 0 0 1.113-3.473 6 6 0 0 0-12 0 6 6 0 0 0 6 6 5.968 5.968 0 0 0 3.473-1.113l4.82 4.82a.997.997 0 0 0 1.414 0 .999.999 0 0 0 0-1.414z"></path></svg></span></span><span class="Polaris-Button__Text">Select a Collection</span></span>
-                        </button>
-                        <div class="Polaris-FormLayout__Items edit-sd_selected_existing_collection-${getTierValue}" id="sd_selected_existing_collection_id"></div>
-                        <div class="Polaris-FormLayout__Items edit-sd_selected_existing_collection-Error-${getTierValue}" id="sd_selected_existing_collection_id" style="color:red;display:none;">Required Field!</div>
-                    </div>
-                `);
+    var $wrapper = jQuery(".edit-selected-collectionbox-" + getTierValue);
+    $wrapper.empty();
+
+    var $item = jQuery('<div>', {
+        class: 'Polaris-FormLayout__Item'
+    });
+
+    var $button = jQuery('<button>', {
+        class: 'Polaris-Button edit-collectionDiscountApplied',
+        id: 'edit-collectionDiscountApplied-' + getTierValue,
+        type: 'button'
+    }).attr('edit-SelectedCollectionButton-attr', getTierValue);
+
+    $button.html(
+        '<span class="Polaris-Button__Content">' +
+            '<span class="Polaris-Button__Icon">' +
+                '<span class="Polaris-Icon">' +
+                    '<svg viewBox="0 0 20 20" class="Polaris-Icon__Svg" focusable="false" aria-hidden="true">' +
+                        '<path d="M8 12a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm9.707 4.293-4.82-4.82a5.968 5.968 0 0 0 1.113-3.473 6 6 0 0 0-12 0 6 6 0 0 0 6 6 5.968 5.968 0 0 0 3.473-1.113l4.82 4.82a.997.997 0 0 0 1.414 0 .999.999 0 0 0 0-1.414z"></path>' +
+                    '</svg>' +
+                '</span>' +
+            '</span>' +
+            '<span class="Polaris-Button__Text">Select a Collection</span>' +
+        '</span>'
+    );
+
+    var $selectedCollectionBox = jQuery('<div>', {
+        class: 'Polaris-FormLayout__Items edit-sd_selected_existing_collection-' + getTierValue,
+        id: 'sd_selected_existing_collection_id'
+    });
+
+    var $errorBox = jQuery('<div>', {
+        class: 'Polaris-FormLayout__Items edit-sd_selected_existing_collection-Error-' + getTierValue,
+        id: 'sd_selected_existing_collection_error_id',
+        text: 'Required Field!'
+    }).css({
+        color: 'red',
+        display: 'none'
+    });
+
+    $item.append($button, $selectedCollectionBox, $errorBox);
+    $wrapper.append($item);
+
     jQuery('.edit-sd_selected_existing_collection-' + getTierValue).empty();
 });
 
 // Remove specific product
 jQuery('body').on('click', '#edit-RemoveSelected_productDiscountField', function () {
+    var getTierValue = String(jQuery(this).val() || '').replace(/[^a-zA-Z0-9_-]/g, '');
 
-    var getTierValue = jQuery(this).val();
-    jQuery(".edit-selected-selectproductbox-" + getTierValue).empty();
-    jQuery('.edit-selected-selectproductbox-' + getTierValue).html(`
-                    <div class="Polaris-FormLayout__Item">
-                         <button class="Polaris-Button edit-specificProduct_DiscountApplied" id="edit-specificProduct_DiscountApplied-${getTierValue}" type="button" edit-SelectedCollectionButton-attr="${getTierValue}"><span class="Polaris-Button__Content"><span class="Polaris-Button__Icon"><span class="Polaris-Icon"><svg viewBox="0 0 20 20" class="Polaris-Icon__Svg" focusable="false" aria-hidden="true"><path d="M8 12a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm9.707 4.293-4.82-4.82a5.968 5.968 0 0 0 1.113-3.473 6 6 0 0 0-12 0 6 6 0 0 0 6 6 5.968 5.968 0 0 0 3.473-1.113l4.82 4.82a.997.997 0 0 0 1.414 0 .999.999 0 0 0 0-1.414z"></path></svg></span></span><span class="Polaris-Button__Text">Select a Product</span></span>
-                            </button>
-                            <div class="Polaris-FormLayout__Items edit-sd_selected_existing_specificProduct-${getTierValue}" id="sd_selected_existing_collection_specificProduct_id" style="width:50%;"></div>
-                            <div class="Polaris-FormLayout__Items edit-sd_selected_existing_product-Error-${getTierValue}" id="sd_selected_existing_product_id" style="color:red;display:none;">Required Field!</div>
-                    </div>
-                `);
+    var $wrapper = jQuery(".edit-selected-selectproductbox-" + getTierValue);
+    $wrapper.empty();
+
+    var $item = jQuery('<div>', {
+        class: 'Polaris-FormLayout__Item'
+    });
+
+    var $button = jQuery('<button>', {
+        class: 'Polaris-Button edit-specificProduct_DiscountApplied',
+        id: 'edit-specificProduct_DiscountApplied-' + getTierValue,
+        type: 'button'
+    }).attr('edit-SelectedCollectionButton-attr', getTierValue);
+
+    $button.html(
+        '<span class="Polaris-Button__Content">' +
+            '<span class="Polaris-Button__Icon">' +
+                '<span class="Polaris-Icon">' +
+                    '<svg viewBox="0 0 20 20" class="Polaris-Icon__Svg" focusable="false" aria-hidden="true">' +
+                        '<path d="M8 12a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm9.707 4.293-4.82-4.82a5.968 5.968 0 0 0 1.113-3.473 6 6 0 0 0-12 0 6 6 0 0 0 6 6 5.968 5.968 0 0 0 3.473-1.113l4.82 4.82a.997.997 0 0 0 1.414 0 .999.999 0 0 0 0-1.414z"></path>' +
+                    '</svg>' +
+                '</span>' +
+            '</span>' +
+            '<span class="Polaris-Button__Text">Select a Product</span>' +
+        '</span>'
+    );
+
+    var $selectedProductBox = jQuery('<div>', {
+        class: 'Polaris-FormLayout__Items edit-sd_selected_existing_specificProduct-' + getTierValue,
+        id: 'sd_selected_existing_collection_specificProduct_id'
+    }).css('width', '50%');
+
+    var $errorBox = jQuery('<div>', {
+        class: 'Polaris-FormLayout__Items edit-sd_selected_existing_product-Error-' + getTierValue,
+        id: 'sd_selected_existing_product_id',
+        text: 'Required Field!'
+    }).css({
+        color: 'red',
+        display: 'none'
+    });
+
+    $item.append($button, $selectedProductBox, $errorBox);
+    $wrapper.append($item);
 });
+
+
+
 /**
     * For edit the
     * Selected the discount applies to
@@ -3511,12 +3581,25 @@ jQuery('body').on('click', '.remove-discountedProductVariant', function () {
     discountedCollectionObjId = [];
 });
 
-
 $('.birthdayFormAllTextBox').on('input', function () {
     let textValue = $(this).val();
     let dataId = $(this).attr("data-id");
     let typeAttr = $(this).attr("type-attr");
     let previewClass = '.' + dataId;
+
+    function safeUrl(value) {
+        try {
+            const url = new URL(String(value || ''), window.location.origin);
+            return ['http:', 'https:'].includes(url.protocol) ? url.href : '';
+        } catch (e) {
+            return '';
+        }
+    }
+
+    function safeNumber(value, fallback = 0) {
+        const number = parseFloat(value);
+        return Number.isFinite(number) ? number : fallback;
+    }
 
     switch (typeAttr) {
         case 'text':
@@ -3524,66 +3607,57 @@ $('.birthdayFormAllTextBox').on('input', function () {
             break;
 
         case 'color':
-            $(previewClass).css({
-                'color': textValue,
-            });
+            $(previewClass).css('color', textValue);
             break;
+
         case 'bg-color':
-            $(previewClass).css({
-                'background': textValue,
-            });
+            $(previewClass).css('background', textValue);
             break;
 
         case 'border-color':
-            $(previewClass).css({
-                'border-color': textValue,
-            });
+            $(previewClass).css('border-color', textValue);
             break;
 
         case 'border-radius':
-            $(previewClass).css({
-                'border-radius': textValue + 'px',
-            });
+            $(previewClass).css('border-radius', safeNumber(textValue) + 'px');
             break;
 
         case 'font-size':
-            $(previewClass).css({
-                'font-size': textValue + 'px',
-            });
+            $(previewClass).css('font-size', safeNumber(textValue) + 'px');
             break;
 
         case 'width':
-            $(previewClass).css({
-                'width': textValue + 'px',
-            });
+            $(previewClass).css('width', safeNumber(textValue) + 'px');
             break;
 
         case 'height':
-            $(previewClass).css({
-                'height': textValue + 'px',
-            });
+            $(previewClass).css('height', safeNumber(textValue) + 'px');
             break;
 
         case 'image':
-            $(previewClass).attr({
-                'src': textValue,
-            });
+            $(previewClass).attr('src', safeUrl(textValue));
             break;
 
-        case 'gradient-color':
-            var gradientCode = $(this).attr("gradient-code");
+        case 'gradient-color': {
+            let gradientCode = $(this).attr("gradient-code");
+            let color1 = '';
+            let color2 = '';
 
             if (gradientCode == 'cardBgColor') {
-                var color1 = $('#card_bg_color1').val();
-                var color2 = $('#card_bg_color2').val();
+                color1 = $('#card_bg_color1').val();
+                color2 = $('#card_bg_color2').val();
+            }
+
+            if (!color1 || !color2) {
+                break;
             }
 
             let gradient = 'linear-gradient(to right, ' + color1 + ', ' + color2 + ')';
             $(previewClass).css('background', gradient);
             break;
+        }
     }
 });
-
 
 
 jQuery("body").on("click", ".sd_save_birthday_widget", async function () {
@@ -4051,20 +4125,44 @@ $('body').on('change', '.sd_birthdayWishMsg', function () {
     }
 });
 
-
 $('.birthday-email-setting').on('input', function () {
     let textValue = $(this).val();
     let dataId = $(this).attr("data-id");
+    const safeDataId = String(dataId || '').replace(/[^a-zA-Z0-9_-]/g, '');
+    if (!safeDataId) {
+        return;
+    }
     let typeAttr = $(this).attr("type-attr");
+
+    function safeUrl(value) {
+        try {
+            const url = new URL(String(value || ''), window.location.origin);
+            return ['http:', 'https:', 'mailto:', 'tel:'].includes(url.protocol) ? url.href : '';
+        } catch (e) {
+            return '';
+        }
+    }
+
+    function safeNumber(value, fallback = 0) {
+        const number = parseFloat(value);
+        return Number.isFinite(number) ? number : fallback;
+    }
+
+    function safeTextToHtmlWithBreaks(value) {
+        return String(value || '')
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#039;')
+            .replace(/\n/g, '<br>');
+    }
 
     if (typeAttr == "checkbox") {
         textValue = $(this).is(":checked") ? 1 : 0;
     }
 
-    console.log(textValue, 'value')
-    console.log(dataId, 'dataId')
-    console.log(typeAttr, 'typeAttr')
-    let previewClass = '.' + dataId;
+    let previewClass = '.' + safeDataId;
 
     switch (typeAttr) {
         case 'text':
@@ -4072,148 +4170,134 @@ $('.birthday-email-setting').on('input', function () {
             break;
 
         case 'href':
-            console.log(previewClass, 'previewClass');
-            console.log(textValue, 'textValue');
-            $(previewClass).attr("href", textValue);
+            $(previewClass).attr("href", safeUrl(textValue));
             break;
 
         case 'checkbox':
-            if (textValue) {
-                $(previewClass).css("display", "block");
-            } else {
-                $(previewClass).css("display", "none");
-            }
+            $(previewClass).css("display", textValue ? "block" : "none");
             break;
 
         case 'color':
-            $(previewClass).css({
-                'color': textValue,
-            });
+            $(previewClass).css('color', textValue);
             break;
+
         case 'bg-color':
-            $(previewClass).css({
-                'background': textValue,
-            });
+            $(previewClass).css('background', textValue);
             break;
 
         case 'border-color':
-            $(previewClass).css({
-                'border-color': textValue,
-            });
+            $(previewClass).css('border-color', textValue);
             break;
 
         case 'border-radius':
-            $(previewClass).css({
-                'border-radius': textValue + 'px',
-            });
+            $(previewClass).css('border-radius', safeNumber(textValue) + 'px');
             break;
 
         case 'font-size':
-            $(previewClass).css({
-                'font-size': textValue + 'px',
-            });
+            $(previewClass).css('font-size', safeNumber(textValue) + 'px');
             break;
 
         case 'width':
-            $(previewClass).css({
-                'width': textValue + 'px',
-            });
+            $(previewClass).css('width', safeNumber(textValue) + 'px');
             break;
 
         case 'opacity':
-            $(previewClass).css({
-                'opacity': textValue + '%',
-            });
+            $(previewClass).css('opacity', safeNumber(textValue) / 100);
             break;
 
-        case 'bg-opacity':
+        case 'bg-opacity': {
             let bgColor = $('.message-bg-div').css('background-color');
-            let rgbaComponents = bgColor.match(/\d+/g);
+            let rgbaComponents = bgColor ? bgColor.match(/\d+/g) : null;
 
-            if (rgbaComponents.length === 3) {
-                rgbaComponents.push('1'); // Default alpha value if not present
+            if (!rgbaComponents || rgbaComponents.length < 3) {
+                break;
             }
-            let alphaValue = parseFloat(textValue) / 100;
+
+            let alphaValue = Math.max(0, Math.min(1, safeNumber(textValue) / 100));
+
             $(previewClass).css(
-                'background-color', 'rgba(' + rgbaComponents[0] + ', ' + rgbaComponents[1] + ', ' + rgbaComponents[2] + ', ' + alphaValue + ')'
+                'background-color',
+                'rgba(' + rgbaComponents[0] + ', ' + rgbaComponents[1] + ', ' + rgbaComponents[2] + ', ' + alphaValue + ')'
             );
             break;
-
-        case 'background-color': {
-            $(previewClass).css({
-                'background-color': textValue,
-            });
         }
+
+        case 'background-color':
+            $(previewClass).css('background-color', textValue);
+            break;
+
         case 'height':
-            $(previewClass).css({
-                'height': textValue + 'px',
-            });
+            $(previewClass).css('height', safeNumber(textValue) + 'px');
             break;
 
         case 'image':
-            $(previewClass).attr({
-                'src': textValue,
-            });
+            $(previewClass).attr('src', safeUrl(textValue));
             break;
 
         case 'border-width':
-            $(previewClass).css({
-                'border-width': textValue + 'px',
-            });
+            $(previewClass).css('border-width', safeNumber(textValue) + 'px');
             break;
 
         case 'text-area':
-            textValue = textValue.replace(/\n/g, '<br>');
-            $(previewClass).html(textValue);
+            $(previewClass).html(safeTextToHtmlWithBreaks(textValue));
             $('.sd_help_msg').text('Use <br> tags to break line');
             break;
 
-        case 'bg_image':
+        case 'bg_image': {
             let path = $(this).attr("path-id");
-            console.log('hhhh')
             changeBackground(textValue, previewClass, path);
             break;
+        }
 
-        case 'gradient-color':
-            var gradientCode = $(this).attr("gradient-code");
-            console.log('gradientCode');
-            console.log(gradientCode);
-            console.log('previewClass');
-            console.log(previewClass);
+        case 'gradient-color': {
+            let gradientCode = $(this).attr("gradient-code");
+            let color1 = '';
+            let color2 = '';
 
             if (gradientCode == 'cardBgColor') {
-                var color1 = $('#card_bg_color1').val();
-                var color2 = $('#card_bg_color2').val();
+                color1 = $('#card_bg_color1').val();
+                color2 = $('#card_bg_color2').val();
+            }
+
+            if (!color1 || !color2) {
+                break;
             }
 
             let gradient = 'linear-gradient(to right, ' + color1 + ', ' + color2 + ')';
-            console.log('gradient');
-            console.log(gradient);
             $(previewClass).css('background', gradient);
             break;
+        }
     }
 });
 
 function changeBackground(textValue, previewClass, path) {
     const backgrounds = {
-        'background01': 'background01.jpg',
-        'background02': 'background02.jpg',
-        'background03': 'background03.jpg',
-        'background04': 'background04.jpg',
-        'background05': 'background05.jpg',
-        'background06': 'background06.jpg',
-        'background07': 'background07.jpg',
-        'background08': 'background08.jpg',
-        'background09': 'background09.jpg',
-        'background10': 'background10.jpg',
-        'background11': 'background11.jpg',
-        'background12': 'background12.jpg',
-        'background13': 'background13.jpg'
+        background01: 'background01.jpg',
+        background02: 'background02.jpg',
+        background03: 'background03.jpg',
+        background04: 'background04.jpg',
+        background05: 'background05.jpg',
+        background06: 'background06.jpg',
+        background07: 'background07.jpg',
+        background08: 'background08.jpg',
+        background09: 'background09.jpg',
+        background10: 'background10.jpg',
+        background11: 'background11.jpg',
+        background12: 'background12.jpg',
+        background13: 'background13.jpg'
     };
-    const imageUrl = path + 'public/assets/images/Background/' + backgrounds[textValue];
-    $(previewClass).attr('src', imageUrl);
-}
 
+    const selectedBackground = backgrounds[String(textValue || '')];
+
+    if (!selectedBackground) {
+        return;
+    }
+
+    const safeBasePath = String(path || '').replace(/[^a-zA-Z0-9:/._-]/g, '');
+    const safeImageUrl = safeBasePath + 'public/assets/images/Background/' + selectedBackground;
+
+    $(previewClass).attr('src', safeImageUrl);
+}
 $('.numberValidation').on('input', function () {
     // Get the input value
     let value = parseInt($(this).val());
@@ -4748,7 +4832,7 @@ jQuery("body").on('change', '.sd_select_option', function (e) {
 
 jQuery("body").on("change", ".Polaris-Select__Input", function () {
     let selected_option_value = jQuery(this).val();
-    jQuery(this).parent().find(".Polaris-Select__SelectedOption").html(selected_option_value);
+    jQuery(this).parent().find(".Polaris-Select__SelectedOption").text(selected_option_value);
 });
 
 jQuery("body").on("change", ".sd_set_anchor_date", function () {
@@ -4869,65 +4953,108 @@ jQuery('body').on('input', '.tier_option_price, .option_charge_value, .per_deliv
 });
 
 
-
 jQuery('body').on('input', '.membershipAllTextBox', function () {
-    // console.log('first')
     let textValue = $(this).val();
-    console.log(textValue, 'val')
     let dataId = $(this).attr("data-id");
-    console.log(dataId, 'dataId')
     let typeAttr = $(this).attr("type-attr");
-    console.log(typeAttr, 'dataId')
     let previewClass = '.' + dataId;
+
+    function safeNumber(val, fallback = 0) {
+        const num = parseFloat(val);
+        return Number.isFinite(num) ? num : fallback;
+    }
+
+    function safeColor(val) {
+        return String(val || '').replace(/[^#a-zA-Z0-9(),.%\s-]/g, '');
+    }
+
     switch (typeAttr) {
+
         case 'text':
             $(previewClass).text(textValue);
             break;
+
         case 'color':
-            $(previewClass).css({
-                'color': textValue,
-            });
+            $(previewClass).css('color', safeColor(textValue));
             break;
+
         case 'bg-color':
-            $(previewClass).css({
-                'background': textValue,
-            });
+            $(previewClass).css('background', safeColor(textValue));
             break;
+
         case 'tick-color':
-            previewClass = previewClass + ' ' + 'path';
-            $(previewClass).css({
-                'fill': textValue,
-            });
+            $(previewClass + ' path').css('fill', safeColor(textValue));
             break;
+
         case 'border-color':
-            $(previewClass).css({
-                'border-color': textValue,
-            });
+            $(previewClass).css('border-color', safeColor(textValue));
             break;
+
         case 'border-radius':
-            $(previewClass).css({
-                'border-radius': textValue + 'px',
-            });
+            $(previewClass).css('border-radius', safeNumber(textValue) + 'px');
             break;
-        case 'text-align':
-            $(previewClass).css({
-                'text-align': textValue,
-            });
+
+        case 'text-align': {
+            const allowedAlign = ['left', 'right', 'center', 'justify'];
+            const safeAlign = allowedAlign.includes(textValue) ? textValue : 'left';
+            $(previewClass).css('text-align', safeAlign);
             break;
-        case 'headingTag-change':
-            console.log('preview class = ', previewClass);
-            console.log('text value = ', textValue);
+        }
+
+        case 'headingTag-change': {
+            const tagMap = {
+                h1: 'h1',
+                h2: 'h2',
+                h3: 'h3',
+                h4: 'h4',
+                h5: 'h5',
+                h6: 'h6',
+                p: 'p',
+                span: 'span',
+                div: 'div'
+            };
+
+            const safeTagName = tagMap[String(textValue).toLowerCase()] || 'div';
+
             $(previewClass).replaceWith(function () {
-                return $('<' + textValue + '>', {
-                    html: $(this).html(),
-                    class: $(this).attr('class'),
-                    style: $(this).attr('style')
-                });
+                const oldElement = this;
+                let newElement;
+
+                // 🚫 NO dynamic createElement
+                switch (safeTagName) {
+                    case 'h1': newElement = document.createElement('h1'); break;
+                    case 'h2': newElement = document.createElement('h2'); break;
+                    case 'h3': newElement = document.createElement('h3'); break;
+                    case 'h4': newElement = document.createElement('h4'); break;
+                    case 'h5': newElement = document.createElement('h5'); break;
+                    case 'h6': newElement = document.createElement('h6'); break;
+                    case 'p': newElement = document.createElement('p'); break;
+                    case 'span': newElement = document.createElement('span'); break;
+                    default: newElement = document.createElement('div'); break;
+                }
+
+                newElement.className = oldElement.className || '';
+
+                const oldStyle = oldElement.getAttribute('style');
+                if (oldStyle) {
+                    newElement.setAttribute('style', oldStyle);
+                }
+
+                // safe child move (no innerHTML use)
+                while (oldElement.firstChild) {
+                    newElement.appendChild(oldElement.firstChild);
+                }
+
+                return newElement;
             });
+
             break;
-        case 'gradient-color':
+        }
+
+        case 'gradient-color': {
             let gradientCode = $(this).attr("gradient-code");
-            let color1 = color2 = '';
+            let color1 = '';
+            let color2 = '';
 
             if (gradientCode == 'cardBgColor') {
                 color1 = $('#planBgColor1').val();
@@ -4946,12 +5073,14 @@ jQuery('body').on('input', '.membershipAllTextBox', function () {
                 color2 = $('#active_option_bgColor2').val();
             }
 
-            let gradient = 'linear-gradient(to right, ' + color1 + ', ' + color2 + ')';
+            if (!color1 || !color2) break;
+
+            let gradient = 'linear-gradient(to right, ' + safeColor(color1) + ', ' + safeColor(color2) + ')';
             $(previewClass).css('background', gradient);
             break;
+        }
     }
 });
-
 
 jQuery('body').on('input', '.countDownAllTextBox', function () {
     // console.log('new');
@@ -5899,9 +6028,9 @@ jQuery('body').on('input', '.Editor-editor', function () {
         const divElement = tempDiv.firstChild;
         const h2Element = divElement.firstChild;
         if (h2Element) {
-            jQuery('.' + content_div + ', #' + textarea_id).html(h2Element.textContent);
+            jQuery('.' + content_div + ', #' + textarea_id).text(h2Element.textContent);
         } else {
-            jQuery('.' + content_div + ', #' + textarea_id).html('');
+            jQuery('.' + content_div + ', #' + textarea_id).text('');
         }
     } else {
         console.log('elsePartRunning');
@@ -6124,7 +6253,8 @@ jQuery('body').on('input', '.sd_default_template_text_fields', function () {
                 }
             }
         } else {
-            jQuery('.' + content_div).html(content_value);
+            // jQuery('.' + content_div).html(content_value);
+            jQuery('.' + content_div).html(DOMPurify.sanitize(content_value));
         }
     }
 });

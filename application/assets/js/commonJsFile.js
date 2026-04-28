@@ -2558,23 +2558,39 @@ let add_shipping_address = 'No';
 
 				}
 
-		}else if(classNameArray.includes('sd_attemptBilling')){
+				}else if (classNameArray.includes('sd_attemptBilling')) {
 
-				e.target.classList.add('btn-disable-loader');
+					e.target.classList.add('btn-disable-loader');
 
-				var adminEmail = document.getElementById('sendMailToAdmin').value;
+					var adminEmail = document.getElementById('sendMailToAdmin').value;
+					var customerEmail = document.getElementById('sendMailToCustomer').value;
+					var actualAttemptDate = e.target.getAttribute('data-billing_date');
+					var contract_id = document.getElementById('sd_contractId').value;
+					var billingPolicy = e.target.getAttribute('data-billingPolicy');
 
-	         	var customerEmail = document.getElementById('sendMailToCustomer').value;
+					attempt_billing_confirm_box = `Are you sure to attempt the billing and create the order earlier than the actual order Date. This can't be undone`;
 
-				var actualAttemptDate = e.target.getAttribute('data-billing_date');
+					var modalKey = [
+							actualAttemptDate,
+							contract_id,
+							billingPolicy,
+							adminEmail,
+							customerEmail
+					].map(function (value) {
+							return String(value || '').replace(/[^a-zA-Z0-9@._+\-:]/g, '');
+					}).join('_');
 
-				var contract_id = document.getElementById('sd_contractId').value;
+					var modalHtml = confirmBoxModal(
+							"sd_attempt_billing",
+							modalKey,
+							"Warning",
+							attempt_billing_confirm_box,
+							"Attempt Billing",
+							"Polaris-Button--primary",
+							"Cancel"
+					);
 
-				var billingPolicy = e.target.getAttribute('data-billingPolicy');
-
-				attempt_billing_confirm_box = `Are you sure to attempt the billing and create the order earlier than the actual order Date. This can't be undone`;
-
-				document.getElementById("sd_global_modal_container").innerHTML = confirmBoxModal("sd_attempt_billing",actualAttemptDate+'_'+contract_id+'_'+billingPolicy+'_'+adminEmail+'_'+customerEmail,"Warning",attempt_billing_confirm_box,"Attempt Billing","Polaris-Button--primary","Cancel");
+					document.getElementById("sd_global_modal_container").innerHTML = DOMPurify.sanitize(modalHtml);
 
 			}else if(classNameArray.includes('sd_skipOrder')){
 
@@ -2590,7 +2606,27 @@ let add_shipping_address = 'No';
 
 				var order_skip_confirm_box = "Are you sure You want to skip the order, this can't be undone";
 
-				document.getElementById("sd_global_modal_container").innerHTML = confirmBoxModal("contract_order_skip",skipDate+'_'+billing_policy+'_'+delivery_billing_type+'_'+plan_type,"Warning",order_skip_confirm_box,"Skip","Polaris-Button--primary","Cancel");
+				var modalKey = [
+						skipDate,
+						billing_policy,
+						delivery_billing_type,
+						plan_type
+				].map(function (value) {
+						return String(value || '').replace(/[^a-zA-Z0-9@._+\-:]/g, '');
+				}).join('_');
+
+				var modalHtml = confirmBoxModal(
+						"contract_order_skip",
+						modalKey,
+						"Warning",
+						order_skip_confirm_box,
+						"Skip",
+						"Polaris-Button--primary",
+						"Cancel"
+				);
+
+				document.getElementById("sd_global_modal_container").innerHTML =
+						DOMPurify.sanitize(modalHtml);
 
 			}else if(classNameArray.includes('sd_updateSubscriptionStatus')){
 
@@ -2622,7 +2658,30 @@ let add_shipping_address = 'No';
 
 				contract_id = document.getElementById("sd_contractId").value;
 
-				document.getElementById("sd_global_modal_container").innerHTML = confirmBoxModal('delete_subscription_contract',statusChangeTo+'#'+contract_id+'#'+adminEmail+'#'+customerEmail+'#'+nextBillingDate+'#'+delivery_billing_type+'#'+billing_policy_value,buttonText,message,'Yes',"Polaris-Button--destructive",'Cancel');
+				var modalKey = [
+						statusChangeTo,
+						contract_id,
+						adminEmail,
+						customerEmail,
+						nextBillingDate,
+						delivery_billing_type,
+						billing_policy_value
+				].map(function (value) {
+						return String(value || '').replace(/[^a-zA-Z0-9@._+\-:#]/g, '');
+				}).join('#');
+
+				var modalHtml = confirmBoxModal(
+						'delete_subscription_contract',
+						modalKey,
+						buttonText,
+						message,
+						'Yes',
+						"Polaris-Button--destructive",
+						'Cancel'
+				);
+
+				document.getElementById("sd_global_modal_container").innerHTML =
+    		DOMPurify.sanitize(modalHtml);
 
 			}else if(classNameArray.includes('productSelected')){
 
@@ -2822,11 +2881,31 @@ let add_shipping_address = 'No';
 
 				var product_id = e.target.getAttribute('data-product_id');
 
-			    var line_id = e.target.getAttribute('data-line_id');
+				var line_id = e.target.getAttribute('data-line_id');
 
-			   message = 'Are you sure you want to delete the product from the subscription';
+			  message = 'Are you sure you want to delete the product from the subscription';
 
-			   document.getElementById("sd_global_modal_container").innerHTML = confirmBoxModal('delete_subscription_product',product_id+'_'+line_id,'Delete Subscription',message,'Yes',"Polaris-Button--destructive",'Cancel');
+				var modalKey = [
+						product_id,
+						line_id
+				].map(function (value) {
+						return String(value || '').replace(/[^a-zA-Z0-9@._+\-]/g, '');
+				}).join('_');
+
+				var modalHtml = confirmBoxModal(
+						'delete_subscription_product',
+						modalKey,
+						'Delete Subscription',
+						message,
+						'Yes',
+						"Polaris-Button--destructive",
+						'Cancel'
+				);
+
+				document.getElementById("sd_global_modal_container").innerHTML =
+						DOMPurify.sanitize(modalHtml);
+
+
 
 		}else if(classNameArray.includes('display_remove_variant')){
 
@@ -3096,17 +3175,15 @@ let add_shipping_address = 'No';
 
 				}else{
 
-						if(data_text){
+					if (data_text) {
 
-						document.getElementById(data_id+'_error').classList.remove('display-hide-label');
+							document.getElementById(data_id + '_error').classList.remove('display-hide-label');
 
-						add_status = false;
+							add_status = false;
 
-						document.getElementById(data_id+'_error').innerHTML = data_text+' cannot be empty';
-
-
-
-						}
+							document.getElementById(data_id + '_error').textContent =
+									data_text + ' cannot be empty';
+					}
 
 				}
 
@@ -3282,17 +3359,19 @@ let add_shipping_address = 'No';
 
 			}
 
-			if(cursorId != 'No'){
+			if (cursorId != 'No') {
 
-				let sd_productsHtmlArray = await add_newProducts(cursorId,searchQuery);
+					let sd_productsHtmlArray = await add_newProducts(cursorId, searchQuery);
 
-				listData.insertAdjacentHTML('beforeend', sd_productsHtmlArray.productsList);
+					const safeProductsListHtml = DOMPurify.sanitize(sd_productsHtmlArray.productsList);
 
-				cusrsor_id_getFrom.value = sd_productsHtmlArray.nextCursorId;
+					listData.insertAdjacentHTML('beforeend', safeProductsListHtml);
 
-				var sd_productSpinner = document.getElementById("sd_productSpinner");
+					cusrsor_id_getFrom.value = sd_productsHtmlArray.nextCursorId;
 
-			sd_productSpinner.classList.add("display-hide-label");
+					var sd_productSpinner = document.getElementById("sd_productSpinner");
+
+					sd_productSpinner.classList.add("display-hide-label");
 
 			}else{
 
@@ -3366,7 +3445,9 @@ let add_shipping_address = 'No';
 
 				}
 
-				document.getElementById("sd_newProductsList").insertAdjacentHTML('beforeend', product_list);
+				const safeProductList = DOMPurify.sanitize(product_list);
+
+				document.getElementById("sd_newProductsList").insertAdjacentHTML('beforeend', safeProductList);
 
 				document.getElementById("sd_viewNextProducts").value= sd_productsHtmlArray.nextCursorId;
 
@@ -3436,7 +3517,15 @@ let add_shipping_address = 'No';
 
 				}else{
 
-					document.getElementById('sd_searchList').innerHTML = searchProductsHtml.productsList;
+					const temp = document.createElement('div');
+					temp.innerHTML = DOMPurify.sanitize(searchProductsHtml.productsList);
+
+					const container = document.getElementById('sd_searchList');
+					container.innerHTML = '';
+
+					while (temp.firstChild) {
+							container.appendChild(temp.firstChild);
+					}
 
 					viewMoreButton.value = searchProductsHtml['nextCursorId'];
 
