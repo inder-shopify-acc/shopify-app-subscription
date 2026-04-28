@@ -139,7 +139,7 @@ if(AjaxCallFrom == 'backendAjaxCall'){
 
         </div>`;
 
-        jQuery('.sd_total_sales').html(currency_code+''+total_contract_sale.toFixed(2));
+        jQuery('.sd_total_sales').text(currency_code + '' + total_contract_sale.toFixed(2));
 
     });
 
@@ -631,10 +631,11 @@ $(window).on('load', function() {
 
     if (params.has('themeConfiguration') && params.get('themeConfiguration') == 'Yes') {
 
-        jQuery("#sd_global_modal_container").html(sd_step_form_html);
+        const safeHtml = DOMPurify.sanitize(sd_step_form_html);
+
+        jQuery("#sd_global_modal_container").html(safeHtml);
 
         jQuery("#sd_popup").removeClass("display-hide-label");
-
     }
 
 });
@@ -2148,10 +2149,13 @@ $(document).ready(function() {
 
         remove_class(remove_class_params); // remove hide class from section:frequency card wrapper where all selling plans are listed.
 
-        if (case_type == "add") { //new add frequency case
+        if (case_type == "add") { // new add frequency case
 
-            jQuery('#' + parent_element).find('.sd-frequency-plan-card-wrapper').append(html_frequency_plan_card);
+            const safeHtml = DOMPurify.sanitize(html_frequency_plan_card);
 
+            jQuery('#' + parent_element)
+                .find('.sd-frequency-plan-card-wrapper')
+                .append(safeHtml);
         } else {
 
             //edit frequency case
@@ -2160,13 +2164,20 @@ $(document).ready(function() {
 
             if (card_serial_no == 0) {
 
-                jQuery('#' + parent_element).find('.sd-frequency-plan-card-wrapper').prepend(html_frequency_plan_card);
+                const safeHtml = DOMPurify.sanitize(html_frequency_plan_card);
 
+                jQuery('#' + parent_element)
+                    .find('.sd-frequency-plan-card-wrapper')
+                    .prepend(safeHtml);
             } else {
 
-                let before_elements = parseInt(card_serial_no) - parseInt(1);
+                let before_elements = parseInt(card_serial_no) - 1;
 
-                jQuery('#' + parent_element).find("#sd_frequency_card_serialno_" + before_elements).after(html_frequency_plan_card);
+                const safeHtml = DOMPurify.sanitize(html_frequency_plan_card);
+
+                jQuery('#' + parent_element)
+                    .find("#sd_frequency_card_serialno_" + before_elements)
+                    .after(safeHtml);
 
             }
 
@@ -2238,86 +2249,75 @@ $(document).ready(function() {
 
     function create_plan_preview() {
 
-        // empty preview of both select
+        jQuery('.sd_select').empty();
+        jQuery('.sd_discount_ribbon').empty();
 
-        jQuery('.sd_select').html('');
-
-        jQuery('.sd_discount_ribbon').html('');
-
-        jQuery.each(sd_frequency_plans_array, function(key, value) {
-
-            let preview_select_html = '';
+        jQuery.each(sd_frequency_plans_array, function (key, value) {
 
             let preview_select_id = '';
-
             let display_discount_final = '';
-
             let display_type_text = '';
 
-            let delivery_every = value.per_delivery_order_frequency_value + ` ` + value.per_delivery_order_frequency_type;
+            let delivery_every = String(value.per_delivery_order_frequency_value || '') + ' ' + String(value.per_delivery_order_frequency_type || '');
+            let billing_period = String(value.prepaid_billing_value || '') + ' ' + String(value.per_delivery_order_frequency_type || '');
 
-            let billing_period = value.prepaid_billing_value + ` ` + value.per_delivery_order_frequency_type;
+            let prepaid_billing_value = '';
 
-            if ((value.prepaid_billing_value).length > 0) {
-
+            if (String(value.prepaid_billing_value || '').length > 0) {
                 prepaid_billing_value = value.prepaid_billing_value;
-
             } else {
-
                 prepaid_billing_value = value.per_delivery_order_frequency_value;
-
             }
 
             if (value.subscription_discount == 'on') {
 
                 if (value.subscription_discount_type == 'Percent Off(%)') {
-
                     display_type_text = '%';
-
-                    display_discount_final = `Save ` + (value.subscription_discount_value) + ` ` + display_type_text;
-
+                    display_discount_final = 'Save ' + String(value.subscription_discount_value || '') + ' ' + display_type_text;
                 } else {
-
                     display_type_text = currency;
-
-                    display_discount_final = `Save ` + ((value.subscription_discount_value) / (prepaid_billing_value / value.per_delivery_order_frequency_value)) + ` ` + display_type_text;
-
+                    display_discount_final =
+                        'Save ' +
+                        ((value.subscription_discount_value) / (prepaid_billing_value / value.per_delivery_order_frequency_value)) +
+                        ' ' +
+                        display_type_text;
                 }
-
             }
 
-
+            let $option = jQuery('<option>');
 
             if (value.frequency_plan_type == "Pay Per Delivery") {
 
                 preview_select_id = "sd_ppd_list";
 
-                preview_select_html = `<option attr-type="ppd" discount="` + display_discount_final + `" per-quantity-price="$80">` + delivery_every + `</option>`;
+                $option
+                    .attr('attr-type', 'ppd')
+                    .attr('discount', display_discount_final)
+                    .attr('per-quantity-price', '$80')
+                    .text(delivery_every);
 
             } else if (value.frequency_plan_type == "Prepaid") {
 
                 preview_select_id = "sd_prepaid_list";
 
-                preview_select_html = `<option attr-type="prepaid" discount="` + display_discount_final + `" per-quantity-price="$60">` + billing_period + ` , Delivery Every ` + delivery_every + `</option>`;
-
+                $option
+                    .attr('attr-type', 'prepaid')
+                    .attr('discount', display_discount_final)
+                    .attr('per-quantity-price', '$60')
+                    .text(billing_period + ' , Delivery Every ' + delivery_every);
             }
 
-            jQuery('#' + preview_select_id).append(preview_select_html);
-
+            if (preview_select_id) {
+                jQuery('#' + preview_select_id).append($option);
+            }
         });
 
+        let prepaid_discount_first_display = jQuery("#sd_prepaid_list option:first").attr('discount') || '';
+        let ppd_discount_first_display = jQuery("#sd_ppd_list option:first").attr('discount') || '';
 
-
-        let prepaid_discount_first_display = jQuery("#sd_prepaid_list option:first").attr('discount');
-
-        let ppd_discount_first_display = jQuery("#sd_ppd_list option:first").attr('discount');
-
-        jQuery('#ppd_discount').html(ppd_discount_first_display);
-
-        jQuery('#prepaid_discount').html(prepaid_discount_first_display);
-
+        jQuery('#ppd_discount').text(ppd_discount_first_display);
+        jQuery('#prepaid_discount').text(prepaid_discount_first_display);
     }
-
 
 
 
@@ -2546,7 +2546,7 @@ $(document).ready(function() {
 
             if(h2Element){
 
-                jQuery('.'+content_div+', #'+textarea_id).html(h2Element.textContent);
+                jQuery('.' + content_div + ', #' + textarea_id).text(h2Element.textContent);
 
             }else{
 
@@ -2598,11 +2598,26 @@ $(document).ready(function() {
 
                     if($.trim(content_value) != ''){
 
-                        jQuery('.'+content_div).attr("href", content_value);
+                        function safeUrl(value) {
+                            try {
+                                const url = new URL(String(value || ''), window.location.origin);
+                                return ['http:', 'https:', 'mailto:', 'tel:'].includes(url.protocol)
+                                    ? url.href
+                                    : '#';
+                            } catch (e) {
+                                return '#';
+                            }
+                        }
+
+                        jQuery('.' + content_div).attr("href", safeUrl(content_value));
 
                     }else{
 
-                        jQuery('.'+content_div).attr("href", 'https://'+store+'/account');
+                        const safeStore = String(store || '').replace(/[^a-zA-Z0-9.-]/g, '');
+
+                        const safeUrl = 'https://' + safeStore + '/account';
+
+                        jQuery('.' + content_div).attr('href', safeUrl);
 
                     }
 
@@ -2642,7 +2657,14 @@ $(document).ready(function() {
 
             }else{
 
-                jQuery('.'+content_div).html(content_value);
+                function sanitizeHtml(str) {
+                    return String(str)
+                        .replace(/<script.*?>.*?<\/script>/gi, '')
+                        .replace(/on\w+="[^"]*"/g, '')
+                        .replace(/javascript:/gi, '');
+                }
+
+                jQuery('.' + content_div).html(sanitizeHtml(content_value));
 
             }
 
@@ -8497,7 +8519,7 @@ $(document).ready(function() {
 
         var selected_option_value = jQuery(this).val();
 
-        jQuery(this).parent().find(".Polaris-Select__SelectedOption").html(selected_option_value);
+        jQuery(this).parent().find(".Polaris-Select__SelectedOption").text(selected_option_value);
 
     });
 
@@ -8616,7 +8638,7 @@ $(document).ready(function() {
 
         jQuery("#sd_prepaid_billing_type option[value='" + selected_value + "']").attr('selected', 'selected');
 
-        jQuery('#sd_prepaid_billing_type_Selected_value').html(selected_value);
+        jQuery('#sd_prepaid_billing_type_Selected_value').text(selected_value);
 
         jQuery('.sd_set_anchor_date,.sd_anchor_option,.sd_anchor_month_day,.sd_anchor_week_day,.cut_off_days').addClass('display-hide-label');
 

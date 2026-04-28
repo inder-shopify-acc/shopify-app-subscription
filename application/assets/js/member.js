@@ -32,12 +32,15 @@ if (document.getElementById('membership_details_array')) {
                 });
                 console.log('00000000000000000000', total_membership_sale);
             // console.log('total membership sales',total_membership_sale);
-            if(plan_type == 'membership') {
-                
-                document.getElementById('sd_total_sales').innerHTML = (currency_code + total_membership_sale.toFixed(2));
-            }else {
-                document.getElementById('sd_total_sales_sub').innerHTML = (currency_code + total_membership_sale
-                    .toFixed(2));
+            if (plan_type == 'membership') {
+
+                document.getElementById('sd_total_sales').textContent =
+                    currency_code + total_membership_sale.toFixed(2);
+
+            } else {
+
+                document.getElementById('sd_total_sales_sub').textContent =
+                    currency_code + total_membership_sale.toFixed(2);
             }
 
         });
@@ -62,14 +65,19 @@ function handleBackButtonClick() {
 
 jQuery("body").on("click", ".CreateMemberPlan", function () {
     parent_element = 'create_memberPlan_wrapper';
-    jQuery('.create-memberPlan-buttons,.create_memberPlan_wrapper,.subscription-create-step1').removeClass(
-        "display-hide-label");
-    jQuery(
-        '.list_memberPlan_wrapper,.top-banner-create-memberPlan,.subscription-create-step2,.list_memberPlan_wrapper,.subscription-create-step3')
+
+    jQuery('.create-memberPlan-buttons,.create_memberPlan_wrapper,.subscription-create-step1')
+        .removeClass("display-hide-label");
+
+    jQuery('.list_memberPlan_wrapper,.top-banner-create-memberPlan,.subscription-create-step2,.list_memberPlan_wrapper,.subscription-create-step3')
         .addClass("display-hide-label");
+
     sd_frequency_card_serialno = 0;
+
     var selling_plan_options = selling_plan_option_form();
-    jQuery('#' + parent_element + ' .member_plan_option_form').html(selling_plan_options);
+
+    jQuery('#' + parent_element + ' .member_plan_option_form')
+        .html(DOMPurify.sanitize(selling_plan_options));
 });
 
 jQuery('body').on('click', '.modal_cancel_button', function () {
