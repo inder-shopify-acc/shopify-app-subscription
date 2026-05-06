@@ -208,8 +208,8 @@ var earlyAccessColTitleArray = [];
 //         allCoupanCodes.push(discountCoupanCode);
 //         console.log(allCoupanCodes);
 //         let data = {'discountCoupanCode': freeshipCoupanCode, 'discountCoupanCode' :discountCoupanCode}
-        
-        
+
+
 //         // let csrfToken = $('input[name="_token"]').val();
 //         let ajaxParameters = {
 
@@ -219,7 +219,7 @@ var earlyAccessColTitleArray = [];
 //                 action: "checkCoupansCode"
 //             }  
 //         };
-       
+
 //         shopify.loading(true);
 //         // let ajaxResult = await ajaxCall('update-popular-plan', fd);
 //         let response = await AjaxCall(ajaxParameters);
@@ -252,9 +252,9 @@ var earlyAccessColTitleArray = [];
 //             manageButtons(tierGroupId);
 //             // stepsButton(tierGroupId);
 //         }
-            
-           
-        
+
+
+
 //     } else {
 //         jQuery('.tier_perk_Error_' + sd_selectedtierGroupId).css("display", "block").text("Choose atleast one checkbox from first 5 checkbox");
 //         shopify.loading(false);
@@ -403,7 +403,7 @@ nextPerkButton.on("click", async function () {
     if (freeshipInputCode != undefined || discountInputCode != undefined) {
 
         // Ignore duplicate check for currently entered codes
-        let codesToCheck = allCoupanCodes.filter(code => 
+        let codesToCheck = allCoupanCodes.filter(code =>
             code.trim().toUpperCase() !== (freeshipInputCode ? freeshipInputCode.trim().toUpperCase() : '') &&
             code.trim().toUpperCase() !== (discountInputCode ? discountInputCode.trim().toUpperCase() : '')
         );
@@ -429,7 +429,7 @@ nextPerkButton.on("click", async function () {
             perkFormValidations = false;
         }
     }
-    
+
     if (!checkboxValidation) {
         jQuery('.tier_perk_Error_' + sd_selectedtierGroupId).css("display", "block").text("Choose atleast one checkbox from first 5 checkbox");
         shopify.loading(false);
@@ -462,7 +462,7 @@ nextPerkButton.on("click", async function () {
         //  Filter out current values from duplicate list
 
         let codesToCheck = allCoupanCodes.map(c => c.trim().toUpperCase())
-            .filter(code => 
+            .filter(code =>
                 code != (freeshipCoupanCode ? freeshipCoupanCode.toUpperCase() : '') &&
                 code != (discountCoupanCode ? discountCoupanCode.toUpperCase() : '')
             );
@@ -475,8 +475,8 @@ nextPerkButton.on("click", async function () {
             checkDiscountArray = codesToCheck.includes(discountCoupanCode.toUpperCase());
         }
 
-         console.log('checkFreeArray', checkFreeArray);
-         console.log('checkFreeArray', checkDiscountArray);
+        console.log('checkFreeArray', checkFreeArray);
+        console.log('checkFreeArray', checkDiscountArray);
 
 
         // if (checkFreeArray) {
@@ -496,7 +496,7 @@ nextPerkButton.on("click", async function () {
             $(".ExistingFree_shipingCode_Error_" + idDynamicValue).css("display", "block");
             shopify.loading(false);
             return false;
-        } 
+        }
         else if (checkDiscountArray) {
             $(".ExistingFree_shipingCode_Error_" + idDynamicValue).css("display", "none");
             $(".Existing_DiscountCode-Error-" + idDynamicValue).css("display", "block");
@@ -506,11 +506,11 @@ nextPerkButton.on("click", async function () {
 
         allCoupanCodes.push(freeshipCoupanCode);
         allCoupanCodes.push(discountCoupanCode);
-        
+
         console.log(allCoupanCodes);
-        let data = {'discountCoupanCode': freeshipCoupanCode, 'discountCoupanCode' :discountCoupanCode}
-        
-        
+        let data = { 'discountCoupanCode': freeshipCoupanCode, 'discountCoupanCode': discountCoupanCode }
+
+
         // let csrfToken = $('input[name="_token"]').val();
         let ajaxParameters = {
 
@@ -518,9 +518,9 @@ nextPerkButton.on("click", async function () {
             dataValues: {
                 data,
                 action: "checkCoupansCode"
-            }  
+            }
         };
-       
+
         shopify.loading(true);
         // let ajaxResult = await ajaxCall('update-popular-plan', fd);
         let response = await AjaxCall(ajaxParameters);
@@ -553,9 +553,9 @@ nextPerkButton.on("click", async function () {
             manageButtons(tierGroupId);
             // stepsButton(tierGroupId);
         }
-            
-           
-        
+
+
+
     } else {
         jQuery('.tier_perk_Error_' + sd_selectedtierGroupId).css("display", "block").text("Choose atleast one checkbox from first 5 checkbox");
         shopify.loading(false);
@@ -713,25 +713,25 @@ jQuery('body').on('click', '#save_DiscountButton', async function () {
     }
 
 
-    
 
 
-    if ((freeshipInputCode && freeshipInputCode.trim() !== '') || 
+
+    if ((freeshipInputCode && freeshipInputCode.trim() !== '') ||
         (discountInputCode && discountInputCode.trim() !== '')) {
 
         // Ignore duplicate check for currently entered codes
         let codesToCheck = allCoupanCodes.map(code => code.trim().toUpperCase())
-            .filter(code => 
+            .filter(code =>
                 code !== (freeshipInputCode ? freeshipInputCode.trim().toUpperCase() : '') &&
                 code !== (discountInputCode ? discountInputCode.trim().toUpperCase() : '')
             );
 
-          freeshipCodeExists = freeshipInputCode 
-            ? codesToCheck.includes(freeshipInputCode.trim().toUpperCase()) 
+        freeshipCodeExists = freeshipInputCode
+            ? codesToCheck.includes(freeshipInputCode.trim().toUpperCase())
             : false;
 
-          discountCodeExists = discountInputCode 
-            ? codesToCheck.includes(discountInputCode.trim().toUpperCase()) 
+        discountCodeExists = discountInputCode
+            ? codesToCheck.includes(discountInputCode.trim().toUpperCase())
             : false;
 
 
@@ -741,7 +741,7 @@ jQuery('body').on('click', '#save_DiscountButton', async function () {
             return false;
         }
 
-        
+
 
         if (freeshipCodeExists || discountCodeExists) {
             console.log('used in last step 2');
@@ -995,8 +995,8 @@ jQuery('body').on('click', '#save_DiscountButton', async function () {
                 shopify.loading(true);
                 jQuery("#save_DiscountButton").attr("disabled", true);
                 let data = { obj: obj, store: shop, shop: shop }
-              
-                
+
+
                 let ajaxParameters = {
 
                     method: "POST",
@@ -1059,8 +1059,8 @@ jQuery('body').on('click', '#save_DiscountButton', async function () {
                             .fadeIn(500);
                     }
                 }
-                
-                
+
+
             }
         }
     }
@@ -1093,7 +1093,7 @@ var editPerkTierButton = $("#edit_DiscountButton");
 
 nextEditPerkButton.on("click", function () {
     console.log('hello next');
-    console.log(Edit_sd_selectedtierGroupId,'Edit_sd_selectedtierGroupId')
+    console.log(Edit_sd_selectedtierGroupId, 'Edit_sd_selectedtierGroupId')
     let checkboxFreeship = $('body .freeShipEditCheckbox-' + Edit_sd_selectedtierGroupId).is(':checked');
     let checkboxDiscount = $('body .discountEditCheckbox-' + Edit_sd_selectedtierGroupId).is(':checked');
     let checkboxFreeProduct = $('body .freeProductEditCheckbox-' + Edit_sd_selectedtierGroupId).is(':checked');
@@ -1769,7 +1769,7 @@ jQuery('body').on('click', '#edit_DiscountButton', async function () {
         }
 
         if (flag == true) {
-            
+
             jQuery("#edit_DiscountButton").attr("disabled", false);
 
             shopify.loading(true);
@@ -1800,7 +1800,7 @@ jQuery('body').on('click', '#edit_DiscountButton', async function () {
             let status = data.status;
 
             console.log("Status:", SHOPIFY_DOMAIN_URL);
-        
+
             let check_perk_value = data.check_perk_value;
             // console.log(message);
             if (status == 'exists') {
@@ -1847,10 +1847,10 @@ jQuery('body').on('click', '#edit_DiscountButton', async function () {
                 jQuery("#edit_DiscountButton").attr("disabled", false);
                 let app_redirect_link = `${SHOPIFY_DOMAIN_URL}/admin/memberships/memberships.php?shop=${shop}&host=${host}`;
                 console.log(app_redirect_link);
-               
+
                 // let app_redirect_link = '/membership-plan-list';
                 shopify.toast.show('Data updated successfully', { isError: false });
-                
+
                 open(app_redirect_link, '_self');
 
                 jQuery("#edit_DiscountButton").attr("disabled", false);
@@ -2482,14 +2482,14 @@ jQuery('body').on('click', '#edit-RemoveSelectedDiscountField', function () {
 
     $button.html(
         '<span class="Polaris-Button__Content">' +
-            '<span class="Polaris-Button__Icon">' +
-                '<span class="Polaris-Icon">' +
-                    '<svg viewBox="0 0 20 20" class="Polaris-Icon__Svg" focusable="false" aria-hidden="true">' +
-                        '<path d="M8 12a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm9.707 4.293-4.82-4.82a5.968 5.968 0 0 0 1.113-3.473 6 6 0 0 0-12 0 6 6 0 0 0 6 6 5.968 5.968 0 0 0 3.473-1.113l4.82 4.82a.997.997 0 0 0 1.414 0 .999.999 0 0 0 0-1.414z"></path>' +
-                    '</svg>' +
-                '</span>' +
-            '</span>' +
-            '<span class="Polaris-Button__Text">Select a Collection</span>' +
+        '<span class="Polaris-Button__Icon">' +
+        '<span class="Polaris-Icon">' +
+        '<svg viewBox="0 0 20 20" class="Polaris-Icon__Svg" focusable="false" aria-hidden="true">' +
+        '<path d="M8 12a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm9.707 4.293-4.82-4.82a5.968 5.968 0 0 0 1.113-3.473 6 6 0 0 0-12 0 6 6 0 0 0 6 6 5.968 5.968 0 0 0 3.473-1.113l4.82 4.82a.997.997 0 0 0 1.414 0 .999.999 0 0 0 0-1.414z"></path>' +
+        '</svg>' +
+        '</span>' +
+        '</span>' +
+        '<span class="Polaris-Button__Text">Select a Collection</span>' +
         '</span>'
     );
 
@@ -2532,14 +2532,14 @@ jQuery('body').on('click', '#edit-RemoveSelected_productDiscountField', function
 
     $button.html(
         '<span class="Polaris-Button__Content">' +
-            '<span class="Polaris-Button__Icon">' +
-                '<span class="Polaris-Icon">' +
-                    '<svg viewBox="0 0 20 20" class="Polaris-Icon__Svg" focusable="false" aria-hidden="true">' +
-                        '<path d="M8 12a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm9.707 4.293-4.82-4.82a5.968 5.968 0 0 0 1.113-3.473 6 6 0 0 0-12 0 6 6 0 0 0 6 6 5.968 5.968 0 0 0 3.473-1.113l4.82 4.82a.997.997 0 0 0 1.414 0 .999.999 0 0 0 0-1.414z"></path>' +
-                    '</svg>' +
-                '</span>' +
-            '</span>' +
-            '<span class="Polaris-Button__Text">Select a Product</span>' +
+        '<span class="Polaris-Button__Icon">' +
+        '<span class="Polaris-Icon">' +
+        '<svg viewBox="0 0 20 20" class="Polaris-Icon__Svg" focusable="false" aria-hidden="true">' +
+        '<path d="M8 12a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm9.707 4.293-4.82-4.82a5.968 5.968 0 0 0 1.113-3.473 6 6 0 0 0-12 0 6 6 0 0 0 6 6 5.968 5.968 0 0 0 3.473-1.113l4.82 4.82a.997.997 0 0 0 1.414 0 .999.999 0 0 0 0-1.414z"></path>' +
+        '</svg>' +
+        '</span>' +
+        '</span>' +
+        '<span class="Polaris-Button__Text">Select a Product</span>' +
         '</span>'
     );
 
@@ -4439,7 +4439,7 @@ jQuery('body').on('click', '.sd-delete-plan-tier', async function (e) {
                 action: "delete-member-group"
             }
         };
-    
+
         let ajaxResult = await AjaxCall(ajaxParameters);
 
         console.log('ajaxresult', ajaxResult);
@@ -5524,7 +5524,7 @@ jQuery('body').on('blur', '.checkCodeExists', function () {
 
 
 jQuery('body').on('change', '.email_template_notification_membership', async function () {
- 
+
     let template_name = $(this).attr('data-field');
     let csrfToken = $('input[name="_token"]').val();
     let checkBoxValue = '';
@@ -6102,16 +6102,16 @@ jQuery("body").on('change', 'input[name="popular_plan"]', async function (e) {
     popular_plans_array['member_plan_id'] = jQuery('#member_plan_id').val();
     let fd = new FormData();
     fd.append('ajaxData', JSON.stringify(popular_plans_array));
-    
+
     let ajaxParameters = {
 
         method: "POST",
         dataValues: {
-            data : JSON.stringify(popular_plans_array),
+            data: JSON.stringify(popular_plans_array),
             action: "update-popular-plan"
-        }  
+        }
     };
-   
+
     shopify.loading(true);
     // let ajaxResult = await ajaxCall('update-popular-plan', fd);
     let ajaxResult = await AjaxCall(ajaxParameters);
